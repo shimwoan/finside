@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINSIDE — Find the Inside Value</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --blue: #4fc3f7; --bg: #060610; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+  }
+  .nav-logo { font-size: 20px; font-weight: 900; letter-spacing: 0.15em; }
+  .nav-logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: #ffffff88; text-decoration: none;
+    font-size: 13px; letter-spacing: 0.08em; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 50%;
+    padding: 0 0 0 8vw;
+  }
+  .hero-label {
+    font-size: 11px; letter-spacing: 0.4em;
+    color: var(--blue); margin-bottom: 20px; opacity: 0.85;
+  }
+  .hero-title {
+    font-size: clamp(32px, 4.5vw, 64px);
+    font-weight: 900; line-height: 1.15; letter-spacing: -0.01em;
+  }
+  .hero-title .accent { color: var(--blue); }
+  .hero-sub {
+    margin-top: 20px;
+    font-size: clamp(13px, 1.3vw, 16px);
+    color: #ffffff66; line-height: 1.7; max-width: 420px;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .tag {
+    border: 1px solid #4fc3f730; color: var(--blue);
+    font-size: 11px; letter-spacing: 0.12em;
+    padding: 5px 14px; border-radius: 20px; background: #4fc3f708;
+  }
+  .hero-cta { display: flex; gap: 16px; margin-top: 40px; align-items: center; }
+  .btn-primary {
+    background: var(--blue); color: #060610;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+    padding: 14px 32px; border-radius: 32px; border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 24px #4fc3f740;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px #4fc3f770; }
+  .btn-ghost {
+    color: #ffffff88; font-size: 13px; letter-spacing: 0.08em;
+    cursor: pointer; border: none; background: none;
+    display: flex; align-items: center; gap: 8px; transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--blue); }
+  .btn-ghost::after { content: '→'; transition: transform 0.2s; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 50%;
+    transform: translateX(-50%); z-index: 10;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0.4;
+  }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.3em; color: var(--blue); }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+  .scanline {
+    position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px, #00000008 2px, #00000008 4px
+    );
+  }
+
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <div class="nav-logo"><span>FIN</span>SIDE</div>
+  <ul class="nav-links">
+    <li><a href="#">기술</a></li>
+    <li><a href="#">제품</a></li>
+    <li><a href="#">시장</a></li>
+    <li><a href="#">회사</a></li>
+    <li><a href="#">IR</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <canvas id="scene"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-label">FIND THE INSIDE VALUE</div>
+    <h1 class="hero-title">
+      보이지 않는<br>
+      <span class="accent">내부의 가치</span>를<br>
+      발견합니다
+    </h1>
+    <p class="hero-sub">
+      AI와 비접촉 내부 분석 기술로,<br>
+      보이지 않는 내부 데이터를 정량화하여<br>
+      산업에 적용하는 지능형 분석 솔루션
+    </p>
+    <div class="hero-tags">
+      <span class="tag">AI 피부 진단</span>
+      <span class="tag">비접촉 분석</span>
+      <span class="tag">LWIR 기술</span>
+      <span class="tag">뷰티테크</span>
+      <span class="tag">딥테크</span>
+    </div>
+    <div class="hero-cta">
+      <button class="btn-primary">솔루션 알아보기</button>
+      <button class="btn-ghost">IR 자료 보기</button>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<script>
+// ─────────────────────────────────────────────────────────
+//  Pure 2D Canvas — single pipeline, zero handoff
+//
+//  Phase 1  GATHER   particles fly edge → node positions
+//  Phase 2  CONDENSE particles shrink/merge into spheres
+//  Phase 3  LIVE     spheres float + rotate + mouse react
+// ─────────────────────────────────────────────────────────
+
+const canvas = document.getElementById('scene');
+const ctx    = canvas.getContext('2d');
+let W = 0, H = 0;
+
+function resize() {
+  W = canvas.width  = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+const ro = new ResizeObserver(resize);
+ro.observe(canvas);
+resize();
+
+// ── Easing helpers ──────────────────────────────────────
+const easeInOutCubic = t => t < 0.5 ? 4*t*t*t : 1 - (-2*t+2)**3/2;
+const easeOutExpo    = t => t >= 1 ? 1 : 1 - 2**(-10*t);
+const easeOutCubic   = t => 1 - (1-t)**3;
+const lerp           = (a, b, t) => a + (b-a)*t;
+
+// ── Mouse ────────────────────────────────────────────────
+const mouse = { nx: 0, ny: 0, sx: 0, sy: 0 }; // normalised & smoothed
+window.addEventListener('mousemove', e => {
+  mouse.nx = (e.clientX / W) * 2 - 1;
+  mouse.ny = (e.clientY / H) * 2 - 1;
+});
+
+// ── Molecule blueprint (right-half layout) ───────────────
+// Positions are offsets from each molecule's anchor, in px-scale units
+// Anchors are expressed as fraction of (W, H)
+function getMolecules() {
+  const right = W * 0.75;  // horizontal centre of right half
+  const mid   = H * 0.50;
+
+  // scale with viewport
+  const S = Math.min(W, H) * 0.085;
+
+  return [
+    // ── Large main molecule ──
+    // ox/oy = layout plane offset, oz = depth offset (gives true 3D volume)
+    {
+      ax: right, ay: mid,
+      scale: 1.0,
+      floatAmp: S * 0.10, floatFreq: 0.38, floatPhase: 0.0,
+      rotSpeedY: 0.22,   // yaw (left-right tumble)
+      rotSpeedX: 0.09,   // pitch (up-down tilt)
+      mouseW: 0.06,
+      nodes: [
+        { ox:  0,      oy:  0,      oz:  S*0.30, r: S*0.28, col:'#4fc3f7', type:'center' },
+        { ox: -S*0.75, oy: -S*0.55, oz: -S*0.20, r: S*0.18, col:'#81d4fa', type:'mid' },
+        { ox:  S*0.75, oy: -S*0.55, oz:  S*0.20, r: S*0.18, col:'#81d4fa', type:'mid' },
+        { ox: -S*0.75, oy:  S*0.55, oz:  S*0.20, r: S*0.18, col:'#29b6f6', type:'mid' },
+        { ox:  S*0.75, oy:  S*0.55, oz: -S*0.20, r: S*0.18, col:'#29b6f6', type:'mid' },
+        { ox:  0,      oy: -S*1.05, oz:  0,       r: S*0.13, col:'#4fc3f7', type:'outer' },
+        { ox:  0,      oy:  S*1.05, oz:  0,       r: S*0.13, col:'#4fc3f7', type:'outer' },
+        { ox: -S*1.28, oy:  0,      oz: -S*0.10,  r: S*0.11, col:'#81d4fa', type:'outer' },
+        { ox:  S*1.28, oy:  0,      oz:  S*0.10,  r: S*0.11, col:'#81d4fa', type:'outer' },
+      ],
+      bonds: [[0,1],[0,2],[0,3],[0,4],[1,5],[2,5],[3,6],[4,6],[1,7],[3,7],[2,8],[4,8]],
+    },
+    // ── Upper-left satellite ──
+    {
+      ax: right - S*2.4, ay: mid - S*2.2,
+      scale: 0.72,
+      floatAmp: S*0.14, floatFreq: 0.52, floatPhase: 1.2,
+      rotSpeedY: 0.31,
+      rotSpeedX: 0.12,
+      mouseW: 0.045,
+      nodes: [
+        { ox:  0,      oy:  0,      oz:  S*0.22, r: S*0.20, col:'#4fc3f7', type:'center' },
+        { ox: -S*0.60, oy: -S*0.45, oz: -S*0.15, r: S*0.13, col:'#81d4fa', type:'mid' },
+        { ox:  S*0.60, oy: -S*0.45, oz:  S*0.15, r: S*0.13, col:'#81d4fa', type:'mid' },
+        { ox:  0,      oy:  S*0.65, oz:  S*0.10, r: S*0.13, col:'#29b6f6', type:'mid' },
+        { ox: -S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#4fc3f7', type:'outer' },
+        { ox:  S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#4fc3f7', type:'outer' },
+      ],
+      bonds: [[0,1],[0,2],[0,3],[1,4],[2,5]],
+    },
+    // ── Lower-right satellite ──
+    {
+      ax: right + S*1.6, ay: mid + S*2.0,
+      scale: 0.60,
+      floatAmp: S*0.16, floatFreq: 0.65, floatPhase: 2.5,
+      rotSpeedY: 0.40,
+      rotSpeedX: 0.08,
+      mouseW: 0.03,
+      nodes: [
+        { ox:  0,      oy:  0,      oz:  S*0.18, r: S*0.17, col:'#4fc3f7', type:'center' },
+        { ox: -S*0.52, oy: -S*0.38, oz: -S*0.12, r: S*0.11, col:'#81d4fa', type:'mid' },
+        { ox:  S*0.52, oy: -S*0.38, oz:  S*0.12, r: S*0.11, col:'#81d4fa', type:'mid' },
+        { ox:  0,      oy:  S*0.55, oz:  0,      r: S*0.11, col:'#29b6f6', type:'mid' },
+      ],
+      bonds: [[0,1],[0,2],[0,3]],
+    },
+    // ── Top-right tiny ──
+    {
+      ax: right + S*2.0, ay: mid - S*2.8,
+      scale: 0.48,
+      floatAmp: S*0.18, floatFreq: 0.45, floatPhase: 4.1,
+      rotSpeedY: 0.28,
+      rotSpeedX: 0.14,
+      mouseW: 0.02,
+      nodes: [
+        { ox:  0,     oy:  0,      oz:  S*0.14, r: S*0.14, col:'#4fc3f7', type:'center' },
+        { ox: -S*0.45,oy: -S*0.35, oz: -S*0.10, r: S*0.09, col:'#81d4fa', type:'outer' },
+        { ox:  S*0.45,oy: -S*0.35, oz:  S*0.10, r: S*0.09, col:'#81d4fa', type:'outer' },
+        { ox:  0,     oy:  S*0.50, oz:  0,      r: S*0.09, col:'#29b6f6', type:'outer' },
+      ],
+      bonds: [[0,1],[0,2],[0,3]],
+    },
+  ];
+}
+
+// ── Node world positions (with rotation applied) ──────────
+function getNodePositions(mol, rotAngle) {
+  const cos = Math.cos(rotAngle), sin = Math.sin(rotAngle);
+  return mol.nodes.map(n => ({
+    x: mol.ax + n.ox * cos - n.oy * sin,
+    y: mol.ay + n.ox * sin + n.oy * cos,
+    r: n.r,
+    col: n.col,
+  }));
+}
+
+// ── Build particles (run after first resize so W/H valid) ──
+const PARTICLE_COUNT = 420;
+let particles = [];
+
+function buildParticles(molecules) {
+  // Collect all node world positions (at rotation=0)
+  const allNodes = [];
+  molecules.forEach(mol => {
+    mol.nodes.forEach(n => {
+      allNodes.push({
+        x: mol.ax + n.ox, y: mol.ay + n.oy,
+        r: n.r, col: n.col,
+      });
+    });
+  });
+
+  const cols = ['#4fc3f7','#81d4fa','#29b6f6','#b3e5fc','#e0f7fa'];
+
+  particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+    // spawn from random edge
+    const side = Math.floor(Math.random() * 4);
+    let sx, sy;
+    if      (side===0) { sx = Math.random()*W;  sy = -20; }
+    else if (side===1) { sx = W+20;              sy = Math.random()*H; }
+    else if (side===2) { sx = Math.random()*W;  sy = H+20; }
+    else               { sx = -20;               sy = Math.random()*H; }
+
+    const node = allNodes[i % allNodes.length];
+    // small spread so particles don't all land on same pixel
+    const spread = node.r * 0.9;
+    const angle  = Math.random() * Math.PI * 2;
+    const dist   = Math.random() * spread;
+
+    return {
+      sx, sy,
+      x: sx, y: sy,
+      // final resting position = node centre + tiny spread
+      tx: node.x + Math.cos(angle)*dist,
+      ty: node.y + Math.sin(angle)*dist,
+      nodeX: node.x,
+      nodeY: node.y,
+      nodeR: node.r,
+      nodeCol: node.col,
+      delay:  Math.random() * 0.38,
+      size:   1.0 + Math.random() * 1.8,
+      col:    cols[Math.floor(Math.random()*cols.length)],
+    };
+  });
+}
+
+// ── Phase timing ─────────────────────────────────────────
+const T_GATHER   = 1.7;   // particles fly in
+const T_CONDENSE = 0.9;   // particles swell into spheres
+const T_XFADE    = 0.6;   // crossfade: particles↓  live↑  (overlap window)
+
+// ── Live state ───────────────────────────────────────────
+let liveRotY  = [];   // yaw angle per molecule
+let liveRotX  = [];   // pitch angle per molecule
+let liveFloat = [];
+let startTime = null;
+
+function draw(ts) {
+  requestAnimationFrame(draw);
+  if (!startTime) startTime = ts;
+  const elapsed = (ts - startTime) / 1000;
+
+  ctx.clearRect(0, 0, W, H);
+
+  mouse.sx += (mouse.nx - mouse.sx) * 0.05;
+  mouse.sy += (mouse.ny - mouse.sy) * 0.05;
+
+  const molecules = getMolecules();
+
+  if (liveRotY.length !== molecules.length) {
+    liveRotY  = molecules.map(() => 0);
+    liveRotX  = molecules.map(() => 0);
+    liveFloat = molecules.map(() => 0);
+  }
+
+  const gatherT   = Math.min(elapsed / T_GATHER, 1);
+  const condenseT = elapsed > T_GATHER
+    ? Math.min((elapsed - T_GATHER) / T_CONDENSE, 1) : 0;
+
+  // xfadeT: 0 → 1 over T_XFADE window that starts at condense end
+  const xfadeStart = T_GATHER + T_CONDENSE;
+  const xfadeT = elapsed > xfadeStart
+    ? Math.min((elapsed - xfadeStart) / T_XFADE, 1) : 0;
+
+  // particleAlpha fades OUT as xfade progresses
+  const particleLayerAlpha = 1 - easeInOutCubic(xfadeT);
+  // liveAlpha fades IN over same window
+  const liveLayerAlpha = easeInOutCubic(xfadeT);
+
+  // rotation and float only tick after crossfade is fully done
+  const rotStart    = xfadeStart + T_XFADE;
+  const liveElapsed = Math.max(0, elapsed - rotStart);
+  molecules.forEach((mol, mi) => {
+    if (xfadeT >= 1) {
+      liveRotY[mi] += mol.rotSpeedY * 0.008;
+      liveRotX[mi] += mol.rotSpeedX * 0.006;
+      // float starts from 0 and eases in over first 1.5s so anchor matches exactly at handoff
+      const floatEase = Math.min(liveElapsed / 1.5, 1);
+      liveFloat[mi] = Math.sin(liveElapsed * mol.floatFreq + mol.floatPhase) * mol.floatAmp * floatEase;
+    } else {
+      liveFloat[mi] = 0;
+    }
+  });
+
+  // ─────────────────────────────────────────────────────
+  //  PHASE 1 + 2: particles (fades out via particleLayerAlpha)
+  // ─────────────────────────────────────────────────────
+  if (particleLayerAlpha > 0) {
+    particles.forEach(p => {
+      const g = easeInOutCubic(Math.min(Math.max((gatherT - p.delay) / (1 - p.delay*0.5), 0), 1));
+      p.x = lerp(p.sx, p.tx, g);
+      p.y = lerp(p.sy, p.ty, g);
+
+      const c  = easeOutCubic(condenseT);
+      const px = lerp(p.x, p.nodeX, c);
+      const py = lerp(p.y, p.nodeY, c);
+
+      const drawR = lerp(p.size, p.nodeR, easeOutExpo(condenseT));
+      const baseAlpha = lerp(0.25 + g*0.65, 1.0, c);
+      const alpha = baseAlpha * particleLayerAlpha;
+
+      // trail while flying
+      if (g > 0.02 && g < 0.97 && condenseT === 0) {
+        const tx2 = lerp(p.sx, p.tx, Math.max(0, g - 0.06));
+        const ty2 = lerp(p.sy, p.ty, Math.max(0, g - 0.06));
+        const grad = ctx.createLinearGradient(tx2, ty2, p.x, p.y);
+        grad.addColorStop(0, p.col+'00');
+        grad.addColorStop(1, p.col+'44');
+        ctx.beginPath(); ctx.moveTo(tx2, ty2); ctx.lineTo(p.x, p.y);
+        ctx.strokeStyle = grad; ctx.lineWidth = p.size*0.5;
+        ctx.globalAlpha = 0.5 * particleLayerAlpha; ctx.stroke();
+      }
+
+      ctx.beginPath(); ctx.arc(px, py, Math.max(0.5, drawR), 0, Math.PI*2);
+      ctx.fillStyle = condenseT > 0.05 ? p.nodeCol : p.col;
+      ctx.globalAlpha = alpha; ctx.fill(); ctx.globalAlpha = 1;
+    });
+  }
+
+  // ─────────────────────────────────────────────────────
+  //  PHASE 3: live molecule (fades in via liveLayerAlpha)
+  //  Rotation starts at 0 so spheres sit exactly on top of
+  //  the condensed particle positions — invisible seam.
+  // ─────────────────────────────────────────────────────
+  if (liveLayerAlpha > 0) {
+    const liveAlpha = liveLayerAlpha;
+
+    molecules.forEach((mol, mi) => {
+      const ry = liveRotY[mi];
+      const rx = liveRotX[mi];
+
+      // mouse/float influence eases in only after xfade is done
+      const influence = xfadeT >= 1 ? Math.min(liveElapsed / 1.2, 1) : 0;
+      const floatY = liveFloat[mi] * influence + mouse.sy * mol.floatAmp * 0.5 * influence;
+      const mouseX = mouse.sx * mol.mouseW * W * 0.04 * influence;
+
+      const ax = mol.ax + mouseX;
+      const ay = mol.ay + floatY;
+
+      // Full 3D rotation: Y-axis yaw then X-axis pitch
+      const cosY = Math.cos(ry), sinY = Math.sin(ry);
+      const cosX = Math.cos(rx), sinX = Math.sin(rx);
+
+      // Depth range for normalising (used for size/shade scale)
+      const maxR = mol.nodes[0].r * 10;
+
+      const nodePos = mol.nodes.map(n => {
+        // Y-axis rotation: ox/oz plane
+        const rx1 =  n.ox * cosY + n.oz * sinY;
+        const rz1 = -n.ox * sinY + n.oz * cosY;
+        // X-axis rotation: oy/rz1 plane
+        const ry2 =  n.oy * cosX - rz1 * sinX;
+        const rz2 =  n.oy * sinX + rz1 * cosX;
+        return {
+          x: ax + rx1,
+          y: ay + ry2,
+          z: rz2,          // positive = toward viewer
+          r: n.r, col: n.col, type: n.type,
+        };
+      });
+
+      // ── Bonds (back to front by avg z) ──
+      const bondsSorted = mol.bonds.map(([ai, bi]) => ({
+        ai, bi, avgZ: (nodePos[ai].z + nodePos[bi].z) * 0.5,
+      }));
+      bondsSorted.sort((a, b) => a.avgZ - b.avgZ);
+
+      bondsSorted.forEach(({ ai, bi }) => {
+        const a = nodePos[ai], b = nodePos[bi];
+        const za = (a.z + maxR) / (maxR * 2);
+        const zb = (b.z + maxR) / (maxR * 2);
+        const wA = mol.nodes[ai].r * (0.12 + za * 0.10);
+        const wB = mol.nodes[bi].r * (0.12 + zb * 0.10);
+        const bw = (wA + wB) * 0.5;
+        const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+        const aOpacity = Math.round((0.3 + za * 0.45) * 255).toString(16).padStart(2,'0');
+        const bOpacity = Math.round((0.3 + zb * 0.45) * 255).toString(16).padStart(2,'0');
+        grad.addColorStop(0, a.col + aOpacity);
+        grad.addColorStop(1, b.col + bOpacity);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth   = bw;
+        ctx.globalAlpha = liveAlpha;
+        ctx.stroke();
+      });
+
+      // ── Nodes (back to front by z) ──
+      const sorted = nodePos.map((np, i) => ({ np, n: mol.nodes[i] }));
+      sorted.sort((a, b) => a.np.z - b.np.z);
+
+      sorted.forEach(({ np, n }) => {
+        // z in [-maxR, +maxR], normalise to [0,1]
+        const zNorm  = (np.z + maxR) / (maxR * 2);
+        // depth scale eases in after xfade so size at handoff = 1.0 (matches particle)
+        const depthScale = xfadeT >= 1 ? Math.min(liveElapsed / 1.2, 1) : 0;
+        const depthS = 1.0 + (0.28 * zNorm - 0.14) * depthScale; // 1.0 → 0.72–1.28
+        const drawR  = np.r * depthS;
+
+        // Specular highlight offset toward top-left (light source)
+        const hiX = np.x - drawR * 0.36;
+        const hiY = np.y - drawR * 0.36;
+
+        const darkCol = np.type==='center' ? '#062d6e' : np.type==='mid' ? '#033257' : '#023342';
+
+        const sphGrd = ctx.createRadialGradient(hiX, hiY, drawR * 0.02, np.x, np.y, drawR);
+        sphGrd.addColorStop(0,    '#ffffffee');   // bright specular cap
+        sphGrd.addColorStop(0.08, '#ffffffaa');
+        sphGrd.addColorStop(0.28, np.col);        // base colour
+        sphGrd.addColorStop(0.72, np.col + 'dd');
+        sphGrd.addColorStop(1,    darkCol);        // dark limb — sells the sphere
+
+        ctx.beginPath(); ctx.arc(np.x, np.y, drawR, 0, Math.PI*2);
+        ctx.fillStyle = sphGrd; ctx.globalAlpha = liveAlpha; ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    });
+  }
+}
+
+// Start after layout is painted so W/H is correct
+requestAnimationFrame(() => {
+  resize();
+  buildParticles(getMolecules());
+  requestAnimationFrame(draw);
+});
+</script>
+</body>
+</html>
