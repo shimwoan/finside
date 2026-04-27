@@ -1,0 +1,122 @@
+<h2>진입 애니메이션 방식</h2>
+<p class="subtitle">페이지 진입 시 "FIND → INSIDE" — 안으로 빨려드는 임팩트를 어떻게 줄까요?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="vortex-tunnel" onclick="toggleSelect(this)">
+    <div class="card-image" style="
+      background: #0a0a1a;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    ">
+      <svg width="100%" height="100%" viewBox="0 0 300 180" style="position:absolute;top:0;left:0;">
+        <!-- Tunnel rings shrinking to center = vortex -->
+        <ellipse cx="150" cy="90" rx="140" ry="80" fill="none" stroke="#4fc3f7" stroke-width="0.6" opacity="0.15"/>
+        <ellipse cx="150" cy="90" rx="110" ry="62" fill="none" stroke="#4fc3f7" stroke-width="0.8" opacity="0.25"/>
+        <ellipse cx="150" cy="90" rx="80" ry="45" fill="none" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <ellipse cx="150" cy="90" rx="52" ry="29" fill="none" stroke="#4fc3f7" stroke-width="1.2" opacity="0.55"/>
+        <ellipse cx="150" cy="90" rx="28" ry="15" fill="none" stroke="#81d4fa" stroke-width="1.5" opacity="0.75"/>
+        <ellipse cx="150" cy="90" rx="10" ry="5" fill="none" stroke="#e0f7fa" stroke-width="2" opacity="0.9"/>
+        <!-- Center flash -->
+        <circle cx="150" cy="90" r="3" fill="#ffffff" opacity="1"/>
+        <!-- Lines converging to center -->
+        <line x1="0" y1="0" x2="150" y2="90" stroke="#4fc3f7" stroke-width="0.4" opacity="0.12"/>
+        <line x1="300" y1="0" x2="150" y2="90" stroke="#4fc3f7" stroke-width="0.4" opacity="0.12"/>
+        <line x1="0" y1="180" x2="150" y2="90" stroke="#4fc3f7" stroke-width="0.4" opacity="0.12"/>
+        <line x1="300" y1="180" x2="150" y2="90" stroke="#4fc3f7" stroke-width="0.4" opacity="0.12"/>
+      </svg>
+      <div style="position:relative;z-index:2;text-align:center;">
+        <div style="color:#4fc3f7;font-size:10px;letter-spacing:3px;">VORTEX TUNNEL</div>
+        <div style="color:#ffffff;font-size:9px;opacity:0.5;margin-top:4px;">↓ 소용돌이 → 중심 소멸</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 보텍스 터널</h3>
+      <p>동심 타원 링이 바깥→안으로 빨려들듯 scale+fade. 화면 전체가 소용돌이치며 중심점으로 압축된 후 Hero 콘텐츠 등장. 가장 강렬한 임팩트.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="particle-implosion" onclick="toggleSelect(this)">
+    <div class="card-image" style="
+      background: #0a0a1a;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    ">
+      <svg width="100%" height="100%" viewBox="0 0 300 180" style="position:absolute;top:0;left:0;">
+        <!-- Particles flying inward -->
+        <circle cx="20" cy="20" r="2.5" fill="#4fc3f7" opacity="0.7"/>
+        <line x1="20" y1="20" x2="90" y2="72" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="280" cy="15" r="2" fill="#81d4fa" opacity="0.6"/>
+        <line x1="280" y1="15" x2="210" y2="72" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="10" cy="160" r="3" fill="#29b6f6" opacity="0.7"/>
+        <line x1="10" y1="160" x2="90" y2="108" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="290" cy="170" r="2.5" fill="#4fc3f7" opacity="0.6"/>
+        <line x1="290" y1="170" x2="210" y2="108" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="150" cy="5" r="2" fill="#81d4fa" opacity="0.5"/>
+        <line x1="150" y1="5" x2="150" y2="65" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="50" cy="90" r="2" fill="#4fc3f7" opacity="0.5"/>
+        <line x1="50" y1="90" x2="110" y2="90" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <circle cx="250" cy="90" r="2" fill="#4fc3f7" opacity="0.5"/>
+        <line x1="250" y1="90" x2="190" y2="90" stroke="#4fc3f7" stroke-width="0.6" opacity="0.3"/>
+        <!-- Center molecule forming -->
+        <circle cx="150" cy="90" r="18" fill="none" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <circle cx="150" cy="90" r="8" fill="#4fc3f7" opacity="0.8"/>
+        <circle cx="128" cy="75" r="5" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="172" cy="75" r="5" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="128" cy="105" r="5" fill="#29b6f6" opacity="0.7"/>
+        <circle cx="172" cy="105" r="5" fill="#29b6f6" opacity="0.7"/>
+        <line x1="150" y1="90" x2="128" y2="75" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+        <line x1="150" y1="90" x2="172" y2="75" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+        <line x1="150" y1="90" x2="128" y2="105" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+        <line x1="150" y1="90" x2="172" y2="105" stroke="#4fc3f7" stroke-width="1" opacity="0.6"/>
+      </svg>
+      <div style="position:relative;z-index:2;text-align:center;position:absolute;bottom:12px;left:0;right:0;">
+        <div style="color:#4fc3f7;font-size:10px;letter-spacing:3px;">PARTICLE IMPLOSION</div>
+        <div style="color:#ffffff;font-size:9px;opacity:0.5;margin-top:4px;">파티클 → 분자 조립</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 파티클 임플로전</h3>
+      <p>화면 밖에서 수백 개의 파티클이 중앙으로 빨려들며 분자 구조를 "조립"하는 형태. FIND(흩어진 데이터) → INSIDE(구조화) 철학과 정확히 매칭.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="text-reveal-zoom" onclick="toggleSelect(this)">
+    <div class="card-image" style="
+      background: #0a0a1a;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    ">
+      <svg width="100%" height="100%" viewBox="0 0 300 180" style="position:absolute;top:0;left:0;">
+        <!-- Zoom in text effect representation -->
+        <!-- Outer large blurred FINSIDE -->
+        <text x="150" y="95" text-anchor="middle" font-size="52" font-weight="900" fill="#4fc3f7" opacity="0.06" font-family="sans-serif" letter-spacing="8">FINSIDE</text>
+        <text x="150" y="95" text-anchor="middle" font-size="38" font-weight="900" fill="#4fc3f7" opacity="0.12" font-family="sans-serif" letter-spacing="6">FINSIDE</text>
+        <text x="150" y="95" text-anchor="middle" font-size="26" font-weight="900" fill="#4fc3f7" opacity="0.3" font-family="sans-serif" letter-spacing="4">FINSIDE</text>
+        <text x="150" y="95" text-anchor="middle" font-size="18" font-weight="900" fill="#81d4fa" opacity="0.7" font-family="sans-serif" letter-spacing="3">FINSIDE</text>
+        <!-- Horizontal line -->
+        <line x1="60" y1="105" x2="240" y2="105" stroke="#4fc3f7" stroke-width="0.5" opacity="0.4"/>
+        <text x="150" y="118" text-anchor="middle" font-size="8" fill="#4fc3f7" opacity="0.6" font-family="sans-serif" letter-spacing="4">FIND THE INSIDE VALUE</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>C. 텍스트 줌인 리빌</h3>
+      <p>거대하게 블러된 "FINSIDE" 텍스트가 zoom-in하며 선명해짐. 동시에 배경에서 분자들이 응결. 심플하지만 브랜드 임팩트가 강하고 구현이 가장 안정적.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;font-size:13px;">클릭해서 선택해주세요.</p>

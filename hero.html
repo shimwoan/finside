@@ -6,14 +6,51 @@
 <title>FINSIDE — Find the Inside Value</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --blue: #4fc3f7; --bg: #060610; }
+  :root {
+    --accent: #c8f0e8;   /* soft mint-white — scientific, not neon */
+    --accent2: #7ee8c8;  /* brighter mint for highlights */
+    --bg: #0e0e0e;       /* near-black, warm */
+    --text: #e8e4dc;     /* creamy ivory */
+    --text-dim: #e8e4dc55;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
 
   html, body {
     width: 100%; height: 100%;
     background: var(--bg);
-    color: #fff;
-    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    font-family: 'Pretendard', 'Inter', 'Apple SD Gothic Neo', sans-serif;
     overflow-x: hidden;
+  }
+
+  /* ── Radial glow behind molecule scene (like the coffee roaster bg) ── */
+  #hero::before {
+    content: '';
+    position: absolute;
+    right: max(5%, calc((100vw - 1800px) / 2)); top: 50%;
+    transform: translateY(-50%);
+    width: min(55vw, 990px); height: 80vh;
+    background: radial-gradient(ellipse at center,
+      #1a3d2e55 0%,
+      #0d2a2055 35%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* secondary subtle glow top-right corner */
+  #hero::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0;
+    width: 35vw; height: 45vh;
+    background: radial-gradient(ellipse at top right,
+      #0f2d2222 0%,
+      transparent 65%
+    );
+    pointer-events: none;
+    z-index: 0;
   }
 
   nav {
@@ -22,17 +59,18 @@
     z-index: 100;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 24px 48px;
+    justify-content: flex-end;
+    padding: 28px clamp(56px, 5vw, 120px);
+    pointer-events: none;
   }
-  .nav-logo { font-size: 20px; font-weight: 900; letter-spacing: 0.15em; }
-  .nav-logo span { color: var(--blue); }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
+  nav * { pointer-events: auto; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
-    color: #ffffff88; text-decoration: none;
-    font-size: 13px; letter-spacing: 0.08em; transition: color 0.2s;
+    color: var(--text-dim); text-decoration: none;
+    font-size: 12px; letter-spacing: 0.1em; font-weight: 400;
+    transition: color 0.2s;
   }
-  .nav-links a:hover { color: var(--blue); }
+  .nav-links a:hover { color: var(--text); }
 
   #hero {
     min-height: 100vh;
@@ -47,86 +85,212 @@
     inset: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
+  }
+
+  #hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    width: 50%;
-    padding: 0 0 0 8vw;
+    width: 52%;
+    padding: 76px 0 0 clamp(40px, 8vw, 160px);
   }
+
   .hero-label {
-    font-size: 11px; letter-spacing: 0.4em;
-    color: var(--blue); margin-bottom: 20px; opacity: 0.85;
+    font-size: 10px; letter-spacing: 0.45em;
+    color: var(--accent2); margin-bottom: 28px;
+    font-weight: 500; opacity: 0.7;
+    text-transform: uppercase;
   }
+
   .hero-title {
-    font-size: clamp(32px, 4.5vw, 64px);
-    font-weight: 900; line-height: 1.15; letter-spacing: -0.01em;
+    font-size: clamp(28px, 3.6vw, 72px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: var(--text);
   }
-  .hero-title .accent { color: var(--blue); }
+  /* accent word — slightly brighter ivory, not a different hue */
+  .hero-title .accent {
+    color: #ffffff;
+  }
+
+  .hero-divider {
+    width: 40px; height: 1px;
+    background: var(--accent2);
+    opacity: 0.4;
+    margin: 32px 0;
+  }
+
   .hero-sub {
-    margin-top: 20px;
-    font-size: clamp(13px, 1.3vw, 16px);
-    color: #ffffff66; line-height: 1.7; max-width: 420px;
+    font-size: clamp(14px, 1.1vw, 24px);
+    color: #e8e4dcbf;
+    line-height: 1.8;
+    max-width: clamp(320px, 28vw, 520px);
+    font-weight: 400;
+    letter-spacing: 0.02em;
   }
-  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-  .tag {
-    border: 1px solid #4fc3f730; color: var(--blue);
-    font-size: 11px; letter-spacing: 0.12em;
-    padding: 5px 14px; border-radius: 20px; background: #4fc3f708;
-  }
-  .hero-cta { display: flex; gap: 16px; margin-top: 40px; align-items: center; }
+
+  .hero-cta { display: flex; gap: 16px; margin-top: 44px; align-items: center; }
+
   .btn-primary {
-    background: var(--blue); color: #060610;
-    font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
-    padding: 14px 32px; border-radius: 32px; border: none; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 24px #4fc3f740;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px; font-weight: 500; letter-spacing: 0.15em;
+    padding: 13px 30px;
+    border-radius: 2px;
+    border: 1px solid #e8e4dc40;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-transform: uppercase;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px #4fc3f770; }
+  .btn-primary:hover {
+    background: #e8e4dc0d;
+    border-color: #e8e4dc80;
+  }
+
   .btn-ghost {
-    color: #ffffff88; font-size: 13px; letter-spacing: 0.08em;
+    color: var(--accent2);
+    font-size: 12px; letter-spacing: 0.12em; font-weight: 400;
     cursor: pointer; border: none; background: none;
-    display: flex; align-items: center; gap: 8px; transition: color 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    transition: opacity 0.2s;
+    text-transform: uppercase;
+    opacity: 0.7;
   }
-  .btn-ghost:hover { color: var(--blue); }
-  .btn-ghost::after { content: '→'; transition: transform 0.2s; }
-  .btn-ghost:hover::after { transform: translateX(4px); }
+  .btn-ghost:hover { opacity: 1; }
+  .btn-ghost::after { content: '↗'; font-size: 14px; }
+
+  /* stat strip */
+  .hero-stats {
+    display: flex; gap: clamp(28px, 3vw, 56px); margin-top: clamp(40px, 4vw, 72px);
+    padding-top: 32px;
+    border-top: 1px solid #e8e4dc10;
+  }
+  .stat-num {
+    font-size: clamp(18px, 1.5vw, 36px); font-weight: 700;
+    color: var(--text); letter-spacing: -0.02em;
+  }
+  .stat-num span { color: var(--accent2); font-size: 0.65em; }
+  .stat-label {
+    font-size: 12px; color: var(--text-dim);
+    letter-spacing: 0.12em; margin-top: 4px;
+    text-transform: uppercase;
+  }
 
   .scroll-hint {
-    position: absolute; bottom: 40px; left: 50%;
-    transform: translateX(-50%); z-index: 10;
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    position: absolute; bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
     opacity: 0.4;
   }
-  .scroll-hint span { font-size: 10px; letter-spacing: 0.3em; color: var(--blue); }
-  .scroll-line {
+  .scroll-hint span {
+    font-size: 9px; letter-spacing: 0.35em;
+    color: var(--text); text-transform: uppercase;
+  }
+  .scroll-arrow {
     width: 1px; height: 40px;
-    background: linear-gradient(to bottom, var(--blue), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
+    background: linear-gradient(to bottom, var(--text), transparent);
+    animation: scrollBounce 2.5s ease-in-out infinite;
   }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  @keyframes scrollBounce {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+    50%       { opacity: 1;   transform: scaleY(1);   transform-origin: top; }
   }
-  .scanline {
-    position: fixed; inset: 0; pointer-events: none; z-index: 999;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 2px, #00000008 2px, #00000008 4px
-    );
+
+  /* ── Text reveal animation ── */
+  /* Each animated block starts invisible; JS adds .revealed */
+  .reveal-block {
+    overflow: hidden;        /* clips the child sliding up */
+  }
+  .reveal-inner {
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+    transition:
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity   0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-block.revealed .reveal-inner {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* label acts as logo — fixed to nav row on the left */
+  .hero-label {
+    position: fixed;
+    top: 0; left: clamp(56px, 5vw, 120px);
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    height: 76px; /* matches nav padding: 28px top + ~20px text + 28px bottom */
+    font-size: 10px; letter-spacing: 0.45em;
+    color: var(--accent2);
+    font-weight: 500; text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity   0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    /* remove the margin-bottom from hero-content flow */
+    margin-bottom: 0;
+  }
+  .hero-label.revealed { opacity: 0.75; transform: translateY(0); }
+
+  /* divider grows from left */
+  .hero-divider {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-divider.revealed { transform: scaleX(1); }
+
+  /* sub, cta, stats: fade + rise */
+  .hero-sub, .hero-cta, .hero-stats {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity   0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-sub.revealed,
+  .hero-cta.revealed,
+  .hero-stats.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* stat numbers count up — handled in JS */
+  .stat-num { font-variant-numeric: tabular-nums; }
+
+  .stat-industries {
+    font-size: clamp(18px, 1.5vw, 36px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.4;
   }
 
 </style>
 </head>
 <body>
-<div class="scanline"></div>
 
 <nav>
-  <div class="nav-logo"><span>FIN</span>SIDE</div>
   <ul class="nav-links">
-    <li><a href="#">기술</a></li>
-    <li><a href="#">제품</a></li>
-    <li><a href="#">시장</a></li>
-    <li><a href="#">회사</a></li>
+    <li><a href="#">Technology</a></li>
+    <li><a href="#">Product</a></li>
+    <li><a href="#">Market</a></li>
+    <li><a href="#">Company</a></li>
     <li><a href="#">IR</a></li>
   </ul>
 </nav>
@@ -134,34 +298,44 @@
 <section id="hero">
   <canvas id="scene"></canvas>
 
+  <div id="hero-inner">
   <div class="hero-content">
-    <div class="hero-label">FIND THE INSIDE VALUE</div>
+    <div class="hero-label">FinSide</div>
     <h1 class="hero-title">
-      보이지 않는<br>
-      <span class="accent">내부의 가치</span>를<br>
-      발견합니다
+      <div class="reveal-block"><span class="reveal-inner">보이지 않는</span></div>
+      <div class="reveal-block"><span class="reveal-inner"><span class="accent">내부의 가치</span>를</span></div>
+      <div class="reveal-block"><span class="reveal-inner">발견합니다</span></div>
     </h1>
+    <div class="hero-divider"></div>
     <p class="hero-sub">
-      AI와 비접촉 내부 분석 기술로,<br>
-      보이지 않는 내부 데이터를 정량화하여<br>
-      산업에 적용하는 지능형 분석 솔루션
+      AI 비접촉 내부 분석 기술로<br>
+      보이지 않는 데이터를 정량화하여<br>
+      산업의 새 기준을 만듭니다
     </p>
-    <div class="hero-tags">
-      <span class="tag">AI 피부 진단</span>
-      <span class="tag">비접촉 분석</span>
-      <span class="tag">LWIR 기술</span>
-      <span class="tag">뷰티테크</span>
-      <span class="tag">딥테크</span>
-    </div>
     <div class="hero-cta">
       <button class="btn-primary">솔루션 알아보기</button>
       <button class="btn-ghost">IR 자료 보기</button>
     </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-industries">뷰티 · 농산물·소재 선별</div>
+        <div class="stat-label">산업 적용 분야</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="98" data-suffix="%">0%</div>
+        <div class="stat-label">분석 정확도</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="0" data-suffix="ms">0ms</div>
+        <div class="stat-label">접촉 없는 측정</div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <div class="scroll-hint">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
   </div>
 </section>
 
@@ -203,7 +377,10 @@ window.addEventListener('mousemove', e => {
 // Positions are offsets from each molecule's anchor, in px-scale units
 // Anchors are expressed as fraction of (W, H)
 function getMolecules() {
-  const right = W * 0.75;  // horizontal centre of right half
+  // center molecule within the actual content container (max-width 1800px)
+  const maxW  = Math.min(W, 1800);
+  const left0 = (W - maxW) / 2;
+  const right = left0 + maxW * 0.63;
   const mid   = H * 0.50;
 
   // scale with viewport
@@ -220,15 +397,15 @@ function getMolecules() {
       rotSpeedX: 0.09,   // pitch (up-down tilt)
       mouseW: 0.06,
       nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.30, r: S*0.28, col:'#4fc3f7', type:'center' },
-        { ox: -S*0.75, oy: -S*0.55, oz: -S*0.20, r: S*0.18, col:'#81d4fa', type:'mid' },
-        { ox:  S*0.75, oy: -S*0.55, oz:  S*0.20, r: S*0.18, col:'#81d4fa', type:'mid' },
-        { ox: -S*0.75, oy:  S*0.55, oz:  S*0.20, r: S*0.18, col:'#29b6f6', type:'mid' },
-        { ox:  S*0.75, oy:  S*0.55, oz: -S*0.20, r: S*0.18, col:'#29b6f6', type:'mid' },
-        { ox:  0,      oy: -S*1.05, oz:  0,       r: S*0.13, col:'#4fc3f7', type:'outer' },
-        { ox:  0,      oy:  S*1.05, oz:  0,       r: S*0.13, col:'#4fc3f7', type:'outer' },
-        { ox: -S*1.28, oy:  0,      oz: -S*0.10,  r: S*0.11, col:'#81d4fa', type:'outer' },
-        { ox:  S*1.28, oy:  0,      oz:  S*0.10,  r: S*0.11, col:'#81d4fa', type:'outer' },
+        { ox:  0,      oy:  0,      oz:  S*0.30, r: S*0.28, col:'#c8f0e8', type:'center' },
+        { ox: -S*0.75, oy: -S*0.55, oz: -S*0.20, r: S*0.18, col:'#e8f8f4', type:'mid' },
+        { ox:  S*0.75, oy: -S*0.55, oz:  S*0.20, r: S*0.18, col:'#e8f8f4', type:'mid' },
+        { ox: -S*0.75, oy:  S*0.55, oz:  S*0.20, r: S*0.18, col:'#a0ddd0', type:'mid' },
+        { ox:  S*0.75, oy:  S*0.55, oz: -S*0.20, r: S*0.18, col:'#a0ddd0', type:'mid' },
+        { ox:  0,      oy: -S*1.05, oz:  0,       r: S*0.13, col:'#c8f0e8', type:'outer' },
+        { ox:  0,      oy:  S*1.05, oz:  0,       r: S*0.13, col:'#c8f0e8', type:'outer' },
+        { ox: -S*1.28, oy:  0,      oz: -S*0.10,  r: S*0.11, col:'#e8f8f4', type:'outer' },
+        { ox:  S*1.28, oy:  0,      oz:  S*0.10,  r: S*0.11, col:'#e8f8f4', type:'outer' },
       ],
       bonds: [[0,1],[0,2],[0,3],[0,4],[1,5],[2,5],[3,6],[4,6],[1,7],[3,7],[2,8],[4,8]],
     },
@@ -241,12 +418,12 @@ function getMolecules() {
       rotSpeedX: 0.12,
       mouseW: 0.045,
       nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.22, r: S*0.20, col:'#4fc3f7', type:'center' },
-        { ox: -S*0.60, oy: -S*0.45, oz: -S*0.15, r: S*0.13, col:'#81d4fa', type:'mid' },
-        { ox:  S*0.60, oy: -S*0.45, oz:  S*0.15, r: S*0.13, col:'#81d4fa', type:'mid' },
-        { ox:  0,      oy:  S*0.65, oz:  S*0.10, r: S*0.13, col:'#29b6f6', type:'mid' },
-        { ox: -S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#4fc3f7', type:'outer' },
-        { ox:  S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#4fc3f7', type:'outer' },
+        { ox:  0,      oy:  0,      oz:  S*0.22, r: S*0.20, col:'#c8f0e8', type:'center' },
+        { ox: -S*0.60, oy: -S*0.45, oz: -S*0.15, r: S*0.13, col:'#e8f8f4', type:'mid' },
+        { ox:  S*0.60, oy: -S*0.45, oz:  S*0.15, r: S*0.13, col:'#e8f8f4', type:'mid' },
+        { ox:  0,      oy:  S*0.65, oz:  S*0.10, r: S*0.13, col:'#a0ddd0', type:'mid' },
+        { ox: -S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#c8f0e8', type:'outer' },
+        { ox:  S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#c8f0e8', type:'outer' },
       ],
       bonds: [[0,1],[0,2],[0,3],[1,4],[2,5]],
     },
@@ -259,10 +436,10 @@ function getMolecules() {
       rotSpeedX: 0.08,
       mouseW: 0.03,
       nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.18, r: S*0.17, col:'#4fc3f7', type:'center' },
-        { ox: -S*0.52, oy: -S*0.38, oz: -S*0.12, r: S*0.11, col:'#81d4fa', type:'mid' },
-        { ox:  S*0.52, oy: -S*0.38, oz:  S*0.12, r: S*0.11, col:'#81d4fa', type:'mid' },
-        { ox:  0,      oy:  S*0.55, oz:  0,      r: S*0.11, col:'#29b6f6', type:'mid' },
+        { ox:  0,      oy:  0,      oz:  S*0.18, r: S*0.17, col:'#c8f0e8', type:'center' },
+        { ox: -S*0.52, oy: -S*0.38, oz: -S*0.12, r: S*0.11, col:'#e8f8f4', type:'mid' },
+        { ox:  S*0.52, oy: -S*0.38, oz:  S*0.12, r: S*0.11, col:'#e8f8f4', type:'mid' },
+        { ox:  0,      oy:  S*0.55, oz:  0,      r: S*0.11, col:'#a0ddd0', type:'mid' },
       ],
       bonds: [[0,1],[0,2],[0,3]],
     },
@@ -275,10 +452,10 @@ function getMolecules() {
       rotSpeedX: 0.14,
       mouseW: 0.02,
       nodes: [
-        { ox:  0,     oy:  0,      oz:  S*0.14, r: S*0.14, col:'#4fc3f7', type:'center' },
-        { ox: -S*0.45,oy: -S*0.35, oz: -S*0.10, r: S*0.09, col:'#81d4fa', type:'outer' },
-        { ox:  S*0.45,oy: -S*0.35, oz:  S*0.10, r: S*0.09, col:'#81d4fa', type:'outer' },
-        { ox:  0,     oy:  S*0.50, oz:  0,      r: S*0.09, col:'#29b6f6', type:'outer' },
+        { ox:  0,     oy:  0,      oz:  S*0.14, r: S*0.14, col:'#c8f0e8', type:'center' },
+        { ox: -S*0.45,oy: -S*0.35, oz: -S*0.10, r: S*0.09, col:'#e8f8f4', type:'outer' },
+        { ox:  S*0.45,oy: -S*0.35, oz:  S*0.10, r: S*0.09, col:'#e8f8f4', type:'outer' },
+        { ox:  0,     oy:  S*0.50, oz:  0,      r: S*0.09, col:'#a0ddd0', type:'outer' },
       ],
       bonds: [[0,1],[0,2],[0,3]],
     },
@@ -312,7 +489,7 @@ function buildParticles(molecules) {
     });
   });
 
-  const cols = ['#4fc3f7','#81d4fa','#29b6f6','#b3e5fc','#e0f7fa'];
+  const cols = ['#c8f0e8','#e8f8f4','#a0ddd0','#d4f4ee','#f0faf8'];
 
   particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
     // spawn from random edge
@@ -524,7 +701,7 @@ function draw(ts) {
         const hiX = np.x - drawR * 0.36;
         const hiY = np.y - drawR * 0.36;
 
-        const darkCol = np.type==='center' ? '#062d6e' : np.type==='mid' ? '#033257' : '#023342';
+        const darkCol = np.type==='center' ? '#0a2018' : np.type==='mid' ? '#0d2a20' : '#112e24';
 
         const sphGrd = ctx.createRadialGradient(hiX, hiY, drawR * 0.02, np.x, np.y, drawR);
         sphGrd.addColorStop(0,    '#ffffffee');   // bright specular cap
@@ -547,6 +724,65 @@ requestAnimationFrame(() => {
   buildParticles(getMolecules());
   requestAnimationFrame(draw);
 });
+
+// ── Text reveal orchestration ─────────────────────────────
+// Staggered sequence: label → title lines → divider → sub → cta → stats
+// Delays tuned so text lands as particles are still flying in (feels connected)
+function revealText() {
+  const delay = (el, ms, fn) => setTimeout(() => { if (el) fn(el); }, ms);
+
+  const label    = document.querySelector('.hero-label');
+  const lines    = document.querySelectorAll('.reveal-block');
+  const divider  = document.querySelector('.hero-divider');
+  const sub      = document.querySelector('.hero-sub');
+  const cta      = document.querySelector('.hero-cta');
+  const stats    = document.querySelector('.hero-stats');
+
+  // label fades up first
+  delay(label, 120, el => el.classList.add('revealed'));
+
+  // title lines slide up with stagger
+  lines.forEach((line, i) => {
+    delay(line, 320 + i * 140, el => el.classList.add('revealed'));
+  });
+
+  // divider draws after last title line
+  delay(divider, 320 + lines.length * 140 + 60, el => el.classList.add('revealed'));
+
+  // sub text
+  delay(sub, 820, el => el.classList.add('revealed'));
+
+  // cta buttons
+  delay(cta, 1020, el => el.classList.add('revealed'));
+
+  // stats with count-up
+  delay(stats, 1200, el => {
+    el.classList.add('revealed');
+    el.querySelectorAll('.stat-num[data-target]').forEach((num, i) => {
+      setTimeout(() => countUp(num), i * 120);
+    });
+  });
+}
+
+function countUp(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  if (target === 0) { el.textContent = '0' + suffix; return; }
+  const duration = 900;
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    // ease out expo
+    const eased = t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// Start text reveal shortly after page load
+// (particles start flying at t=0; text appears during the flight)
+setTimeout(revealText, 80);
 </script>
 </body>
 </html>

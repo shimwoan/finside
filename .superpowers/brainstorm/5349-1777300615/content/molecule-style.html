@@ -1,0 +1,147 @@
+<h2>3D 분자 씬 스타일</h2>
+<p class="subtitle">마우스를 따라 움직이는 분자 구조를 어떤 형태로 표현할까요?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="organic-cluster" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+      <svg width="100%" height="100%" viewBox="0 0 300 190" style="position:absolute;">
+        <!-- Ambient glow -->
+        <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4fc3f7" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#4fc3f7" stop-opacity="0"/>
+        </radialGradient>
+        <ellipse cx="150" cy="95" rx="80" ry="70" fill="url(#g1)"/>
+        <!-- Large center -->
+        <circle cx="150" cy="95" r="16" fill="#4fc3f7" opacity="0.85"/>
+        <!-- Mid nodes -->
+        <circle cx="105" cy="65" r="10" fill="#81d4fa" opacity="0.75"/>
+        <circle cx="195" cy="65" r="10" fill="#81d4fa" opacity="0.75"/>
+        <circle cx="105" cy="125" r="10" fill="#29b6f6" opacity="0.75"/>
+        <circle cx="195" cy="125" r="10" fill="#29b6f6" opacity="0.75"/>
+        <circle cx="150" cy="42" r="7" fill="#4fc3f7" opacity="0.6"/>
+        <circle cx="150" cy="148" r="7" fill="#4fc3f7" opacity="0.6"/>
+        <!-- Small outer -->
+        <circle cx="70" cy="45" r="5" fill="#81d4fa" opacity="0.45"/>
+        <circle cx="230" cy="45" r="5" fill="#81d4fa" opacity="0.45"/>
+        <circle cx="70" cy="145" r="5" fill="#29b6f6" opacity="0.45"/>
+        <circle cx="230" cy="145" r="5" fill="#29b6f6" opacity="0.45"/>
+        <!-- Bonds -->
+        <line x1="150" y1="95" x2="105" y2="65" stroke="#4fc3f7" stroke-width="2" opacity="0.5"/>
+        <line x1="150" y1="95" x2="195" y2="65" stroke="#4fc3f7" stroke-width="2" opacity="0.5"/>
+        <line x1="150" y1="95" x2="105" y2="125" stroke="#4fc3f7" stroke-width="2" opacity="0.5"/>
+        <line x1="150" y1="95" x2="195" y2="125" stroke="#4fc3f7" stroke-width="2" opacity="0.5"/>
+        <line x1="150" y1="95" x2="150" y2="42" stroke="#4fc3f7" stroke-width="1.5" opacity="0.4"/>
+        <line x1="150" y1="95" x2="150" y2="148" stroke="#4fc3f7" stroke-width="1.5" opacity="0.4"/>
+        <line x1="105" y1="65" x2="70" y2="45" stroke="#4fc3f7" stroke-width="1" opacity="0.3"/>
+        <line x1="195" y1="65" x2="230" y2="45" stroke="#4fc3f7" stroke-width="1" opacity="0.3"/>
+        <line x1="105" y1="125" x2="70" y2="145" stroke="#4fc3f7" stroke-width="1" opacity="0.3"/>
+        <line x1="195" y1="125" x2="230" y2="145" stroke="#4fc3f7" stroke-width="1" opacity="0.3"/>
+      </svg>
+      <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#4fc3f7;font-size:9px;letter-spacing:3px;opacity:0.7;">ORGANIC CLUSTER</div>
+    </div>
+    <div class="card-body">
+      <h3>A. 오가닉 클러스터</h3>
+      <p>크기가 다른 구체들이 유기적으로 연결된 단일 분자. 마우스 방향에 따라 전체가 3D 회전. 가장 직관적인 "분자" 이미지. 안정적이고 아름다움.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="multi-float" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;height:190px;position:relative;overflow:hidden;">
+      <svg width="100%" height="100%" viewBox="0 0 300 190" style="position:absolute;">
+        <!-- Multiple independent molecules floating -->
+        <!-- Molecule 1 - top left -->
+        <circle cx="75" cy="55" r="9" fill="#4fc3f7" opacity="0.8"/>
+        <circle cx="55" cy="38" r="6" fill="#81d4fa" opacity="0.65"/>
+        <circle cx="95" cy="38" r="6" fill="#81d4fa" opacity="0.65"/>
+        <circle cx="55" cy="72" r="6" fill="#29b6f6" opacity="0.65"/>
+        <line x1="75" y1="55" x2="55" y2="38" stroke="#4fc3f7" stroke-width="1.5" opacity="0.5"/>
+        <line x1="75" y1="55" x2="95" y2="38" stroke="#4fc3f7" stroke-width="1.5" opacity="0.5"/>
+        <line x1="75" y1="55" x2="55" y2="72" stroke="#4fc3f7" stroke-width="1.5" opacity="0.5"/>
+        <!-- Molecule 2 - center -->
+        <circle cx="155" cy="95" r="12" fill="#4fc3f7" opacity="0.85"/>
+        <circle cx="128" cy="77" r="8" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="182" cy="77" r="8" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="128" cy="113" r="8" fill="#29b6f6" opacity="0.7"/>
+        <circle cx="182" cy="113" r="8" fill="#29b6f6" opacity="0.7"/>
+        <circle cx="155" cy="60" r="5" fill="#4fc3f7" opacity="0.5"/>
+        <line x1="155" y1="95" x2="128" y2="77" stroke="#4fc3f7" stroke-width="1.8" opacity="0.55"/>
+        <line x1="155" y1="95" x2="182" y2="77" stroke="#4fc3f7" stroke-width="1.8" opacity="0.55"/>
+        <line x1="155" y1="95" x2="128" y2="113" stroke="#4fc3f7" stroke-width="1.8" opacity="0.55"/>
+        <line x1="155" y1="95" x2="182" y2="113" stroke="#4fc3f7" stroke-width="1.8" opacity="0.55"/>
+        <line x1="155" y1="95" x2="155" y2="60" stroke="#4fc3f7" stroke-width="1.2" opacity="0.4"/>
+        <!-- Molecule 3 - bottom right -->
+        <circle cx="240" cy="148" r="7" fill="#4fc3f7" opacity="0.7"/>
+        <circle cx="220" cy="133" r="5" fill="#81d4fa" opacity="0.6"/>
+        <circle cx="260" cy="133" r="5" fill="#81d4fa" opacity="0.6"/>
+        <circle cx="240" cy="168" r="5" fill="#29b6f6" opacity="0.6"/>
+        <line x1="240" y1="148" x2="220" y2="133" stroke="#4fc3f7" stroke-width="1.2" opacity="0.45"/>
+        <line x1="240" y1="148" x2="260" y2="133" stroke="#4fc3f7" stroke-width="1.2" opacity="0.45"/>
+        <line x1="240" y1="148" x2="240" y2="168" stroke="#4fc3f7" stroke-width="1.2" opacity="0.45"/>
+        <!-- Connecting particles between molecules -->
+        <circle cx="115" cy="72" r="2" fill="#4fc3f7" opacity="0.3"/>
+        <circle cx="200" cy="130" r="2" fill="#4fc3f7" opacity="0.3"/>
+        <line x1="95" y1="55" x2="128" y2="77" stroke="#4fc3f7" stroke-width="0.5" opacity="0.15" stroke-dasharray="3 4"/>
+        <line x1="182" y1="113" x2="220" y2="133" stroke="#4fc3f7" stroke-width="0.5" opacity="0.15" stroke-dasharray="3 4"/>
+      </svg>
+      <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#4fc3f7;font-size:9px;letter-spacing:3px;opacity:0.7;">MULTI FLOAT</div>
+    </div>
+    <div class="card-body">
+      <h3>B. 멀티 플로팅</h3>
+      <p>크기가 다른 분자 3~5개가 화면에 흩어져 유영. 마우스 움직임에 따라 각각 다른 속도로 반응 (parallax depth). 자동으로도 천천히 부유. 가장 생동감 넘침.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="network-web" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+      <svg width="100%" height="100%" viewBox="0 0 300 190" style="position:absolute;">
+        <!-- Network/web of nodes - data network feel -->
+        <!-- Nodes -->
+        <circle cx="150" cy="95" r="8" fill="#4fc3f7" opacity="0.9"/>
+        <circle cx="100" cy="60" r="6" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="200" cy="60" r="6" fill="#81d4fa" opacity="0.7"/>
+        <circle cx="80" cy="110" r="5" fill="#29b6f6" opacity="0.65"/>
+        <circle cx="220" cy="110" r="5" fill="#29b6f6" opacity="0.65"/>
+        <circle cx="130" cy="145" r="5" fill="#4fc3f7" opacity="0.65"/>
+        <circle cx="170" cy="145" r="5" fill="#4fc3f7" opacity="0.65"/>
+        <circle cx="150" cy="35" r="4" fill="#81d4fa" opacity="0.55"/>
+        <circle cx="55" cy="75" r="4" fill="#4fc3f7" opacity="0.5"/>
+        <circle cx="245" cy="75" r="4" fill="#4fc3f7" opacity="0.5"/>
+        <circle cx="55" cy="140" r="3.5" fill="#29b6f6" opacity="0.45"/>
+        <circle cx="245" cy="140" r="3.5" fill="#29b6f6" stroke="#29b6f6" stroke-width="0" opacity="0.45"/>
+        <circle cx="110" cy="170" r="3.5" fill="#4fc3f7" opacity="0.4"/>
+        <circle cx="190" cy="170" r="3.5" fill="#4fc3f7" opacity="0.4"/>
+        <!-- Connections - web pattern -->
+        <line x1="150" y1="95" x2="100" y2="60" stroke="#4fc3f7" stroke-width="1" opacity="0.45"/>
+        <line x1="150" y1="95" x2="200" y2="60" stroke="#4fc3f7" stroke-width="1" opacity="0.45"/>
+        <line x1="150" y1="95" x2="80" y2="110" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <line x1="150" y1="95" x2="220" y2="110" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <line x1="150" y1="95" x2="130" y2="145" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <line x1="150" y1="95" x2="170" y2="145" stroke="#4fc3f7" stroke-width="1" opacity="0.4"/>
+        <line x1="100" y1="60" x2="150" y2="35" stroke="#4fc3f7" stroke-width="0.8" opacity="0.3"/>
+        <line x1="200" y1="60" x2="150" y2="35" stroke="#4fc3f7" stroke-width="0.8" opacity="0.3"/>
+        <line x1="100" y1="60" x2="55" y2="75" stroke="#4fc3f7" stroke-width="0.8" opacity="0.3"/>
+        <line x1="80" y1="110" x2="55" y2="75" stroke="#4fc3f7" stroke-width="0.8" opacity="0.25"/>
+        <line x1="80" y1="110" x2="55" y2="140" stroke="#4fc3f7" stroke-width="0.8" opacity="0.25"/>
+        <line x1="130" y1="145" x2="55" y2="140" stroke="#4fc3f7" stroke-width="0.8" opacity="0.22"/>
+        <line x1="130" y1="145" x2="110" y2="170" stroke="#4fc3f7" stroke-width="0.8" opacity="0.22"/>
+        <line x1="200" y1="60" x2="245" y2="75" stroke="#4fc3f7" stroke-width="0.8" opacity="0.3"/>
+        <line x1="220" y1="110" x2="245" y2="75" stroke="#4fc3f7" stroke-width="0.8" opacity="0.25"/>
+        <line x1="220" y1="110" x2="245" y2="140" stroke="#4fc3f7" stroke-width="0.8" opacity="0.25"/>
+        <line x1="170" y1="145" x2="245" y2="140" stroke="#4fc3f7" stroke-width="0.8" opacity="0.22"/>
+        <line x1="170" y1="145" x2="190" y2="170" stroke="#4fc3f7" stroke-width="0.8" opacity="0.22"/>
+        <!-- Cross-links -->
+        <line x1="100" y1="60" x2="80" y2="110" stroke="#4fc3f7" stroke-width="0.6" opacity="0.2"/>
+        <line x1="200" y1="60" x2="220" y2="110" stroke="#4fc3f7" stroke-width="0.6" opacity="0.2"/>
+      </svg>
+      <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#4fc3f7;font-size:9px;letter-spacing:3px;opacity:0.7;">NEURAL NETWORK</div>
+    </div>
+    <div class="card-body">
+      <h3>C. 뉴럴 네트워크</h3>
+      <p>마치 신경망처럼 노드들이 촘촘히 연결된 웹 구조. 분자보다 AI/데이터 분석 느낌이 강함. 마우스 가까이 가면 연결선이 빛나는 인터랙션.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;font-size:13px;">클릭해서 선택해주세요.</p>
