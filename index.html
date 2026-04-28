@@ -58,40 +58,40 @@
     padding: 28px clamp(56px, 5vw, 120px);
     pointer-events: none;
     background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transition: backdrop-filter 0.35s, background 0.35s, border-color 0.35s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
     backdrop-filter: blur(16px) saturate(1.4);
     -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    transition: border-color 0.35s;
-    border-bottom: 1px solid transparent;
   }
   nav.nav-dark {
     border-bottom-color: #1a1a1a10;
   }
   nav * { pointer-events: auto; }
   .nav-logo {
-    color: #ccc;
-    transition: color 0.3s;
+    transition: color 0.35s;
   }
   nav .nav-logo { margin-bottom: 0; }
-  nav.nav-dark .nav-logo { color: #1a1a1a; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
-    color: #ccc; text-decoration: none;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
     font-size: 14px; letter-spacing: 0.1em; font-weight: 400;
-    transition: color 0.3s;
+    transition: color 0.35s;
   }
-  nav.nav-dark .nav-links a { color: #1a1a1a; }
-  nav.nav-dark .nav-links a:hover { color: #000; }
-  .nav-links a:hover { color: var(--text); }
 
   #hero {
     min-height: 100vh;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     position: relative;
     overflow: clip;
     scroll-snap-align: start;
-    padding-top: clamp(60px, 8vh, 120px);
-    padding-bottom: 80px;
+    padding-top: clamp(80px, 10vh, 140px);
+    padding-bottom: clamp(80px, 10vh, 140px);
     box-sizing: border-box;
     height: 100vh;
   }
@@ -111,7 +111,7 @@
     max-width: 1800px;
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .hero-content {
@@ -246,13 +246,9 @@
     font-size: 14px; letter-spacing: 0.22em;
     color: var(--text);
     font-weight: 600; text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity   0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: color 0.35s;
   }
-  .hero-label.revealed { opacity: 1; transform: translateY(0); }
+  .hero-label.revealed { color: #1a1a1a; }
 
   /* divider grows from left */
   .hero-divider {
@@ -805,9 +801,50 @@
     opacity: 1;
   }
 
+  /* ── Mobile block ── */
+  #mobile-block {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0e0e0e;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    #mobile-block { display: flex; }
+  }
+  #mobile-block svg {
+    opacity: 0.4;
+    margin-bottom: 8px;
+  }
+  #mobile-block .mb-title {
+    font-size: 20px; font-weight: 700;
+    color: #e8e4dc; letter-spacing: -0.01em;
+  }
+  #mobile-block .mb-desc {
+    font-size: 14px; color: #e8e4dc66;
+    line-height: 1.7; max-width: 340px;
+  }
 </style>
 </head>
 <body>
+
+<div id="mobile-block">
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+    <rect x="8" y="4" width="32" height="40" rx="4" stroke="#e8e4dc" stroke-width="1.8"/>
+    <circle cx="24" cy="38" r="2" fill="#e8e4dc"/>
+    <line x1="17" y1="4" x2="17" y2="44" stroke="#e8e4dc" stroke-width="1.2" opacity="0.2"/>
+    <line x1="31" y1="4" x2="31" y2="44" stroke="#e8e4dc" stroke-width="1.2" opacity="0.2"/>
+    <path d="M20 22l-4 4 4 4M28 22l4 4-4 4" stroke="#e8e4dc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  </svg>
+  <div class="mb-title">PC에서 접속해주세요</div>
+  <div class="mb-desc">이 페이지는 데스크톱 환경에 최적화되어 있습니다.<br>PC 브라우저로 접속하시면 더 나은 경험을 즐기실 수 있습니다.</div>
+</div>
 
 <nav>
   <div class="hero-label nav-logo">FinSide</div>
@@ -1799,9 +1836,7 @@ function revealText() {
   const cta      = document.querySelector('.hero-cta');
   const stats    = document.querySelector('.hero-stats');
 
-  // label fades up first
-  delay(label, 120, el => el.classList.add('revealed'));
-
+  // label revealed when section 2 (#ip) is ~50% visible
   // title lines slide up with stagger
   lines.forEach((line, i) => {
     delay(line, 320 + i * 140, el => el.classList.add('revealed'));
@@ -2127,7 +2162,7 @@ setTimeout(revealText, 80);
       hint.classList.add('visible');
       if (productInfo) setTimeout(() => productInfo.classList.add('revealed'), 200);
     }
-  }, { threshold: 0.2 }).observe(document.getElementById('product'));
+  }, { threshold: 0.45, rootMargin: '0px 0px -10% 0px' }).observe(document.getElementById('product'));
 
   // ── Render loop ──────────────────────────────────────────
   const clock = new THREE.Clock();
@@ -2194,7 +2229,7 @@ setTimeout(revealText, 80);
         statDelay += 700;
       });
     });
-  }, { threshold: 0.35 });
+  }, { threshold: 0.45, rootMargin: '0px 0px -10% 0px' });
 
   const ipSection = document.getElementById('ip');
   if (ipSection) obs.observe(ipSection);
@@ -2212,32 +2247,33 @@ setTimeout(revealText, 80);
     cards.forEach((card, i) => {
       setTimeout(() => card.classList.add('revealed'), 300 + i * 160);
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
 
   const section = document.getElementById('domains');
   if (section) obs.observe(section);
 })();
 
-// nav color: dark on light-bg sections, light on dark-bg sections
+// nav: hero 섹션 안에서만 라이트, 벗어나면 항상 다크
 (function() {
-  const nav = document.querySelector('nav');
-  const darkSections = ['#hero', '#product']; // sections with dark background
+  const nav   = document.querySelector('nav');
+  const logo  = document.querySelector('.hero-label');
+  const links = document.querySelectorAll('.nav-links a');
+  const hero  = document.getElementById('hero');
+
+  function setDark(dark) {
+    const textColor = dark ? '#1a1a1a' : 'rgba(255,255,255,0.75)';
+    nav.classList.toggle('scrolled', dark);
+    nav.classList.toggle('nav-dark', dark);
+    if (logo) {
+      logo.style.color = textColor;
+      logo.classList.toggle('revealed', dark);
+    }
+    links.forEach(a => a.style.color = textColor);
+  }
 
   function updateNav() {
-    const scrolled = window.scrollY > 60;
-    if (scrolled) {
-      nav.classList.add('nav-dark');
-      return;
-    }
-    const y = 44;
-    let onDark = false;
-    darkSections.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      if (r.top <= y && r.bottom >= y) onDark = true;
-    });
-    nav.classList.toggle('nav-dark', !onDark);
+    const heroVisible = hero ? hero.getBoundingClientRect().bottom > 80 : false;
+    setDark(!heroVisible);
   }
 
   window.addEventListener('scroll', updateNav, { passive: true });
