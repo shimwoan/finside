@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 8-segment color wheel, clockwise from top-right -->
+  <!-- Segment 1: top-right — orange -->
+  <path d="M50 50 L50 8 A42 42 0 0 1 79.7 20.3 Z" fill="#D4703A"/>
+  <!-- Segment 2: right — warm red/brown -->
+  <path d="M50 50 L79.7 20.3 A42 42 0 0 1 92 50 Z" fill="#A0522D"/>
+  <!-- Segment 3: bottom-right — dark brown -->
+  <path d="M50 50 L92 50 A42 42 0 0 1 79.7 79.7 Z" fill="#5C3317"/>
+  <!-- Segment 4: bottom — navy/dark blue -->
+  <path d="M50 50 L79.7 79.7 A42 42 0 0 1 50 92 Z" fill="#2B3A5C"/>
+  <!-- Segment 5: bottom-left — teal/slate blue -->
+  <path d="M50 50 L50 92 A42 42 0 0 1 20.3 79.7 Z" fill="#3D6B7A"/>
+  <!-- Segment 6: left — sage green -->
+  <path d="M50 50 L20.3 79.7 A42 42 0 0 1 8 50 Z" fill="#7BA38A"/>
+  <!-- Segment 7: top-left — light olive/yellow-green -->
+  <path d="M50 50 L8 50 A42 42 0 0 1 20.3 20.3 Z" fill="#C8C87A"/>
+  <!-- Segment 8: top — warm tan/peach -->
+  <path d="M50 50 L20.3 20.3 A42 42 0 0 1 50 8 Z" fill="#D4A574"/>
+  <!-- Center white circle -->
+  <circle cx="50" cy="50" r="16" fill="white"/>
+</svg>

@@ -4,17 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FINSIDE — Find the Inside Value</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --accent: #c8f0e8;   /* soft mint-white — scientific, not neon */
-    --accent2: #7ee8c8;  /* brighter mint for highlights */
-    --bg: #0e0e0e;       /* near-black, warm */
-    --text: #e8e4dc;     /* creamy ivory */
+    --accent2: #7ee8c8;  /* brighter mint — use sparingly */
+    --bg: #0e0e0e;
+    --text: #e8e4dc;
     --text-dim: #e8e4dc55;
+    --text-mid: #e8e4dc99;
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
+
+  html {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100%;
+  }
 
   html, body {
     width: 100%; height: 100%;
@@ -24,30 +32,17 @@
     overflow-x: hidden;
   }
 
-  /* ── Radial glow behind molecule scene (like the coffee roaster bg) ── */
+  /* radial glow behind molecule scene */
   #hero::before {
     content: '';
     position: absolute;
-    right: max(5%, calc((100vw - 1800px) / 2)); top: 50%;
+    right: max(16%, calc((100vw - 1800px) / 2 + 120px)); top: 50%;
     transform: translateY(-50%);
-    width: min(55vw, 990px); height: 80vh;
+    width: min(62vw, 1100px); height: 85vh;
     background: radial-gradient(ellipse at center,
-      #1a3d2e55 0%,
-      #0d2a2055 35%,
+      #1a3d2e88 0%,
+      #0d2a2055 40%,
       transparent 70%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-  /* secondary subtle glow top-right corner */
-  #hero::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0;
-    width: 35vw; height: 45vh;
-    background: radial-gradient(ellipse at top right,
-      #0f2d2222 0%,
-      transparent 65%
     );
     pointer-events: none;
     z-index: 0;
@@ -59,15 +54,24 @@
     z-index: 100;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 28px clamp(56px, 5vw, 120px);
     pointer-events: none;
+    transition: background 0.3s, backdrop-filter 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(14,14,14,0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  nav.scrolled.nav-dark {
+    background: rgba(255,255,255,0.82);
   }
   nav * { pointer-events: auto; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
-    color: var(--text-dim); text-decoration: none;
-    font-size: 12px; letter-spacing: 0.1em; font-weight: 400;
+    color: #ccc; text-decoration: none;
+    font-size: 14px; letter-spacing: 0.1em; font-weight: 400;
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--text); }
@@ -75,9 +79,14 @@
   #hero {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
-    overflow: hidden;
+    overflow: clip;
+    scroll-snap-align: start;
+    padding-top: clamp(60px, 8vh, 120px);
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    height: 100vh;
   }
 
   #scene {
@@ -95,20 +104,20 @@
     max-width: 1800px;
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    width: 52%;
-    padding: 76px 0 0 clamp(40px, 8vw, 160px);
+    width: 44%;
+    padding: 0 0 0 clamp(80px, 12vw, 240px);
   }
 
   .hero-label {
-    font-size: 10px; letter-spacing: 0.45em;
-    color: var(--accent2); margin-bottom: 28px;
-    font-weight: 500; opacity: 0.7;
+    font-size: 14px; letter-spacing: 0.2em;
+    color: var(--text-mid); margin-bottom: 28px;
+    font-weight: 400; opacity: 0.9;
     text-transform: uppercase;
   }
 
@@ -126,9 +135,9 @@
 
   .hero-divider {
     width: 40px; height: 1px;
-    background: var(--accent2);
-    opacity: 0.4;
-    margin: 32px 0;
+    background: var(--text);
+    opacity: 0.2;
+    margin: clamp(16px, 2.5vh, 32px) 0;
   }
 
   .hero-sub {
@@ -140,12 +149,12 @@
     letter-spacing: 0.02em;
   }
 
-  .hero-cta { display: flex; gap: 16px; margin-top: 44px; align-items: center; }
+  .hero-cta { display: flex; gap: 16px; margin-top: clamp(20px, 3vh, 44px); align-items: center; }
 
   .btn-primary {
     background: transparent;
     color: var(--text);
-    font-size: 12px; font-weight: 500; letter-spacing: 0.15em;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.08em;
     padding: 13px 30px;
     border-radius: 2px;
     border: 1px solid #e8e4dc40;
@@ -159,31 +168,30 @@
   }
 
   .btn-ghost {
-    color: var(--accent2);
-    font-size: 12px; letter-spacing: 0.12em; font-weight: 400;
+    color: var(--text-mid);
+    font-size: 14px; letter-spacing: 0.06em; font-weight: 400;
     cursor: pointer; border: none; background: none;
     display: flex; align-items: center; gap: 10px;
-    transition: opacity 0.2s;
+    transition: color 0.2s;
     text-transform: uppercase;
-    opacity: 0.7;
   }
-  .btn-ghost:hover { opacity: 1; }
+  .btn-ghost:hover { color: var(--text); }
   .btn-ghost::after { content: '↗'; font-size: 14px; }
 
   /* stat strip */
   .hero-stats {
-    display: flex; gap: clamp(28px, 3vw, 56px); margin-top: clamp(40px, 4vw, 72px);
-    padding-top: 32px;
+    display: flex; gap: clamp(28px, 3vw, 56px); margin-top: clamp(40px, 6vh, 80px);
+    padding-top: clamp(16px, 2vh, 32px);
     border-top: 1px solid #e8e4dc10;
   }
   .stat-num {
     font-size: clamp(18px, 1.5vw, 36px); font-weight: 700;
     color: var(--text); letter-spacing: -0.02em;
   }
-  .stat-num span { color: var(--accent2); font-size: 0.65em; }
+  .stat-num span { color: var(--text-mid); font-size: 0.65em; }
   .stat-label {
-    font-size: 12px; color: var(--text-dim);
-    letter-spacing: 0.12em; margin-top: 4px;
+    font-size: 13px; color: var(--text-dim);
+    letter-spacing: 0.06em; margin-top: 4px;
     text-transform: uppercase;
   }
 
@@ -195,7 +203,7 @@
     opacity: 0.4;
   }
   .scroll-hint span {
-    font-size: 9px; letter-spacing: 0.35em;
+    font-size: 12px; letter-spacing: 0.15em;
     color: var(--text); text-transform: uppercase;
   }
   .scroll-arrow {
@@ -228,24 +236,16 @@
 
   /* label acts as logo — fixed to nav row on the left */
   .hero-label {
-    position: fixed;
-    top: 0; left: clamp(56px, 5vw, 120px);
-    z-index: 101;
-    display: flex;
-    align-items: center;
-    height: 76px; /* matches nav padding: 28px top + ~20px text + 28px bottom */
-    font-size: 10px; letter-spacing: 0.45em;
-    color: var(--accent2);
-    font-weight: 500; text-transform: uppercase;
+    font-size: 14px; letter-spacing: 0.22em;
+    color: var(--text);
+    font-weight: 600; text-transform: uppercase;
     opacity: 0;
     transform: translateY(8px);
     transition:
       opacity   0.7s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    /* remove the margin-bottom from hero-content flow */
-    margin-bottom: 0;
   }
-  .hero-label.revealed { opacity: 0.75; transform: translateY(0); }
+  .hero-label.revealed { opacity: 1; transform: translateY(0); }
 
   /* divider grows from left */
   .hero-divider {
@@ -281,17 +281,533 @@
     line-height: 1.4;
   }
 
+  /* ── Section 2: Product ── */
+  #product {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    scroll-snap-align: start;
+  }
+
+  /* light section — override text colors */
+  #product .product-index      { color: #1a1a1a; opacity: 0.5; }
+  #product .product-index::before { background: #1a1a1a; opacity: 0.3; }
+  #product .product-name       { color: #0e0e0e; }
+  #product .product-tagline    { color: #1a1a1a; opacity: 0.65; }
+  #product .product-divider    { background: #1a1a1a1a; }
+  #product .spec-label         { color: #1a1a1aaa; }
+  #product .spec-value         { color: #1a1a1a; }
+  #product .product-price      { color: #0e0e0e; }
+  #product .product-price-label{ color: #1a1a1a88; }
+  #product .product-price-row  { border-top-color: #1a1a1a18; }
+  #product .btn-primary {
+    color: #0e0e0e;
+    border-color: #0e0e0e30;
+  }
+  #product .btn-primary:hover {
+    background: #0e0e0e0d;
+    border-color: #0e0e0e70;
+  }
+
+  #product-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(40px, 8vw, 160px);
+    gap: clamp(8px, 1vw, 12px);
+  }
+
+  #skini-canvas-wrap {
+    flex: 0 0 auto;
+    width: clamp(280px, 38vw, 560px);
+    height: clamp(380px, 52vw, 740px);
+    position: relative;
+  }
+  #skini-canvas {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  .skini-brand-name {
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #1a1a1a;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .drag-hint { display: none; }
+
+  .product-info {
+    flex: 1;
+    max-width: 460px;
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 1.8s cubic-bezier(0.16,1,0.3,1), transform 1.8s cubic-bezier(0.16,1,0.3,1);
+  }
+  .product-info.revealed { opacity: 1; transform: translateX(0); }
+
+  .product-index {
+    font-size: 14px; letter-spacing: 0.12em;
+    color: var(--text); font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    display: flex; align-items: center; gap: 16px;
+    opacity: 0.75;
+  }
+  .product-index::before {
+    content: '';
+    display: block; width: 28px; height: 1px;
+    background: var(--text);
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .product-name {
+    font-size: clamp(52px, 6vw, 96px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .product-tagline {
+    font-size: clamp(14px, 1.1vw, 18px);
+    color: var(--text-mid);
+    margin-bottom: 48px;
+    letter-spacing: 0;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .product-divider {
+    width: 100%; height: 1px;
+    background: #e8e4dc12;
+    margin-bottom: 40px;
+  }
+
+  .product-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 40px;
+    margin-bottom: 48px;
+  }
+  .spec-label {
+    font-size: 13px; letter-spacing: 0.06em;
+    color: var(--text-mid); text-transform: uppercase;
+    font-weight: 400; margin-bottom: 6px;
+  }
+  .spec-value {
+    font-size: clamp(14px, 1vw, 16px);
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .product-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding-top: 32px;
+    border-top: 1px solid #e8e4dc12;
+  }
+  .product-price {
+    font-size: clamp(28px, 2.8vw, 44px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .product-price-label {
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .product-cta { display: flex; gap: 16px; align-items: center; }
+
+  /* ── Section 4: Domains ── */
+  #domains {
+    background: #ffffff;
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    padding: clamp(80px, 10vw, 140px) clamp(40px, 8vw, 160px);
+  }
+
+  #domains-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .domains-header {
+    margin-bottom: clamp(48px, 6vw, 72px);
+  }
+  .domains-eyebrow {
+    font-size: 14px; letter-spacing: 0.1em;
+    color: #1a1a1a99; text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 1s cubic-bezier(0.16,1,0.3,1),
+                transform 1s cubic-bezier(0.16,1,0.3,1);
+  }
+  .domains-eyebrow::before {
+    content: ''; display: block;
+    width: 20px; height: 1px;
+    background: #1a1a1a66;
+  }
+  .domains-title-wrap {
+    overflow: hidden;
+  }
+  .domains-title {
+    font-size: clamp(34px, 4vw, 60px);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: #0e0e0e; line-height: 1.1;
+    transform: translateY(110%);
+    transition: transform 1.1s cubic-bezier(0.16,1,0.3,1);
+    transition-delay: 0.12s;
+  }
+  .domains-header.revealed .domains-eyebrow {
+    opacity: 1; transform: translateY(0);
+  }
+  .domains-header.revealed .domains-title {
+    transform: translateY(0);
+  }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid #1a1a1a14;
+  }
+
+  @media (max-width: 900px) {
+    .domains-grid { grid-template-columns: 1fr; }
+  }
+
+  .domain-card {
+    background: #ffffff;
+    padding: clamp(36px, 4vw, 56px) clamp(28px, 3vw, 44px);
+    border-right: 1px solid #1a1a1a14;
+    border-bottom: 1px solid #1a1a1a14;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                transform 0.8s cubic-bezier(0.16,1,0.3,1),
+                background 0.2s;
+    cursor: default;
+  }
+  .domain-card:last-child { border-right: none; }
+  .domain-card.revealed { opacity: 1; transform: translateY(0); }
+  .domain-card:hover { background: #fafafa; }
+
+  .domain-icon {
+    width: 32px; height: 32px;
+    margin-bottom: 32px;
+  }
+
+  .domain-num {
+    font-size: 11px; letter-spacing: 0.12em;
+    color: #1a1a1a66; text-transform: uppercase;
+    margin-bottom: 14px; font-weight: 400;
+  }
+
+  .domain-name {
+    font-size: clamp(20px, 1.8vw, 28px);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: #0e0e0e; margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .domain-desc {
+    font-size: clamp(13px, 0.9vw, 15px);
+    color: #1a1a1a99; line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .domain-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 28px;
+  }
+  .domain-tag {
+    font-size: 11px; letter-spacing: 0.04em;
+    color: #1a1a1a99;
+    border: 1px solid #1a1a1a22;
+    border-radius: 2px;
+    padding: 5px 11px;
+    font-weight: 400;
+  }
+
+  /* ── Section 3: IP ── */
+  #ip {
+    background: #ffffff;
+    padding: clamp(80px, 10vw, 140px) clamp(40px, 8vw, 160px);
+    min-height: 100vh;
+    scroll-snap-align: start;
+  }
+
+  #ip-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ip-header {
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+  .ip-eyebrow {
+    font-size: 14px; letter-spacing: 0.1em;
+    color: #1a1a1a; text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .ip-eyebrow::before {
+    content: ''; display: block;
+    width: 20px; height: 1px;
+    background: #1a1a1a66;
+  }
+  .ip-title-wrap { overflow: hidden; }
+  .ip-title {
+    font-size: clamp(36px, 4.5vw, 68px);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: #0e0e0e; line-height: 1.1;
+    transform: translateY(110%);
+    opacity: 0;
+    transition:
+      transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity   1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.12s;
+  }
+  .ip-title span { color: #0e0e0e99; font-weight: 400; font-size: 0.48em; letter-spacing: 0.04em; }
+  .ip-header.ip-revealed .ip-title {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .ip-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 5vw, 80px);
+  }
+
+  .ip-col-label {
+    font-size: 14px; letter-spacing: 0.06em;
+    color: #1a1a1a99; text-transform: uppercase;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1a1a1a18;
+  }
+  .ip-col-label strong {
+    color: #0e0e0e; font-weight: 600;
+  }
+
+  /* document stack */
+  .doc-stack {
+    position: relative;
+    height: clamp(180px, 20vw, 260px);
+    margin-bottom: clamp(160px, 18vw, 160px);
+    overflow: visible;
+  }
+  .doc-card {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 4px 20px #00000018, 0 1px 4px #0000000f;
+    display: flex; flex-direction: column;
+    padding: 8px 10px 8px;
+    width: clamp(100px, 18vw, 220px);
+    height: clamp(140px, 25.4vw, 311px);
+    overflow: hidden;
+  }
+  /* ── 출원번호통지서 card ── */
+  .doc-patent {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  }
+  .doc-patent .dp-kanin {
+    font-size: 7px; color: #999; text-align: center;
+    margin-bottom: 4px; letter-spacing: 0.05em;
+  }
+  .doc-patent .dp-title {
+    font-size: 11px; font-weight: 700; color: #1a1a1a;
+    text-align: center; letter-spacing: 0.18em;
+    margin-bottom: 8px; padding-bottom: 6px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .doc-patent .dp-rows { display: flex; flex-direction: column; gap: 5px; margin-bottom: 4px; }
+  .doc-patent .dp-row { display: flex; gap: 4px; align-items: baseline; }
+  .doc-patent .dp-key {
+    font-size: 7px; color: #555; white-space: nowrap;
+    min-width: 54px; letter-spacing: 0.04em;
+  }
+  .doc-patent .dp-val {
+    font-size: 7px; color: #222;
+    line-height: 1.45; letter-spacing: 0.01em;
+  }
+  .doc-patent .dp-footer {
+    margin-top: 12px; padding: 14px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 9px; font-weight: 700; color: #1a1a1a;
+    letter-spacing: 0.3em; text-align: center;
+  }
+  .doc-patent .dp-notice {
+    margin-top: 6px; padding: 6px 7px;
+    border: 1px solid #ccc;
+    font-size: 5.2px; color: #333; line-height: 1.65;
+    flex: 1;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .doc-patent .dp-notice-title {
+    text-align: center; font-weight: 700; margin-bottom: 2px;
+    font-size: 5.5px;
+  }
+  .doc-patent .dp-notice-item {
+    display: flex; gap: 3px;
+  }
+  .doc-patent .dp-notice-num {
+    flex-shrink: 0; font-weight: 600;
+  }
+
+  /* ── 기술이전 계약서 card ── */
+  .doc-contract {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    padding: 10px 8px 8px 10px;
+    overflow: hidden;
+  }
+  .doc-contract .dc-title {
+    font-size: 10px; font-weight: 800; color: #111;
+    text-align: center; letter-spacing: 0.22em;
+    margin-bottom: 0; padding-bottom: 8px;
+  }
+  .doc-contract .dc-logo-wrap {
+    text-align: center;
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4px 0 6px;
+  }
+  .dc-cbnu-logo {
+    display: block; margin: 0 auto 2px;
+    width: 48px; height: auto;
+  }
+  .dc-logo-sub {
+    font-size: 4px; color: #8b1a3a; letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  /* 도장 — 카드 우측 안쪽 */
+  .doc-contract .dc-stamps {
+    position: absolute; right: -10px; top: 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .dc-stamp-sq {
+    width: 22px; height: 22px;
+  }
+  .dc-stamp-circle {
+    width: 16px; height: 16px;
+  }
+  .doc-contract .dc-rows {
+    display: flex; flex-direction: column; gap: 3.5px;
+    flex-shrink: 0;
+  }
+  .doc-contract .dc-row { display: flex; align-items: baseline; }
+  .doc-contract .dc-key {
+    font-size: 5.8px; color: #222;
+    min-width: 46px; letter-spacing: 0.1em; flex-shrink: 0;
+  }
+  .doc-contract .dc-sep {
+    font-size: 5.8px; color: #222; margin: 0 3px 0 1px; flex-shrink: 0;
+  }
+  .doc-contract .dc-val {
+    font-size: 5.8px; color: #111; line-height: 1.5;
+  }
+  .doc-contract .dc-footer {
+    margin-top: 6px; padding-top: 5px;
+    border-top: 1px solid #ddd;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    flex-shrink: 0;
+  }
+  .dc-emblem-wrap { flex-shrink: 0; }
+  .dc-emblem-shield { width: 16px; height: 20px; }
+  .dc-footer-name {
+    font-size: 7px; color: #8b1a3a; font-weight: 800;
+    letter-spacing: 0.04em; display: block;
+  }
+  .dc-footer-sub {
+    font-size: 3.5px; color: #8b1a3a; letter-spacing: 0.12em;
+    text-transform: uppercase; display: block;
+  }
+
+  /* card positions / rotations */
+  .doc-stack .doc-card:nth-child(1) { left: 0%;   top: 10%; transform: rotate(-5deg);   z-index: 1; }
+  .doc-stack .doc-card:nth-child(2) { left: 10%;  top: 5%;  transform: rotate(-2.5deg); z-index: 2; }
+  .doc-stack .doc-card:nth-child(3) { left: 20%;  top: 1%;  transform: rotate(0deg);    z-index: 3; }
+  .doc-stack .doc-card:nth-child(4) { left: 30%;  top: 4%;  transform: rotate(2.5deg);  z-index: 4; }
+  .doc-stack .doc-card:nth-child(5) { left: 40%;  top: 0%;  transform: rotate(4deg);    z-index: 5; width: 42%; }
+
+  .ip-stat-row {
+    display: flex; gap: 40px;
+  }
+  .ip-stat-num {
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: #0e0e0e; line-height: 1;
+  }
+  .ip-stat-num sup {
+    font-size: 0.42em; font-weight: 500;
+    color: #0e0e0eaa; vertical-align: super;
+    margin-left: 4px;
+  }
+  .ip-stat-desc {
+    font-size: 14px; color: #1a1a1a99;
+    margin-top: 8px; line-height: 1.6;
+  }
+
+  /* ── IP Section reveal animations ── */
+  .ip-header,
+  .ip-col,
+  .ip-stat {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity   1.0s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ip-header.ip-revealed,
+  .ip-col.ip-revealed,
+  .ip-stat.ip-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* doc-stack cards fade in (no transform — nth-child rotations already set) */
+  .doc-stack .doc-card {
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ip-col.ip-revealed .doc-stack .doc-card {
+    opacity: 1;
+  }
+
 </style>
 </head>
 <body>
 
 <nav>
+  <div class="hero-label">FinSide</div>
   <ul class="nav-links">
     <li><a href="#">Technology</a></li>
     <li><a href="#">Product</a></li>
-    <li><a href="#">Market</a></li>
     <li><a href="#">Company</a></li>
-    <li><a href="#">IR</a></li>
   </ul>
 </nav>
 
@@ -300,7 +816,6 @@
 
   <div id="hero-inner">
   <div class="hero-content">
-    <div class="hero-label">FinSide</div>
     <h1 class="hero-title">
       <div class="reveal-block"><span class="reveal-inner">보이지 않는</span></div>
       <div class="reveal-block"><span class="reveal-inner"><span class="accent">내부의 가치</span>를</span></div>
@@ -313,7 +828,7 @@
       산업의 새 기준을 만듭니다
     </p>
     <div class="hero-cta">
-      <button class="btn-primary">솔루션 알아보기</button>
+      <button class="btn-primary">제품 알아보기</button>
       <button class="btn-ghost">IR 자료 보기</button>
     </div>
     <div class="hero-stats">
@@ -326,16 +841,555 @@
         <div class="stat-label">분석 정확도</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num" data-target="0" data-suffix="ms">0ms</div>
-        <div class="stat-label">접촉 없는 측정</div>
+        <div class="stat-num" data-target="3" data-suffix="개">0개</div>
+        <div class="stat-label">적용 산업 분야</div>
       </div>
     </div>
   </div>
   </div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
+
+</section>
+
+<!-- ── Section 2: IP 확보 ── -->
+<section id="ip">
+  <div id="ip-inner">
+
+    <div class="ip-header">
+      <div class="ip-eyebrow">사업화 추진 성과</div>
+      <div class="ip-title-wrap">
+        <div class="ip-title">IP 확보 <span>'24 · 4건&nbsp;&nbsp;'25 · 5건</span></div>
+      </div>
+    </div>
+
+    <div class="ip-cols">
+
+      <!-- IP 확보 -->
+      <div class="ip-col">
+        <div class="ip-col-label"><strong>특허 출원</strong> &nbsp;·&nbsp; 출원번호통지서</div>
+        <div class="doc-stack">
+          <!-- cards 1–4: 뒤에 깔리는 카드 -->
+          <div class="doc-card doc-patent">
+            <div class="dp-kanin">관인생략</div>
+            <div class="dp-title">출 원 번 호 통 지 서</div>
+            <div class="dp-rows">
+              <div class="dp-row"><span class="dp-key">출 원 일 자</span><span class="dp-val">2024.06.25</span></div>
+              <div class="dp-row"><span class="dp-key">특 기 사 항</span><span class="dp-val">심사청구(유) 공개신청(무)</span></div>
+              <div class="dp-row"><span class="dp-key">출 원 번 호</span><span class="dp-val">10-2024-0082215</span></div>
+              <div class="dp-row"><span class="dp-key">출원인 명칭</span><span class="dp-val">충북대학교 산학협력단(2-2004-016822-6)</span></div>
+              <div class="dp-row"><span class="dp-key">대리인 성명</span><span class="dp-val">김홍석(9-2012-001195-1)</span></div>
+              <div class="dp-row"><span class="dp-key">발명자 성명</span><span class="dp-val">이동훈</span></div>
+              <div class="dp-row"><span class="dp-key">발명의 명칭</span><span class="dp-val">수분 측정 장치</span></div>
+            </div>
+            <div class="dp-footer">지 식 재 산 처 장</div>
+            <div class="dp-notice">
+              <div class="dp-notice-title">&lt;&lt; 안내 &gt;&gt;</div>
+              <div class="dp-notice-item"><span class="dp-notice-num">1.</span><span>귀하의 출원은 위와 같이 정상적으로 접수되었으며, 이후의 심사 진행상황은 출원번호를 이용하여 특허로 홈페이지(www.patent.go.kr)에서 확인하실 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">2.</span><span>출원에 따른 수수료는 접수일로부터 다음날까지 동봉된 납입영수증에 성명, 납부자번호 등을 기재하여 가까운 은행 또는 우체국에 납부하여야 합니다. ※납부자번호: 0131(기관코드) + 접수번호</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">3.</span><span>귀하의 주소, 연락처 등의 변경사항이 있을 경우, 즉시 [특허고객번호 정보변경(경정), 정정신고서]를 제출하여야 출원 이후의 각종 통지서를 정상적으로 받을 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">4.</span><span>기타 심사 절차(제도)에 관한 사항은 지식재산처 홈페이지를 참고하시거나 특허고객상담센터(☎ 1544-8080)에 문의하여 주시기 바랍니다.</span></div>
+            </div>
+          </div>
+          <div class="doc-card doc-patent">
+            <div class="dp-kanin">관인생략</div>
+            <div class="dp-title">출 원 번 호 통 지 서</div>
+            <div class="dp-rows">
+              <div class="dp-row"><span class="dp-key">출 원 일 자</span><span class="dp-val">2024.10.22</span></div>
+              <div class="dp-row"><span class="dp-key">특 기 사 항</span><span class="dp-val">심사청구(유) 공개신청(무)</span></div>
+              <div class="dp-row"><span class="dp-key">출 원 번 호</span><span class="dp-val">10-2024-0145102</span></div>
+              <div class="dp-row"><span class="dp-key">출원인 명칭</span><span class="dp-val">충북대학교 산학협력단(2-2004-016822-6)</span></div>
+              <div class="dp-row"><span class="dp-key">대리인 성명</span><span class="dp-val">김홍석(9-2012-001195-1)</span></div>
+              <div class="dp-row"><span class="dp-key">발명자 성명</span><span class="dp-val">이동훈</span></div>
+              <div class="dp-row"><span class="dp-key">발명의 명칭</span><span class="dp-val">비접촉 피부 수분 측정 장치</span></div>
+            </div>
+            <div class="dp-footer">지 식 재 산 처 장</div>
+            <div class="dp-notice">
+              <div class="dp-notice-title">&lt;&lt; 안내 &gt;&gt;</div>
+              <div class="dp-notice-item"><span class="dp-notice-num">1.</span><span>귀하의 출원은 위와 같이 정상적으로 접수되었으며, 이후의 심사 진행상황은 출원번호를 이용하여 특허로 홈페이지(www.patent.go.kr)에서 확인하실 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">2.</span><span>출원에 따른 수수료는 접수일로부터 다음날까지 동봉된 납입영수증에 성명, 납부자번호 등을 기재하여 가까운 은행 또는 우체국에 납부하여야 합니다. ※납부자번호: 0131(기관코드) + 접수번호</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">3.</span><span>귀하의 주소, 연락처 등의 변경사항이 있을 경우, 즉시 [특허고객번호 정보변경(경정), 정정신고서]를 제출하여야 출원 이후의 각종 통지서를 정상적으로 받을 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">4.</span><span>기타 심사 절차(제도)에 관한 사항은 지식재산처 홈페이지를 참고하시거나 특허고객상담센터(☎ 1544-8080)에 문의하여 주시기 바랍니다.</span></div>
+            </div>
+          </div>
+          <div class="doc-card doc-patent">
+            <div class="dp-kanin">관인생략</div>
+            <div class="dp-title">출 원 번 호 통 지 서</div>
+            <div class="dp-rows">
+              <div class="dp-row"><span class="dp-key">출 원 일 자</span><span class="dp-val">2025.02.28</span></div>
+              <div class="dp-row"><span class="dp-key">특 기 사 항</span><span class="dp-val">심사청구(유) 공개신청(무)</span></div>
+              <div class="dp-row"><span class="dp-key">출 원 번 호</span><span class="dp-val">10-2025-0009422</span></div>
+              <div class="dp-row"><span class="dp-key">출원인 명칭</span><span class="dp-val">충북대학교 산학협력단(2-2004-016822-6)</span></div>
+              <div class="dp-row"><span class="dp-key">대리인 성명</span><span class="dp-val">김홍석(9-2012-001195-1)</span></div>
+              <div class="dp-row"><span class="dp-key">발명자 성명</span><span class="dp-val">이동훈</span></div>
+              <div class="dp-row"><span class="dp-key">발명의 명칭</span><span class="dp-val">원적외선을 이용한 측정 장치</span></div>
+            </div>
+            <div class="dp-footer">지 식 재 산 처 장</div>
+            <div class="dp-notice">
+              <div class="dp-notice-title">&lt;&lt; 안내 &gt;&gt;</div>
+              <div class="dp-notice-item"><span class="dp-notice-num">1.</span><span>귀하의 출원은 위와 같이 정상적으로 접수되었으며, 이후의 심사 진행상황은 출원번호를 이용하여 특허로 홈페이지(www.patent.go.kr)에서 확인하실 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">2.</span><span>출원에 따른 수수료는 접수일로부터 다음날까지 동봉된 납입영수증에 성명, 납부자번호 등을 기재하여 가까운 은행 또는 우체국에 납부하여야 합니다. ※납부자번호: 0131(기관코드) + 접수번호</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">3.</span><span>귀하의 주소, 연락처 등의 변경사항이 있을 경우, 즉시 [특허고객번호 정보변경(경정), 정정신고서]를 제출하여야 출원 이후의 각종 통지서를 정상적으로 받을 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">4.</span><span>기타 심사 절차(제도)에 관한 사항은 지식재산처 홈페이지를 참고하시거나 특허고객상담센터(☎ 1544-8080)에 문의하여 주시기 바랍니다.</span></div>
+            </div>
+          </div>
+          <div class="doc-card doc-patent">
+            <div class="dp-kanin">관인생략</div>
+            <div class="dp-title">출 원 번 호 통 지 서</div>
+            <div class="dp-rows">
+              <div class="dp-row"><span class="dp-key">출 원 일 자</span><span class="dp-val">2025.05.12</span></div>
+              <div class="dp-row"><span class="dp-key">특 기 사 항</span><span class="dp-val">심사청구(유) 공개신청(무)</span></div>
+              <div class="dp-row"><span class="dp-key">출 원 번 호</span><span class="dp-val">10-2025-0060988</span></div>
+              <div class="dp-row"><span class="dp-key">출원인 명칭</span><span class="dp-val">충북대학교 산학협력단(2-2004-016822-6)</span></div>
+              <div class="dp-row"><span class="dp-key">대리인 성명</span><span class="dp-val">김홍석(9-2012-001195-1)</span></div>
+              <div class="dp-row"><span class="dp-key">발명자 성명</span><span class="dp-val">이동훈</span></div>
+              <div class="dp-row"><span class="dp-key">발명의 명칭</span><span class="dp-val">AI 기반 피부 탄력 측정 장치</span></div>
+            </div>
+            <div class="dp-footer">지 식 재 산 처 장</div>
+            <div class="dp-notice">
+              <div class="dp-notice-title">&lt;&lt; 안내 &gt;&gt;</div>
+              <div class="dp-notice-item"><span class="dp-notice-num">1.</span><span>귀하의 출원은 위와 같이 정상적으로 접수되었으며, 이후의 심사 진행상황은 출원번호를 이용하여 특허로 홈페이지(www.patent.go.kr)에서 확인하실 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">2.</span><span>출원에 따른 수수료는 접수일로부터 다음날까지 동봉된 납입영수증에 성명, 납부자번호 등을 기재하여 가까운 은행 또는 우체국에 납부하여야 합니다. ※납부자번호: 0131(기관코드) + 접수번호</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">3.</span><span>귀하의 주소, 연락처 등의 변경사항이 있을 경우, 즉시 [특허고객번호 정보변경(경정), 정정신고서]를 제출하여야 출원 이후의 각종 통지서를 정상적으로 받을 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">4.</span><span>기타 심사 절차(제도)에 관한 사항은 지식재산처 홈페이지를 참고하시거나 특허고객상담센터(☎ 1544-8080)에 문의하여 주시기 바랍니다.</span></div>
+            </div>
+          </div>
+          <!-- card 5 — 앞에 보이는 주 카드 -->
+          <div class="doc-card doc-patent">
+            <div class="dp-kanin">관인생략</div>
+            <div class="dp-title">출 원 번 호 통 지 서</div>
+            <div class="dp-rows">
+              <div class="dp-row"><span class="dp-key">출 원 일 자</span><span class="dp-val">2025.12.02</span></div>
+              <div class="dp-row"><span class="dp-key">특 기 사 항</span><span class="dp-val">심사청구(유) 공개신청(무) 참조번호(P251003R)</span></div>
+              <div class="dp-row"><span class="dp-key">출 원 번 호</span><span class="dp-val">10-2025-0188568 (접수번호 1-1-2025-1359809-28)<br>(DAS접근코드9265)</span></div>
+              <div class="dp-row"><span class="dp-key">출원인 명칭</span><span class="dp-val">충북대학교 산학협력단(2-2004-016822-6)</span></div>
+              <div class="dp-row"><span class="dp-key">대리인 성명</span><span class="dp-val">김홍석(9-2012-001195-1)</span></div>
+              <div class="dp-row"><span class="dp-key">발명자 성명</span><span class="dp-val">이동훈</span></div>
+              <div class="dp-row"><span class="dp-key">발명의 명칭</span><span class="dp-val">원적외선을 이용한 과일 당도 측정 장치</span></div>
+            </div>
+            <div class="dp-footer">지 식 재 산 처 장</div>
+            <div class="dp-notice">
+              <div class="dp-notice-title">&lt;&lt; 안내 &gt;&gt;</div>
+              <div class="dp-notice-item"><span class="dp-notice-num">1.</span><span>귀하의 출원은 위와 같이 정상적으로 접수되었으며, 이후의 심사 진행상황은 출원번호를 이용하여 특허로 홈페이지(www.patent.go.kr)에서 확인하실 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">2.</span><span>출원에 따른 수수료는 접수일로부터 다음날까지 동봉된 납입영수증에 성명, 납부자번호 등을 기재하여 가까운 은행 또는 우체국에 납부하여야 합니다. ※납부자번호: 0131(기관코드) + 접수번호</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">3.</span><span>귀하의 주소, 연락처 등의 변경사항이 있을 경우, 즉시 [특허고객번호 정보변경(경정), 정정신고서]를 제출하여야 출원 이후의 각종 통지서를 정상적으로 받을 수 있습니다.</span></div>
+              <div class="dp-notice-item"><span class="dp-notice-num">4.</span><span>기타 심사 절차(제도)에 관한 사항은 지식재산처 홈페이지를 참고하시거나 특허고객상담센터(☎ 1544-8080)에 문의하여 주시기 바랍니다. ※심사제도 안내: https://www.mois.go.kr-지식재산제도</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ip-stat-row">
+          <div class="ip-stat">
+            <div class="ip-stat-num"><span class="count" data-target="4">0</span><sup>건</sup></div>
+            <div class="ip-stat-desc">'24년 특허 출원</div>
+          </div>
+          <div class="ip-stat">
+            <div class="ip-stat-num"><span class="count" data-target="5">0</span><sup>건</sup></div>
+            <div class="ip-stat-desc">'25년 특허 출원</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 기술이전 -->
+      <div class="ip-col">
+        <div class="ip-col-label"><strong>기술이전</strong> &nbsp;·&nbsp; 계약서</div>
+        <div class="doc-stack">
+          <!-- cards 1–4 -->
+          <div class="doc-card doc-contract">
+            <div class="dc-title">기술이전  계약서</div>
+            <div class="dc-stamps">
+              <!-- 큰 정사각형 도장: 충북대학교 산학협력단 인장 -->
+              <svg class="dc-stamp-sq" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- 외곽 굵은 테두리 -->
+                <rect x="0.8" y="0.8" width="28.4" height="28.4" rx="0.5" fill="#fff8f8" stroke="#b02040" stroke-width="2.2" opacity="0.9"/>
+                <!-- 내부 얇은 이중선 -->
+                <rect x="3.2" y="3.2" width="23.6" height="23.6" rx="0" fill="none" stroke="#b02040" stroke-width="0.8" opacity="0.7"/>
+                <!-- 한자: 3열 × 2행 (충북대 / 학교산 / 학협력 / 단인장) - 세로쓰기 2열 6행 -->
+                <!-- 왼쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="10.5" y="11">충</tspan>
+                  <tspan x="10.5" dy="7.5">북</tspan>
+                  <tspan x="10.5" dy="7.5">대</tspan>
+                </text>
+                <!-- 오른쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="20.5" y="11">학</tspan>
+                  <tspan x="20.5" dy="7.5">교</tspan>
+                  <tspan x="20.5" dy="7.5">산</tspan>
+                </text>
+              </svg>
+              <!-- 작은 원형 도장 -->
+              <svg class="dc-stamp-circle" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="15" r="13.5" fill="#fff8f8" stroke="#b02040" stroke-width="1.8" opacity="0.9"/>
+                <circle cx="15" cy="15" r="11.2" fill="none" stroke="#b02040" stroke-width="0.7" opacity="0.6"/>
+                <text font-size="5.5" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle" dominant-baseline="middle">
+                  <tspan x="15" y="13.5">산학협력</tspan>
+                  <tspan x="15" dy="6.5">단인장</tspan>
+                </text>
+              </svg>
+            </div>
+            <div class="dc-logo-wrap">
+              <svg class="dc-cbnu-logo" viewBox="0 0 58 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 10 A7 7 0 1 1 6 22" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <circle cx="6" cy="16" r="9" stroke="#8b1a3a" stroke-width="1.4" fill="none" opacity="0.55"/>
+                <path d="M17 4 L17 28 M17 16 Q25 13 25 20 Q25 28 17 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29 28 L29 14 Q29 10 33 10 Q37 10 37 14 L37 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M41 10 L41 22 Q41 28 47 28 Q53 28 53 22 L53 10" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="dc-logo-sub">Chungbuk National University</div>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span class="dc-key">양 도 인</span><span class="dc-sep">:</span><span class="dc-val">충북대학교 산학협력단</span></div>
+              <div class="dc-row"><span class="dc-key">양 수 인</span><span class="dc-sep">:</span><span class="dc-val">핀사이드(주)</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 명</span><span class="dc-sep">:</span><span class="dc-val">수분 측정 장치 기술이전</span></div>
+              <div class="dc-row"><span class="dc-key">기 술 료</span><span class="dc-sep">:</span><span class="dc-val">금이천만원(₩20,000,000)</span></div>
+              <div class="dc-row"><span class="dc-key">기술이전<br>책 임 자</span><span class="dc-sep">:</span><span class="dc-val">충북대 농업생명환경대학 교수 이동훈</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 일</span><span class="dc-sep">:</span><span class="dc-val">2024년 8월 5일</span></div>
+            </div>
+            <div class="dc-footer">
+              <div class="dc-emblem-wrap">
+                <svg class="dc-emblem-shield" viewBox="0 0 24 30" fill="none"><path d="M12 2 L22 6 L22 16 Q22 24 12 28 Q2 24 2 16 L2 6 Z" stroke="#8b1a3a" stroke-width="1.2" fill="#fdf5f7"/><text x="12" y="18" text-anchor="middle" font-size="7" fill="#8b1a3a" font-weight="700" font-family="sans-serif">충</text></svg>
+              </div>
+              <div><div class="dc-footer-name">충북대학교</div><div class="dc-footer-sub">Chungbuk National University</div></div>
+            </div>
+          </div>
+          <div class="doc-card doc-contract">
+            <div class="dc-title">기술이전  계약서</div>
+            <div class="dc-logo-wrap">
+              <svg class="dc-cbnu-logo" viewBox="0 0 58 32" fill="none">
+                <path d="M6 10 A7 7 0 1 1 6 22" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <circle cx="6" cy="16" r="9" stroke="#8b1a3a" stroke-width="1.4" fill="none" opacity="0.55"/>
+                <path d="M17 4 L17 28 M17 16 Q25 13 25 20 Q25 28 17 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29 28 L29 14 Q29 10 33 10 Q37 10 37 14 L37 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M41 10 L41 22 Q41 28 47 28 Q53 28 53 22 L53 10" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="dc-logo-sub">Chungbuk National University</div>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span class="dc-key">양 도 인</span><span class="dc-sep">:</span><span class="dc-val">충북대학교 산학협력단</span></div>
+              <div class="dc-row"><span class="dc-key">양 수 인</span><span class="dc-sep">:</span><span class="dc-val">핀사이드(주)</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 명</span><span class="dc-sep">:</span><span class="dc-val">AI 기반 피부 수분 분석 기술</span></div>
+              <div class="dc-row"><span class="dc-key">기 술 료</span><span class="dc-sep">:</span><span class="dc-val">금삼천만원(₩30,000,000)</span></div>
+              <div class="dc-row"><span class="dc-key">기술이전<br>책 임 자</span><span class="dc-sep">:</span><span class="dc-val">충북대 농업생명환경대학 교수 이동훈</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 일</span><span class="dc-sep">:</span><span class="dc-val">2024년 10월 15일</span></div>
+            </div>
+            <div class="dc-footer">
+              <div class="dc-emblem-wrap">
+                <svg class="dc-emblem-shield" viewBox="0 0 24 30" fill="none"><path d="M12 2 L22 6 L22 16 Q22 24 12 28 Q2 24 2 16 L2 6 Z" stroke="#8b1a3a" stroke-width="1.2" fill="#fdf5f7"/><text x="12" y="18" text-anchor="middle" font-size="7" fill="#8b1a3a" font-weight="700" font-family="sans-serif">충</text></svg>
+              </div>
+              <div><div class="dc-footer-name">충북대학교</div><div class="dc-footer-sub">Chungbuk National University</div></div>
+            </div>
+          </div>
+          <div class="doc-card doc-contract">
+            <div class="dc-title">기술이전  계약서</div>
+            <div class="dc-stamps">
+              <!-- 큰 정사각형 도장: 충북대학교 산학협력단 인장 -->
+              <svg class="dc-stamp-sq" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- 외곽 굵은 테두리 -->
+                <rect x="0.8" y="0.8" width="28.4" height="28.4" rx="0.5" fill="#fff8f8" stroke="#b02040" stroke-width="2.2" opacity="0.9"/>
+                <!-- 내부 얇은 이중선 -->
+                <rect x="3.2" y="3.2" width="23.6" height="23.6" rx="0" fill="none" stroke="#b02040" stroke-width="0.8" opacity="0.7"/>
+                <!-- 한자: 3열 × 2행 (충북대 / 학교산 / 학협력 / 단인장) - 세로쓰기 2열 6행 -->
+                <!-- 왼쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="10.5" y="11">충</tspan>
+                  <tspan x="10.5" dy="7.5">북</tspan>
+                  <tspan x="10.5" dy="7.5">대</tspan>
+                </text>
+                <!-- 오른쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="20.5" y="11">학</tspan>
+                  <tspan x="20.5" dy="7.5">교</tspan>
+                  <tspan x="20.5" dy="7.5">산</tspan>
+                </text>
+              </svg>
+              <!-- 작은 원형 도장 -->
+              <svg class="dc-stamp-circle" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="15" r="13.5" fill="#fff8f8" stroke="#b02040" stroke-width="1.8" opacity="0.9"/>
+                <circle cx="15" cy="15" r="11.2" fill="none" stroke="#b02040" stroke-width="0.7" opacity="0.6"/>
+                <text font-size="5.5" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle" dominant-baseline="middle">
+                  <tspan x="15" y="13.5">산학협력</tspan>
+                  <tspan x="15" dy="6.5">단인장</tspan>
+                </text>
+              </svg>
+            </div>
+            <div class="dc-logo-wrap">
+              <svg class="dc-cbnu-logo" viewBox="0 0 58 32" fill="none">
+                <path d="M6 10 A7 7 0 1 1 6 22" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <circle cx="6" cy="16" r="9" stroke="#8b1a3a" stroke-width="1.4" fill="none" opacity="0.55"/>
+                <path d="M17 4 L17 28 M17 16 Q25 13 25 20 Q25 28 17 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29 28 L29 14 Q29 10 33 10 Q37 10 37 14 L37 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M41 10 L41 22 Q41 28 47 28 Q53 28 53 22 L53 10" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="dc-logo-sub">Chungbuk National University</div>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span class="dc-key">양 도 인</span><span class="dc-sep">:</span><span class="dc-val">충북대학교 산학협력단</span></div>
+              <div class="dc-row"><span class="dc-key">양 수 인</span><span class="dc-sep">:</span><span class="dc-val">핀사이드(주)</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 명</span><span class="dc-sep">:</span><span class="dc-val">비접촉 광학 분석 시스템</span></div>
+              <div class="dc-row"><span class="dc-key">기 술 료</span><span class="dc-sep">:</span><span class="dc-val">금이천오백만원(₩25,000,000)</span></div>
+              <div class="dc-row"><span class="dc-key">기술이전<br>책 임 자</span><span class="dc-sep">:</span><span class="dc-val">충북대 농업생명환경대학 교수 이동훈</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 일</span><span class="dc-sep">:</span><span class="dc-val">2025년 3월 20일</span></div>
+            </div>
+            <div class="dc-footer">
+              <div class="dc-emblem-wrap">
+                <svg class="dc-emblem-shield" viewBox="0 0 24 30" fill="none"><path d="M12 2 L22 6 L22 16 Q22 24 12 28 Q2 24 2 16 L2 6 Z" stroke="#8b1a3a" stroke-width="1.2" fill="#fdf5f7"/><text x="12" y="18" text-anchor="middle" font-size="7" fill="#8b1a3a" font-weight="700" font-family="sans-serif">충</text></svg>
+              </div>
+              <div><div class="dc-footer-name">충북대학교</div><div class="dc-footer-sub">Chungbuk National University</div></div>
+            </div>
+          </div>
+          <div class="doc-card doc-contract">
+            <div class="dc-title">기술이전  계약서</div>
+            <div class="dc-stamps">
+              <!-- 큰 정사각형 도장: 충북대학교 산학협력단 인장 -->
+              <svg class="dc-stamp-sq" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- 외곽 굵은 테두리 -->
+                <rect x="0.8" y="0.8" width="28.4" height="28.4" rx="0.5" fill="#fff8f8" stroke="#b02040" stroke-width="2.2" opacity="0.9"/>
+                <!-- 내부 얇은 이중선 -->
+                <rect x="3.2" y="3.2" width="23.6" height="23.6" rx="0" fill="none" stroke="#b02040" stroke-width="0.8" opacity="0.7"/>
+                <!-- 한자: 3열 × 2행 (충북대 / 학교산 / 학협력 / 단인장) - 세로쓰기 2열 6행 -->
+                <!-- 왼쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="10.5" y="11">충</tspan>
+                  <tspan x="10.5" dy="7.5">북</tspan>
+                  <tspan x="10.5" dy="7.5">대</tspan>
+                </text>
+                <!-- 오른쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="20.5" y="11">학</tspan>
+                  <tspan x="20.5" dy="7.5">교</tspan>
+                  <tspan x="20.5" dy="7.5">산</tspan>
+                </text>
+              </svg>
+              <!-- 작은 원형 도장 -->
+              <svg class="dc-stamp-circle" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="15" r="13.5" fill="#fff8f8" stroke="#b02040" stroke-width="1.8" opacity="0.9"/>
+                <circle cx="15" cy="15" r="11.2" fill="none" stroke="#b02040" stroke-width="0.7" opacity="0.6"/>
+                <text font-size="5.5" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle" dominant-baseline="middle">
+                  <tspan x="15" y="13.5">산학협력</tspan>
+                  <tspan x="15" dy="6.5">단인장</tspan>
+                </text>
+              </svg>
+            </div>
+            <div class="dc-logo-wrap">
+              <svg class="dc-cbnu-logo" viewBox="0 0 58 32" fill="none">
+                <path d="M6 10 A7 7 0 1 1 6 22" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <circle cx="6" cy="16" r="9" stroke="#8b1a3a" stroke-width="1.4" fill="none" opacity="0.55"/>
+                <path d="M17 4 L17 28 M17 16 Q25 13 25 20 Q25 28 17 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29 28 L29 14 Q29 10 33 10 Q37 10 37 14 L37 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M41 10 L41 22 Q41 28 47 28 Q53 28 53 22 L53 10" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="dc-logo-sub">Chungbuk National University</div>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span class="dc-key">양 도 인</span><span class="dc-sep">:</span><span class="dc-val">충북대학교 산학협력단</span></div>
+              <div class="dc-row"><span class="dc-key">양 수 인</span><span class="dc-sep">:</span><span class="dc-val">핀사이드(주)</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 명</span><span class="dc-sep">:</span><span class="dc-val">피부 탄력 정량 측정 기술</span></div>
+              <div class="dc-row"><span class="dc-key">기 술 료</span><span class="dc-sep">:</span><span class="dc-val">금이천만원(₩20,000,000)</span></div>
+              <div class="dc-row"><span class="dc-key">기술이전<br>책 임 자</span><span class="dc-sep">:</span><span class="dc-val">충북대 농업생명환경대학 교수 이동훈</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 일</span><span class="dc-sep">:</span><span class="dc-val">2025년 6월 15일</span></div>
+            </div>
+            <div class="dc-footer">
+              <div class="dc-emblem-wrap">
+                <svg class="dc-emblem-shield" viewBox="0 0 24 30" fill="none"><path d="M12 2 L22 6 L22 16 Q22 24 12 28 Q2 24 2 16 L2 6 Z" stroke="#8b1a3a" stroke-width="1.2" fill="#fdf5f7"/><text x="12" y="18" text-anchor="middle" font-size="7" fill="#8b1a3a" font-weight="700" font-family="sans-serif">충</text></svg>
+              </div>
+              <div><div class="dc-footer-name">충북대학교</div><div class="dc-footer-sub">Chungbuk National University</div></div>
+            </div>
+          </div>
+          <!-- card 5 — 앞에 보이는 주 카드 -->
+          <div class="doc-card doc-contract">
+            <div class="dc-title">기술이전  계약서</div>
+            <div class="dc-stamps">
+              <!-- 큰 정사각형 도장: 충북대학교 산학협력단 인장 -->
+              <svg class="dc-stamp-sq" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- 외곽 굵은 테두리 -->
+                <rect x="0.8" y="0.8" width="28.4" height="28.4" rx="0.5" fill="#fff8f8" stroke="#b02040" stroke-width="2.2" opacity="0.9"/>
+                <!-- 내부 얇은 이중선 -->
+                <rect x="3.2" y="3.2" width="23.6" height="23.6" rx="0" fill="none" stroke="#b02040" stroke-width="0.8" opacity="0.7"/>
+                <!-- 한자: 3열 × 2행 (충북대 / 학교산 / 학협력 / 단인장) - 세로쓰기 2열 6행 -->
+                <!-- 왼쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="10.5" y="11">충</tspan>
+                  <tspan x="10.5" dy="7.5">북</tspan>
+                  <tspan x="10.5" dy="7.5">대</tspan>
+                </text>
+                <!-- 오른쪽 열 -->
+                <text font-size="7.2" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle">
+                  <tspan x="20.5" y="11">학</tspan>
+                  <tspan x="20.5" dy="7.5">교</tspan>
+                  <tspan x="20.5" dy="7.5">산</tspan>
+                </text>
+              </svg>
+              <!-- 작은 원형 도장 -->
+              <svg class="dc-stamp-circle" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="15" r="13.5" fill="#fff8f8" stroke="#b02040" stroke-width="1.8" opacity="0.9"/>
+                <circle cx="15" cy="15" r="11.2" fill="none" stroke="#b02040" stroke-width="0.7" opacity="0.6"/>
+                <text font-size="5.5" fill="#b02040" font-weight="900" font-family="serif" opacity="0.95" text-anchor="middle" dominant-baseline="middle">
+                  <tspan x="15" y="13.5">산학협력</tspan>
+                  <tspan x="15" dy="6.5">단인장</tspan>
+                </text>
+              </svg>
+            </div>
+            <div class="dc-logo-wrap">
+              <svg class="dc-cbnu-logo" viewBox="0 0 58 32" fill="none">
+                <path d="M6 10 A7 7 0 1 1 6 22" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                <circle cx="6" cy="16" r="9" stroke="#8b1a3a" stroke-width="1.4" fill="none" opacity="0.55"/>
+                <path d="M17 4 L17 28 M17 16 Q25 13 25 20 Q25 28 17 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M29 28 L29 14 Q29 10 33 10 Q37 10 37 14 L37 28" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M41 10 L41 22 Q41 28 47 28 Q53 28 53 22 L53 10" stroke="#8b1a3a" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="dc-logo-sub">Chungbuk National University</div>
+            </div>
+            <div class="dc-rows">
+              <div class="dc-row"><span class="dc-key">양 도 인</span><span class="dc-sep">:</span><span class="dc-val">충북대학교 산학협력단&nbsp;&nbsp;대표 조영철</span></div>
+              <div class="dc-row"><span class="dc-key">양 수 인</span><span class="dc-sep">:</span><span class="dc-val">해표산업(주)&nbsp;&nbsp;대표 홍동호</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 명</span><span class="dc-sep">:</span><span class="dc-val">연속 공정 기반 축분 함수율 분석 기술</span></div>
+              <div class="dc-row"><span class="dc-key">기 술 료</span><span class="dc-sep">:</span><span class="dc-val">금사천사백만원(₩44,000,000)_VAT 포함</span></div>
+              <div class="dc-row"><span class="dc-key">기술이전<br>책 임 자</span><span class="dc-sep">:</span><span class="dc-val">충북대 농업생명환경대학 교수 이동훈</span></div>
+              <div class="dc-row"><span class="dc-key">계 약 일</span><span class="dc-sep">:</span><span class="dc-val">2024년 12월 10일</span></div>
+            </div>
+            <div class="dc-footer">
+              <div class="dc-emblem-wrap">
+                <svg class="dc-emblem-shield" viewBox="0 0 24 30" fill="none"><path d="M12 2 L22 6 L22 16 Q22 24 12 28 Q2 24 2 16 L2 6 Z" stroke="#8b1a3a" stroke-width="1.2" fill="#fdf5f7"/><text x="12" y="18" text-anchor="middle" font-size="7" fill="#8b1a3a" font-weight="700" font-family="sans-serif">충</text></svg>
+              </div>
+              <div><div class="dc-footer-name">충북대학교</div><div class="dc-footer-sub">Chungbuk National University</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ip-stat-row">
+          <div class="ip-stat">
+            <div class="ip-stat-num"><span class="count" data-target="6">0</span><sup>건</sup></div>
+            <div class="ip-stat-desc">'24년 기술이전<br>106백만원</div>
+          </div>
+          <div class="ip-stat">
+            <div class="ip-stat-num"><span class="count" data-target="3">0</span><sup>건</sup></div>
+            <div class="ip-stat-desc">'25년 기술이전<br>95백만원</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 3: Product ── -->
+<section id="product">
+  <div id="product-inner">
+
+    <!-- 3D canvas (left) -->
+    <div id="skini-canvas-wrap">
+      <canvas id="skini-canvas"></canvas>
+      <div class="drag-hint">move mouse to rotate</div>
+    </div>
+
+    <!-- Product info (right) -->
+    <div class="product-info">
+      <div class="product-index">피부 진단 디바이스</div>
+      <div class="product-name">SKINI</div>
+      <div class="product-tagline">비접촉 AI 피부 분석 기술로<br>개인 맞춤형 스킨케어 솔루션을 제공합니다</div>
+
+      <div class="product-divider"></div>
+
+      <div class="product-specs">
+        <div class="spec-item">
+          <div class="spec-label">진단 항목</div>
+          <div class="spec-value">수분 · 유분 · 탄력 · 톤</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">측정 방식</div>
+          <div class="spec-value">비접촉 내부 정량 분석</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">분석 기술</div>
+          <div class="spec-value">AI 기반 개인 맞춤 진단</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">솔루션 연계</div>
+          <div class="spec-value">데이터 기반 케어 추천</div>
+        </div>
+      </div>
+
+      <div class="product-price-row">
+        <div class="product-price">300,000원</div>
+      </div>
+
+      <div class="product-cta">
+        <button class="btn-primary">제품 알아보기</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Section 4: 적용 분야 ── -->
+<section id="domains">
+  <div id="domains-inner">
+
+    <div class="domains-header">
+      <div class="domains-eyebrow">적용 분야</div>
+      <div class="domains-title-wrap">
+        <div class="domains-title">보이지 않는 내부를<br>측정합니다</div>
+      </div>
+    </div>
+
+    <div class="domains-grid">
+
+      <!-- 1. 농산물 -->
+      <div class="domain-card">
+        <svg class="domain-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="18" cy="20" rx="10" ry="9" stroke="#1a1a1a" stroke-width="1.5"/>
+          <path d="M18 11C18 11 14 7 10 8" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M18 11C18 11 22 7 26 8" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M12 20c1.5-2 8.5-2 10 0" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <div class="domain-num">01 · Agriculture</div>
+        <div class="domain-name">과일 선별</div>
+        <div class="domain-desc">비접촉 내부 분석으로 수분 함량과 당도를 정량화해 농산물 품질을 비파괴 선별합니다.</div>
+        <div class="domain-tags">
+          <span class="domain-tag">수분 측정</span>
+          <span class="domain-tag">당도 선별</span>
+          <span class="domain-tag">비파괴</span>
+        </div>
+      </div>
+
+      <!-- 2. 뷰티 -->
+      <div class="domain-card">
+        <svg class="domain-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="15" r="7" stroke="#1a1a1a" stroke-width="1.5"/>
+          <path d="M9 30c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="18" cy="15" r="2.5" fill="#1a1a1a10"/>
+          <path d="M15.5 15h5M18 12.5v5" stroke="#1a1a1a" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        <div class="domain-num">02 · Beauty</div>
+        <div class="domain-name">피부 스킨케어</div>
+        <div class="domain-desc">LWIR 기반 AI 피부 진단기기 SKINI로 수분·유분·탄력을 정밀 측정해 개인 맞춤 솔루션을 제공합니다.</div>
+        <div class="domain-tags">
+          <span class="domain-tag">피부 진단</span>
+          <span class="domain-tag">스마트 미러</span>
+          <span class="domain-tag">B2B2C</span>
+        </div>
+      </div>
+
+      <!-- 3. 소재 선별 -->
+      <div class="domain-card">
+        <svg class="domain-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 28l6-10 5 6 4-8 9 12" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="18" r="1.5" fill="#1a1a1a"/>
+          <circle cx="17" cy="24" r="1.5" fill="#1a1a1a55"/>
+          <circle cx="21" cy="16" r="1.5" fill="#1a1a1a55"/>
+          <rect x="4" y="8" width="6" height="3" rx="1" stroke="#1a1a1a" stroke-width="1.2" opacity="0.5"/>
+          <rect x="14" y="6" width="6" height="3" rx="1" stroke="#1a1a1a" stroke-width="1.2" opacity="0.5"/>
+          <rect x="26" y="8" width="6" height="3" rx="1" stroke="#1a1a1a" stroke-width="1.2" opacity="0.5"/>
+        </svg>
+        <div class="domain-num">03 · Materials</div>
+        <div class="domain-name">소재 선별</div>
+        <div class="domain-desc">폐플라스틱·바이오차 등 산업 소재의 내부 물성을 AI로 분류해 공정 품질 관리를 자동화합니다.</div>
+        <div class="domain-tags">
+          <span class="domain-tag">폐플라스틱</span>
+          <span class="domain-tag">바이오차</span>
+          <span class="domain-tag">공정 자동화</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -380,7 +1434,7 @@ function getMolecules() {
   // center molecule within the actual content container (max-width 1800px)
   const maxW  = Math.min(W, 1800);
   const left0 = (W - maxW) / 2;
-  const right = left0 + maxW * 0.63;
+  const right = left0 + maxW * 0.68;
   const mid   = H * 0.50;
 
   // scale with viewport
@@ -541,8 +1595,8 @@ function draw(ts) {
 
   ctx.clearRect(0, 0, W, H);
 
-  mouse.sx += (mouse.nx - mouse.sx) * 0.05;
-  mouse.sy += (mouse.ny - mouse.sy) * 0.05;
+  mouse.sx += (mouse.nx - mouse.sx) * 0.08;
+  mouse.sy += (mouse.ny - mouse.sy) * 0.08;
 
   const molecules = getMolecules();
 
@@ -630,8 +1684,8 @@ function draw(ts) {
 
       // mouse/float influence eases in only after xfade is done
       const influence = xfadeT >= 1 ? Math.min(liveElapsed / 1.2, 1) : 0;
-      const floatY = liveFloat[mi] * influence + mouse.sy * mol.floatAmp * 0.5 * influence;
-      const mouseX = mouse.sx * mol.mouseW * W * 0.04 * influence;
+      const floatY = liveFloat[mi] * influence + mouse.sy * mol.floatAmp * 1.4 * influence;
+      const mouseX = mouse.sx * mol.mouseW * W * 0.13 * influence;
 
       const ax = mol.ax + mouseX;
       const ay = mol.ay + floatY;
@@ -784,5 +1838,514 @@ function countUp(el) {
 // (particles start flying at t=0; text appears during the flight)
 setTimeout(revealText, 80);
 </script>
+
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+<script>
+// ─────────────────────────────────────────────────────────────
+//  SKINI 3D Product Renderer  v2
+//
+//  Real SKINI shape from reference photo:
+//    • Narrow handle body (lower ~60% of height) — rounded box
+//    • Large circular head (upper 40%) — cylinder, wider than handle
+//    • Circular LCD screen flush in the head (thermal image + data sidebar)
+//    • Small round side button (left of handle, mid-height)
+//    • SKINI logo strip at very bottom of handle
+//    • Mint color badge (bottom-right of handle face)
+//
+//  Interaction: drag to rotate, auto-spin when idle
+// ─────────────────────────────────────────────────────────────
+
+(function() {
+  const wrap   = document.getElementById('skini-canvas-wrap');
+  const canvas = document.getElementById('skini-canvas');
+  const hint   = wrap.querySelector('.drag-hint');
+
+  // ── Renderer ─────────────────────────────────────────────
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  // ── Scene / Camera ───────────────────────────────────────
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
+  camera.position.set(0, 0, 7.2);
+
+  // ── Resize ───────────────────────────────────────────────
+  function resizeRenderer() {
+    const w = wrap.clientWidth;
+    const h = wrap.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resizeRenderer).observe(wrap);
+  resizeRenderer();
+
+  // ── Materials ────────────────────────────────────────────
+  const bodyMat = new THREE.MeshStandardMaterial({
+    color: 0xf0eeea, roughness: 0.18, metalness: 0.04,
+  });
+  const bezelMat = new THREE.MeshStandardMaterial({
+    color: 0x222222, roughness: 0.35, metalness: 0.15,
+  });
+  const screenBgMat = new THREE.MeshStandardMaterial({
+    color: 0x080808, roughness: 0.05, metalness: 0,
+    emissive: new THREE.Color(0x0a0500), emissiveIntensity: 1,
+  });
+  const buttonMat = new THREE.MeshStandardMaterial({
+    color: 0xdedad4, roughness: 0.45, metalness: 0.08,
+  });
+  const glowRingMat = new THREE.MeshBasicMaterial({
+    color: 0xc8c4bc, transparent: true, opacity: 0.18, side: THREE.DoubleSide,
+  });
+
+
+  // ── Rounded box helper (CapsuleGeometry as stand-in) ─────
+  // Builds a rounded-rectangle cross-section body using a box + 4 edge cylinders + 4 corner spheres
+  function makeRoundedBox(w, h, d, r, mat) {
+    const g = new THREE.Group();
+    const add = (geo, x, y, z, rx=0, ry=0, rz=0) => {
+      const m = new THREE.Mesh(geo, mat);
+      m.position.set(x, y, z);
+      m.rotation.set(rx, ry, rz);
+      m.castShadow = true;
+      g.add(m);
+    };
+    // face panels
+    add(new THREE.BoxGeometry(w - r*2, h - r*2, d),          0, 0, 0);
+    add(new THREE.BoxGeometry(r*2,     h - r*2, d - r*2),    w/2 - r, 0, 0);
+    add(new THREE.BoxGeometry(r*2,     h - r*2, d - r*2),   -w/2 + r, 0, 0);
+    add(new THREE.BoxGeometry(w - r*2, r*2,     d - r*2),    0, h/2 - r, 0);
+    add(new THREE.BoxGeometry(w - r*2, r*2,     d - r*2),    0, -h/2 + r, 0);
+    // edge cylinders (12 edges)
+    const eCyl = len => new THREE.CylinderGeometry(r, r, len, 20);
+    add(eCyl(h - r*2),  w/2-r,  0,       d/2-r,  0, 0, 0);
+    add(eCyl(h - r*2), -w/2+r,  0,       d/2-r,  0, 0, 0);
+    add(eCyl(h - r*2),  w/2-r,  0,      -d/2+r,  0, 0, 0);
+    add(eCyl(h - r*2), -w/2+r,  0,      -d/2+r,  0, 0, 0);
+    const eHoriz = len => new THREE.CylinderGeometry(r, r, len, 20);
+    add(eHoriz(w - r*2), 0,  h/2-r, d/2-r,  0, 0, Math.PI/2);
+    add(eHoriz(w - r*2), 0, -h/2+r, d/2-r,  0, 0, Math.PI/2);
+    add(eHoriz(w - r*2), 0,  h/2-r,-d/2+r,  0, 0, Math.PI/2);
+    add(eHoriz(w - r*2), 0, -h/2+r,-d/2+r,  0, 0, Math.PI/2);
+    const eDepth = len => new THREE.CylinderGeometry(r, r, len, 20);
+    add(eDepth(d - r*2),  w/2-r,  h/2-r, 0,  Math.PI/2, 0, 0);
+    add(eDepth(d - r*2), -w/2+r,  h/2-r, 0,  Math.PI/2, 0, 0);
+    add(eDepth(d - r*2),  w/2-r, -h/2+r, 0,  Math.PI/2, 0, 0);
+    add(eDepth(d - r*2), -w/2+r, -h/2+r, 0,  Math.PI/2, 0, 0);
+    // corner spheres (8 corners)
+    const eSph = new THREE.SphereGeometry(r, 16, 16);
+    for (const sx of [-1,1]) for (const sy of [-1,1]) for (const sz of [-1,1]) {
+      add(eSph, sx*(w/2-r), sy*(h/2-r), sz*(d/2-r));
+    }
+    return g;
+  }
+
+  // ── Build device ─────────────────────────────────────────
+  const device = new THREE.Group();
+  scene.add(device);
+
+  // ── Proportions from reference photo ─────────────────────
+  // Photo ratio: device total height ≈ 434px, handle width ≈ 68px → headR ≈ 68px
+  // Head diameter ≈ 136px → headR/handleHalfW ≈ 2.0×
+  // Handle height (below head) ≈ 220px, head cylinder depth ≈ 55px
+  // All in Three.js units (1 unit ≈ convenient scale)
+
+  // Handle: narrow, slightly tapered toward bottom
+  const hW  = 0.46;   // handle width
+  const hH  = 1.55;   // handle height
+  const hD  = 0.32;   // handle depth (same as head depth)
+  const hR  = 0.055;  // corner radius
+
+  // Head: large circle, nearly 2× handle width
+  const headR  = 0.62;   // radius
+  const headD  = 0.34;   // cylinder depth (matches handle depth + slight protrusion)
+
+  // Y positions (device centered near origin, slightly shifted down)
+  const handleY = -0.62;
+  const headY   =  0.76;
+
+  // Head Z offset: head protrudes slightly forward of handle
+  const headZ   =  0.03;
+
+  // ── Handle body ──────────────────────────────────────────
+  const handle = makeRoundedBox(hW, hH, hD, hR, bodyMat);
+  handle.position.set(0, handleY, 0);
+  device.add(handle);
+
+  // ── Neck: tapered connection, handle top → head bottom ───
+  const neckH = headY - headR - (handleY + hH/2) + 0.12;
+  const neckW = hW * 0.88;
+  const neckGeo = new THREE.BoxGeometry(neckW, Math.max(neckH, 0.08), hD * 0.9);
+  const neck = new THREE.Mesh(neckGeo, bodyMat);
+  neck.position.set(0, handleY + hH/2 + neckH/2 - 0.02, headZ * 0.4);
+  neck.castShadow = true;
+  device.add(neck);
+
+  // ── Circular head (cylinder, axis along Z) ───────────────
+  const headGeo = new THREE.CylinderGeometry(headR, headR, headD, 128);
+  const headMesh = new THREE.Mesh(headGeo, bodyMat);
+  headMesh.rotation.x = Math.PI / 2;
+  headMesh.position.set(0, headY, headZ);
+  headMesh.castShadow = true;
+  device.add(headMesh);
+
+  // Front disc cap
+  const headFrontGeo = new THREE.CircleGeometry(headR, 128);
+  const headFront = new THREE.Mesh(headFrontGeo, bodyMat);
+  headFront.position.set(0, headY, headZ + headD/2);
+  device.add(headFront);
+
+  // Back disc cap
+  const headBack = new THREE.Mesh(headFrontGeo.clone(), bodyMat);
+  headBack.rotation.y = Math.PI;
+  headBack.position.set(0, headY, headZ - headD/2);
+  device.add(headBack);
+
+  // ── Screen (recessed slightly into front face of head) ────
+  const screenR2 = headR * 0.90;          // screen radius, slight bezel
+  const screenZ  = headZ + headD/2 + 0.001;
+
+  // Thin dark bezel ring between screen edge and head rim
+  const bezelRingGeo = new THREE.RingGeometry(screenR2, headR, 128);
+  const bezelRing = new THREE.Mesh(bezelRingGeo, bezelMat);
+  bezelRing.position.set(0, headY, screenZ);
+  device.add(bezelRing);
+
+  // Screen background
+  const screenDiscGeo = new THREE.CircleGeometry(screenR2, 128);
+  const screenBg = new THREE.Mesh(screenDiscGeo, screenBgMat);
+  screenBg.position.set(0, headY, screenZ + 0.001);
+  device.add(screenBg);
+
+
+  // ── Subtle screen edge glow ring ─────────────────────────
+  const glowRingGeo = new THREE.RingGeometry(headR - 0.003, headR + 0.014, 128);
+  const glowRing = new THREE.Mesh(glowRingGeo, glowRingMat);
+  glowRing.position.set(0, headY, screenZ - 0.002);
+  device.add(glowRing);
+
+  // ── Side button (left of handle, small round bump) ────────
+  const btnGeo = new THREE.CylinderGeometry(0.040, 0.040, 0.038, 32);
+  const btn = new THREE.Mesh(btnGeo, buttonMat);
+  btn.rotation.z = Math.PI / 2;
+  btn.position.set(-hW/2 - 0.015, handleY + hH * 0.12, hD * 0.05);
+  device.add(btn);
+
+  // ── Bottom logo area ──────────────────────────────────────
+  // Logo plane: aspect 150×118 ≈ 1.27:1
+  // Position: bottom face of handle, slightly above very bottom
+  const logoH = 0.12;
+  const logoW = logoH * (160 / 102);
+  const logoPlaneGeo = new THREE.PlaneGeometry(logoW, logoH);
+  const logoMat = new THREE.MeshBasicMaterial({
+    transparent: false,
+  });
+  const logoPlane = new THREE.Mesh(logoPlaneGeo, logoMat);
+  // Bottom of handle: handleY - hH/2 is the very bottom edge
+  // Place logo just above that, centred on face (z = hD/2 + tiny offset)
+  const logoPosY = handleY - hH/2 + logoH/2 + 0.06;
+  logoPlane.position.set(0.06, logoPosY, hD/2 + 0.006);
+  device.add(logoPlane);
+
+  new THREE.TextureLoader().load('assets/skini-logo.png', tex => {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    logoMat.map = tex;
+    logoMat.needsUpdate = true;
+  });
+
+  // ── Lights ───────────────────────────────────────────────
+  const keyLight = new THREE.DirectionalLight(0xf0f4ff, 2.6);
+  keyLight.position.set(-2.5, 4, 5);
+  keyLight.castShadow = true;
+  scene.add(keyLight);
+
+  const fillLight = new THREE.DirectionalLight(0xfff4e8, 0.7);
+  fillLight.position.set(3, -1, 3);
+  scene.add(fillLight);
+
+  const rimLight = new THREE.DirectionalLight(0xc8f0e8, 1.2);
+  rimLight.position.set(2.5, 2, -4);
+  scene.add(rimLight);
+
+  const bottomLight = new THREE.DirectionalLight(0xffffff, 0.3);
+  bottomLight.position.set(0, -5, 2);
+  scene.add(bottomLight);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.40));
+
+  // ── Mouse hover → rotation (no drag needed) ─────────────
+  // Mouse position within the section maps to rotation target.
+  // When mouse leaves the section, returns to default pose.
+  let targetRotY  =  0.32;
+  let targetRotX  =  0.08;
+  let currentRotY = targetRotY;
+  let currentRotX = targetRotX;
+  let mouseInside = false;
+
+  const section = document.getElementById('product');
+
+  window.addEventListener('mousemove', e => {
+    const rect = section.getBoundingClientRect();
+    // Only react when the product section is visible in viewport
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+    // Normalise mouse to [-1, +1] relative to the section
+    const nx = ((e.clientX - rect.left)  / rect.width)  * 2 - 1;
+    const ny = ((e.clientY - rect.top)   / rect.height) * 2 - 1;
+
+    mouseInside = true;
+    // Map: left→right = rotY ±1.4 rad, top→bottom = rotX ±0.55 rad
+    targetRotY = nx *  1.4;
+    targetRotX = ny * -0.55;
+  });
+
+  section.addEventListener('mouseleave', () => {
+    mouseInside = false;
+    // Return to default pose
+    targetRotY =  0.32;
+    targetRotX =  0.08;
+  });
+
+  // ── Reveal on scroll ─────────────────────────────────────
+  let revealed = false;
+  const productInfo = document.querySelector('.product-info');
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !revealed) {
+      revealed = true;
+      hint.classList.add('visible');
+      if (productInfo) setTimeout(() => productInfo.classList.add('revealed'), 200);
+    }
+  }, { threshold: 0.2 }).observe(document.getElementById('product'));
+
+  // ── Render loop ──────────────────────────────────────────
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const dt = clock.getDelta();
+    currentRotY += (targetRotY - currentRotY) * (1 - Math.exp(-dt * 6));
+    currentRotX += (targetRotX - currentRotX) * (1 - Math.exp(-dt * 6));
+    device.rotation.y = currentRotY;
+    device.rotation.x = currentRotX;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ── IP section reveal ──────────────────────────────────────
+(function() {
+  const header = document.querySelector('#ip .ip-header');
+  const cols   = document.querySelectorAll('#ip .ip-col');
+
+  function reveal(el, delay) {
+    setTimeout(() => el.classList.add('ip-revealed'), delay);
+  }
+
+  function staggerCards(col, baseDelay) {
+    const cards = col.querySelectorAll('.doc-stack .doc-card');
+    cards.forEach((card, i) => {
+      card.style.transitionDelay = (baseDelay + i * 60) + 'ms';
+    });
+  }
+
+  function countUp(el, target, duration) {
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+
+    if (header) reveal(header, 0);
+
+    // cols 순서대로 reveal, 각 col의 stat도 col 순서에 맞게 순차 등장
+    let statDelay = 480;
+    cols.forEach((col, i) => {
+      staggerCards(col, 150);
+      reveal(col, 200 + i * 160);
+
+      const stats = col.querySelectorAll('.ip-stat');
+      stats.forEach((stat, j) => {
+        const d = statDelay;
+        setTimeout(() => {
+          stat.classList.add('ip-revealed');
+          const countEl = stat.querySelector('.count');
+          if (countEl) countUp(countEl, +countEl.dataset.target, 900);
+        }, d);
+        statDelay += 700;
+      });
+    });
+  }, { threshold: 0.35 });
+
+  const ipSection = document.getElementById('ip');
+  if (ipSection) obs.observe(ipSection);
+})();
+
+// ── Domains section reveal ─────────────────────────────
+(function() {
+  const header = document.querySelector('#domains .domains-header');
+  const cards  = document.querySelectorAll('#domains .domain-card');
+
+  const obs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    if (header) setTimeout(() => header.classList.add('revealed'), 0);
+    cards.forEach((card, i) => {
+      setTimeout(() => card.classList.add('revealed'), 300 + i * 160);
+    });
+  }, { threshold: 0.2 });
+
+  const section = document.getElementById('domains');
+  if (section) obs.observe(section);
+})();
+
+// nav color: dark on light-bg sections, light on dark-bg sections
+(function() {
+  const nav = document.querySelector('nav');
+  const darkSections = ['#hero', '#product']; // sections with dark background
+
+  function updateNav() {
+    const y = 44;
+    let onDark = false;
+    darkSections.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top <= y && r.bottom >= y) onDark = true;
+    });
+    nav.classList.toggle('nav-dark', !onDark);
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+})();
+</script>
+
+<!-- ── Footer ── -->
+<footer id="footer">
+  <div id="footer-inner">
+
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">FINSIDE</div>
+        <div class="footer-tagline">Find the Inside Value</div>
+      </div>
+      <div class="footer-contact">
+        <div class="footer-contact-row">
+          <span class="footer-contact-label">대표</span>
+          <span class="footer-contact-val">이동훈</span>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-label">연락처</span>
+          <span class="footer-contact-val">010-3181-4636</span>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-label">이메일</span>
+          <span class="footer-contact-val">leedh@cbnu.ac.kr</span>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-label">주소</span>
+          <span class="footer-contact-val">충북 청주시 서원구 충대로 1, 충북대학교 S21-24동 204호</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 주식회사 파인사이드. All rights reserved.</div>
+      <div class="footer-sub">AI 비접촉 내부 분석 기술 · 설립 2025.12.18</div>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  #footer {
+    background: #080c0a;
+    border-top: 1px solid #ffffff0d;
+    padding: 64px 0 40px;
+  }
+  #footer-inner {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 clamp(80px, 12vw, 240px);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 48px;
+  }
+  .footer-logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #e8e4dc;
+  }
+  .footer-tagline {
+    margin-top: 8px;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: #e8e4dcaa;
+    text-transform: uppercase;
+  }
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-contact-row {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+  }
+  .footer-contact-label {
+    color: #e8e4dc88;
+    letter-spacing: 0.06em;
+    min-width: 44px;
+  }
+  .footer-contact-val {
+    color: #e8e4dccc;
+  }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid #ffffff18;
+    gap: 16px;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: #e8e4dc77;
+    letter-spacing: 0.04em;
+  }
+  .footer-sub {
+    font-size: 13px;
+    color: #e8e4dc55;
+    letter-spacing: 0.06em;
+  }
+  @media (max-width: 768px) {
+    .footer-top { flex-direction: column; gap: 32px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+    #footer-inner { padding: 0 24px; }
+  }
+</style>
+
 </body>
 </html>
