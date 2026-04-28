@@ -57,23 +57,30 @@
     justify-content: space-between;
     padding: 28px clamp(56px, 5vw, 120px);
     pointer-events: none;
-    transition: background 0.3s, backdrop-filter 0.3s;
+    background: transparent;
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    transition: border-color 0.35s;
+    border-bottom: 1px solid transparent;
   }
-  nav.scrolled {
-    background: rgba(14,14,14,0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-  nav.scrolled.nav-dark {
-    background: rgba(255,255,255,0.82);
+  nav.nav-dark {
+    border-bottom-color: #1a1a1a10;
   }
   nav * { pointer-events: auto; }
+  .nav-logo {
+    color: #ccc;
+    transition: color 0.3s;
+  }
+  nav .nav-logo { margin-bottom: 0; }
+  nav.nav-dark .nav-logo { color: #1a1a1a; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
     color: #ccc; text-decoration: none;
     font-size: 14px; letter-spacing: 0.1em; font-weight: 400;
-    transition: color 0.2s;
+    transition: color 0.3s;
   }
+  nav.nav-dark .nav-links a { color: #1a1a1a; }
+  nav.nav-dark .nav-links a:hover { color: #000; }
   .nav-links a:hover { color: var(--text); }
 
   #hero {
@@ -803,7 +810,7 @@
 <body>
 
 <nav>
-  <div class="hero-label">FinSide</div>
+  <div class="hero-label nav-logo">FinSide</div>
   <ul class="nav-links">
     <li><a href="#">Technology</a></li>
     <li><a href="#">Product</a></li>
@@ -2217,6 +2224,11 @@ setTimeout(revealText, 80);
   const darkSections = ['#hero', '#product']; // sections with dark background
 
   function updateNav() {
+    const scrolled = window.scrollY > 60;
+    if (scrolled) {
+      nav.classList.add('nav-dark');
+      return;
+    }
     const y = 44;
     let onDark = false;
     darkSections.forEach(sel => {
@@ -2226,7 +2238,6 @@ setTimeout(revealText, 80);
       if (r.top <= y && r.bottom >= y) onDark = true;
     });
     nav.classList.toggle('nav-dark', !onDark);
-    nav.classList.toggle('scrolled', window.scrollY > 10);
   }
 
   window.addEventListener('scroll', updateNav, { passive: true });
