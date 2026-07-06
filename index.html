@@ -310,8 +310,6 @@
     font-weight: 600; text-transform: uppercase;
     transition: color 0.35s;
   }
-  .hero-label.revealed { color: #1a1a1a; }
-
   .hero-divider {
     transform: scaleX(0);
     transform-origin: left;
@@ -1598,7 +1596,6 @@ requestAnimationFrame(draw);
 function revealText() {
   const delay = (el, ms, fn) => setTimeout(() => { if (el) fn(el); }, ms);
 
-  const label    = document.querySelector('.hero-label');
   const lines    = document.querySelectorAll('.reveal-block');
   const divider  = document.querySelector('.hero-divider');
   const sub      = document.querySelector('.hero-sub');
