@@ -56,7 +56,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 28px clamp(56px, 5vw, 120px);
-    pointer-events: none;
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -64,10 +63,9 @@
     border-bottom: 1px solid transparent;
   }
   nav.scrolled {
+    background: #ffffffcc;
     backdrop-filter: blur(16px) saturate(1.4);
     -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  }
-  nav.nav-dark {
     border-bottom-color: #1a1a1a10;
   }
   nav * { pointer-events: auto; }
@@ -77,11 +75,22 @@
   nav .nav-logo { margin-bottom: 0; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
-    color: rgba(255,255,255,0.75);
+    color: #17181c;
     text-decoration: none;
     font-size: 14px; letter-spacing: 0.1em; font-weight: 400;
     transition: color 0.35s;
   }
+  .nav-contact {
+    background: #2f6bff;
+    color: #ffffff;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-contact:hover { background: #1f54db; }
 
   #hero {
     min-height: 100vh;
@@ -900,6 +909,7 @@
     <li><a href="#">Product</a></li>
     <li><a href="#">Company</a></li>
   </ul>
+  <button class="nav-contact">문의하기</button>
 </nav>
 
 <section id="hero">
@@ -2019,27 +2029,14 @@ setTimeout(revealText, 80);
   if (section) obs.observe(section);
 })();
 
-// nav: hero 섹션 안에서만 라이트, 벗어나면 항상 다크
+// nav: 스크롤 시 배경 블러만 적용, 텍스트는 항상 다크 (전 섹션 라이트 테마)
 (function() {
-  const nav   = document.querySelector('nav');
-  const logo  = document.querySelector('.hero-label');
-  const links = document.querySelectorAll('.nav-links a');
-  const hero  = document.getElementById('hero');
-
-  function setDark(dark) {
-    const textColor = dark ? '#1a1a1a' : 'rgba(255,255,255,0.75)';
-    nav.classList.toggle('scrolled', dark);
-    nav.classList.toggle('nav-dark', dark);
-    if (logo) {
-      logo.style.color = textColor;
-      logo.classList.toggle('revealed', dark);
-    }
-    links.forEach(a => a.style.color = textColor);
-  }
+  const nav  = document.querySelector('nav');
+  const hero = document.getElementById('hero');
 
   function updateNav() {
     const heroVisible = hero ? hero.getBoundingClientRect().bottom > 80 : false;
-    setDark(!heroVisible);
+    nav.classList.toggle('scrolled', !heroVisible);
   }
 
   window.addEventListener('scroll', updateNav, { passive: true });
