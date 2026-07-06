@@ -1435,14 +1435,12 @@
 
 <script>
 // ─────────────────────────────────────────────────────────
-//  Pure 2D Canvas — single pipeline, zero handoff
-//
-//  Phase 1  GATHER   particles fly edge → node positions
-//  Phase 2  CONDENSE particles shrink/merge into spheres
-//  Phase 3  LIVE     spheres float + rotate + mouse react
+//  Hero scan-grid overlay — pulsing radial dot/line grid
+//  layered over the cheek area of the hero photo.
+//  Purely decorative "deep scan" feel — no facial data.
 // ─────────────────────────────────────────────────────────
 
-const canvas = document.getElementById('scene');
+const canvas = document.getElementById('scan-grid');
 const ctx    = canvas.getContext('2d');
 let W = 0, H = 0;
 
@@ -1454,374 +1452,68 @@ const ro = new ResizeObserver(resize);
 ro.observe(canvas);
 resize();
 
-// ── Easing helpers ──────────────────────────────────────
-const easeInOutCubic = t => t < 0.5 ? 4*t*t*t : 1 - (-2*t+2)**3/2;
-const easeOutExpo    = t => t >= 1 ? 1 : 1 - 2**(-10*t);
-const easeOutCubic   = t => 1 - (1-t)**3;
-const lerp           = (a, b, t) => a + (b-a)*t;
+// ── Depth layers ─────────────────────────────────────────
+// Each layer pulses at a different speed/phase for a
+// "scanning through skin depth" feel without being literal.
+const LAYERS = [
+  { rings: 4, dotsPerRing: 14, speed: 0.6, phase: 0,    color: '42,158,255', maxR: 0.92 },
+  { rings: 3, dotsPerRing: 10, speed: 0.9, phase: 1.1,  color: '86,182,255', maxR: 0.62 },
+  { rings: 2, dotsPerRing: 8,  speed: 1.3, phase: 2.4,  color: '150,205,255', maxR: 0.34 },
+];
 
-// ── Mouse ────────────────────────────────────────────────
-const mouse = { nx: 0, ny: 0, sx: 0, sy: 0 }; // normalised & smoothed
-window.addEventListener('mousemove', e => {
-  mouse.nx = (e.clientX / W) * 2 - 1;
-  mouse.ny = (e.clientY / H) * 2 - 1;
-});
+function drawLayer(layer, t, cx, cy, baseR) {
+  const pulse = 0.5 + 0.5 * Math.sin(t * layer.speed + layer.phase);
+  for (let r = 1; r <= layer.rings; r++) {
+    const ringR = (baseR * layer.maxR) * (r / layer.rings);
+    const alpha = (0.15 + 0.35 * pulse) * (1 - r / (layer.rings + 1.5));
 
-// ── Molecule blueprint (right-half layout) ───────────────
-// Positions are offsets from each molecule's anchor, in px-scale units
-// Anchors are expressed as fraction of (W, H)
-function getMolecules() {
-  // center molecule within the actual content container (max-width 1800px)
-  const maxW  = Math.min(W, 1800);
-  const left0 = (W - maxW) / 2;
-  const right = left0 + maxW * 0.68;
-  const mid   = H * 0.50;
+    // connecting ring line
+    ctx.beginPath();
+    ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(${layer.color},${alpha * 0.5})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
-  // scale with viewport
-  const S = Math.min(W, H) * 0.085;
+    // dots around the ring
+    for (let i = 0; i < layer.dotsPerRing; i++) {
+      const angle = (i / layer.dotsPerRing) * Math.PI * 2 + t * 0.15 * layer.speed;
+      const dx = cx + Math.cos(angle) * ringR;
+      const dy = cy + Math.sin(angle) * ringR;
+      ctx.beginPath();
+      ctx.arc(dx, dy, 1.6, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${layer.color},${alpha})`;
+      ctx.fill();
+    }
+  }
 
-  return [
-    // ── Large main molecule ──
-    // ox/oy = layout plane offset, oz = depth offset (gives true 3D volume)
-    {
-      ax: right, ay: mid,
-      scale: 1.0,
-      floatAmp: S * 0.10, floatFreq: 0.38, floatPhase: 0.0,
-      rotSpeedY: 0.22,   // yaw (left-right tumble)
-      rotSpeedX: 0.09,   // pitch (up-down tilt)
-      mouseW: 0.06,
-      nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.30, r: S*0.28, col:'#c8f0e8', type:'center' },
-        { ox: -S*0.75, oy: -S*0.55, oz: -S*0.20, r: S*0.18, col:'#e8f8f4', type:'mid' },
-        { ox:  S*0.75, oy: -S*0.55, oz:  S*0.20, r: S*0.18, col:'#e8f8f4', type:'mid' },
-        { ox: -S*0.75, oy:  S*0.55, oz:  S*0.20, r: S*0.18, col:'#a0ddd0', type:'mid' },
-        { ox:  S*0.75, oy:  S*0.55, oz: -S*0.20, r: S*0.18, col:'#a0ddd0', type:'mid' },
-        { ox:  0,      oy: -S*1.05, oz:  0,       r: S*0.13, col:'#c8f0e8', type:'outer' },
-        { ox:  0,      oy:  S*1.05, oz:  0,       r: S*0.13, col:'#c8f0e8', type:'outer' },
-        { ox: -S*1.28, oy:  0,      oz: -S*0.10,  r: S*0.11, col:'#e8f8f4', type:'outer' },
-        { ox:  S*1.28, oy:  0,      oz:  S*0.10,  r: S*0.11, col:'#e8f8f4', type:'outer' },
-      ],
-      bonds: [[0,1],[0,2],[0,3],[0,4],[1,5],[2,5],[3,6],[4,6],[1,7],[3,7],[2,8],[4,8]],
-    },
-    // ── Upper-left satellite ──
-    {
-      ax: right - S*2.4, ay: mid - S*2.2,
-      scale: 0.72,
-      floatAmp: S*0.14, floatFreq: 0.52, floatPhase: 1.2,
-      rotSpeedY: 0.31,
-      rotSpeedX: 0.12,
-      mouseW: 0.045,
-      nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.22, r: S*0.20, col:'#c8f0e8', type:'center' },
-        { ox: -S*0.60, oy: -S*0.45, oz: -S*0.15, r: S*0.13, col:'#e8f8f4', type:'mid' },
-        { ox:  S*0.60, oy: -S*0.45, oz:  S*0.15, r: S*0.13, col:'#e8f8f4', type:'mid' },
-        { ox:  0,      oy:  S*0.65, oz:  S*0.10, r: S*0.13, col:'#a0ddd0', type:'mid' },
-        { ox: -S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#c8f0e8', type:'outer' },
-        { ox:  S*0.95, oy:  0,      oz:  0,      r: S*0.09, col:'#c8f0e8', type:'outer' },
-      ],
-      bonds: [[0,1],[0,2],[0,3],[1,4],[2,5]],
-    },
-    // ── Lower-right satellite ──
-    {
-      ax: right + S*1.6, ay: mid + S*2.0,
-      scale: 0.60,
-      floatAmp: S*0.16, floatFreq: 0.65, floatPhase: 2.5,
-      rotSpeedY: 0.40,
-      rotSpeedX: 0.08,
-      mouseW: 0.03,
-      nodes: [
-        { ox:  0,      oy:  0,      oz:  S*0.18, r: S*0.17, col:'#c8f0e8', type:'center' },
-        { ox: -S*0.52, oy: -S*0.38, oz: -S*0.12, r: S*0.11, col:'#e8f8f4', type:'mid' },
-        { ox:  S*0.52, oy: -S*0.38, oz:  S*0.12, r: S*0.11, col:'#e8f8f4', type:'mid' },
-        { ox:  0,      oy:  S*0.55, oz:  0,      r: S*0.11, col:'#a0ddd0', type:'mid' },
-      ],
-      bonds: [[0,1],[0,2],[0,3]],
-    },
-    // ── Top-right tiny ──
-    {
-      ax: right + S*2.0, ay: mid - S*2.8,
-      scale: 0.48,
-      floatAmp: S*0.18, floatFreq: 0.45, floatPhase: 4.1,
-      rotSpeedY: 0.28,
-      rotSpeedX: 0.14,
-      mouseW: 0.02,
-      nodes: [
-        { ox:  0,     oy:  0,      oz:  S*0.14, r: S*0.14, col:'#c8f0e8', type:'center' },
-        { ox: -S*0.45,oy: -S*0.35, oz: -S*0.10, r: S*0.09, col:'#e8f8f4', type:'outer' },
-        { ox:  S*0.45,oy: -S*0.35, oz:  S*0.10, r: S*0.09, col:'#e8f8f4', type:'outer' },
-        { ox:  0,     oy:  S*0.50, oz:  0,      r: S*0.09, col:'#a0ddd0', type:'outer' },
-      ],
-      bonds: [[0,1],[0,2],[0,3]],
-    },
-  ];
+  // center glow
+  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseR * layer.maxR * 0.5);
+  grad.addColorStop(0, `rgba(${layer.color},${0.25 * pulse})`);
+  grad.addColorStop(1, `rgba(${layer.color},0)`);
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, baseR * layer.maxR * 0.5, 0, Math.PI * 2);
+  ctx.fill();
 }
-
-// ── Node world positions (with rotation applied) ──────────
-function getNodePositions(mol, rotAngle) {
-  const cos = Math.cos(rotAngle), sin = Math.sin(rotAngle);
-  return mol.nodes.map(n => ({
-    x: mol.ax + n.ox * cos - n.oy * sin,
-    y: mol.ay + n.ox * sin + n.oy * cos,
-    r: n.r,
-    col: n.col,
-  }));
-}
-
-// ── Build particles (run after first resize so W/H valid) ──
-const PARTICLE_COUNT = 420;
-let particles = [];
-
-function buildParticles(molecules) {
-  // Collect all node world positions (at rotation=0)
-  const allNodes = [];
-  molecules.forEach(mol => {
-    mol.nodes.forEach(n => {
-      allNodes.push({
-        x: mol.ax + n.ox, y: mol.ay + n.oy,
-        r: n.r, col: n.col,
-      });
-    });
-  });
-
-  const cols = ['#c8f0e8','#e8f8f4','#a0ddd0','#d4f4ee','#f0faf8'];
-
-  particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
-    // spawn from random edge
-    const side = Math.floor(Math.random() * 4);
-    let sx, sy;
-    if      (side===0) { sx = Math.random()*W;  sy = -20; }
-    else if (side===1) { sx = W+20;              sy = Math.random()*H; }
-    else if (side===2) { sx = Math.random()*W;  sy = H+20; }
-    else               { sx = -20;               sy = Math.random()*H; }
-
-    const node = allNodes[i % allNodes.length];
-    // small spread so particles don't all land on same pixel
-    const spread = node.r * 0.9;
-    const angle  = Math.random() * Math.PI * 2;
-    const dist   = Math.random() * spread;
-
-    return {
-      sx, sy,
-      x: sx, y: sy,
-      // final resting position = node centre + tiny spread
-      tx: node.x + Math.cos(angle)*dist,
-      ty: node.y + Math.sin(angle)*dist,
-      nodeX: node.x,
-      nodeY: node.y,
-      nodeR: node.r,
-      nodeCol: node.col,
-      delay:  Math.random() * 0.38,
-      size:   1.0 + Math.random() * 1.8,
-      col:    cols[Math.floor(Math.random()*cols.length)],
-    };
-  });
-}
-
-// ── Phase timing ─────────────────────────────────────────
-const T_GATHER   = 1.7;   // particles fly in
-const T_CONDENSE = 0.9;   // particles swell into spheres
-const T_XFADE    = 0.6;   // crossfade: particles↓  live↑  (overlap window)
-
-// ── Live state ───────────────────────────────────────────
-let liveRotY  = [];   // yaw angle per molecule
-let liveRotX  = [];   // pitch angle per molecule
-let liveFloat = [];
-let startTime = null;
 
 function draw(ts) {
   requestAnimationFrame(draw);
-  if (!startTime) startTime = ts;
-  const elapsed = (ts - startTime) / 1000;
-
+  if (!W || !H) return;
   ctx.clearRect(0, 0, W, H);
 
-  mouse.sx += (mouse.nx - mouse.sx) * 0.08;
-  mouse.sy += (mouse.ny - mouse.sy) * 0.08;
+  const t = ts / 1000;
+  // anchor point matches the cheek position in hero-person-device.png
+  // (right-of-center, slightly above vertical middle of the image)
+  const cx = W * 0.52;
+  const cy = H * 0.46;
+  const baseR = Math.min(W, H) * 0.5;
 
-  const molecules = getMolecules();
-
-  if (liveRotY.length !== molecules.length) {
-    liveRotY  = molecules.map(() => 0);
-    liveRotX  = molecules.map(() => 0);
-    liveFloat = molecules.map(() => 0);
-  }
-
-  const gatherT   = Math.min(elapsed / T_GATHER, 1);
-  const condenseT = elapsed > T_GATHER
-    ? Math.min((elapsed - T_GATHER) / T_CONDENSE, 1) : 0;
-
-  // xfadeT: 0 → 1 over T_XFADE window that starts at condense end
-  const xfadeStart = T_GATHER + T_CONDENSE;
-  const xfadeT = elapsed > xfadeStart
-    ? Math.min((elapsed - xfadeStart) / T_XFADE, 1) : 0;
-
-  // particleAlpha fades OUT as xfade progresses
-  const particleLayerAlpha = 1 - easeInOutCubic(xfadeT);
-  // liveAlpha fades IN over same window
-  const liveLayerAlpha = easeInOutCubic(xfadeT);
-
-  // rotation and float only tick after crossfade is fully done
-  const rotStart    = xfadeStart + T_XFADE;
-  const liveElapsed = Math.max(0, elapsed - rotStart);
-  molecules.forEach((mol, mi) => {
-    if (xfadeT >= 1) {
-      liveRotY[mi] += mol.rotSpeedY * 0.008;
-      liveRotX[mi] += mol.rotSpeedX * 0.006;
-      // float starts from 0 and eases in over first 1.5s so anchor matches exactly at handoff
-      const floatEase = Math.min(liveElapsed / 1.5, 1);
-      liveFloat[mi] = Math.sin(liveElapsed * mol.floatFreq + mol.floatPhase) * mol.floatAmp * floatEase;
-    } else {
-      liveFloat[mi] = 0;
-    }
-  });
-
-  // ─────────────────────────────────────────────────────
-  //  PHASE 1 + 2: particles (fades out via particleLayerAlpha)
-  // ─────────────────────────────────────────────────────
-  if (particleLayerAlpha > 0) {
-    particles.forEach(p => {
-      const g = easeInOutCubic(Math.min(Math.max((gatherT - p.delay) / (1 - p.delay*0.5), 0), 1));
-      p.x = lerp(p.sx, p.tx, g);
-      p.y = lerp(p.sy, p.ty, g);
-
-      const c  = easeOutCubic(condenseT);
-      const px = lerp(p.x, p.nodeX, c);
-      const py = lerp(p.y, p.nodeY, c);
-
-      const drawR = lerp(p.size, p.nodeR, easeOutExpo(condenseT));
-      const baseAlpha = lerp(0.25 + g*0.65, 1.0, c);
-      const alpha = baseAlpha * particleLayerAlpha;
-
-      // trail while flying
-      if (g > 0.02 && g < 0.97 && condenseT === 0) {
-        const tx2 = lerp(p.sx, p.tx, Math.max(0, g - 0.06));
-        const ty2 = lerp(p.sy, p.ty, Math.max(0, g - 0.06));
-        const grad = ctx.createLinearGradient(tx2, ty2, p.x, p.y);
-        grad.addColorStop(0, p.col+'00');
-        grad.addColorStop(1, p.col+'44');
-        ctx.beginPath(); ctx.moveTo(tx2, ty2); ctx.lineTo(p.x, p.y);
-        ctx.strokeStyle = grad; ctx.lineWidth = p.size*0.5;
-        ctx.globalAlpha = 0.5 * particleLayerAlpha; ctx.stroke();
-      }
-
-      ctx.beginPath(); ctx.arc(px, py, Math.max(0.5, drawR), 0, Math.PI*2);
-      ctx.fillStyle = condenseT > 0.05 ? p.nodeCol : p.col;
-      ctx.globalAlpha = alpha; ctx.fill(); ctx.globalAlpha = 1;
-    });
-  }
-
-  // ─────────────────────────────────────────────────────
-  //  PHASE 3: live molecule (fades in via liveLayerAlpha)
-  //  Rotation starts at 0 so spheres sit exactly on top of
-  //  the condensed particle positions — invisible seam.
-  // ─────────────────────────────────────────────────────
-  if (liveLayerAlpha > 0) {
-    const liveAlpha = liveLayerAlpha;
-
-    molecules.forEach((mol, mi) => {
-      const ry = liveRotY[mi];
-      const rx = liveRotX[mi];
-
-      // mouse/float influence eases in only after xfade is done
-      const influence = xfadeT >= 1 ? Math.min(liveElapsed / 1.2, 1) : 0;
-      const floatY = liveFloat[mi] * influence + mouse.sy * mol.floatAmp * 1.4 * influence;
-      const mouseX = mouse.sx * mol.mouseW * W * 0.13 * influence;
-
-      const ax = mol.ax + mouseX;
-      const ay = mol.ay + floatY;
-
-      // Full 3D rotation: Y-axis yaw then X-axis pitch
-      const cosY = Math.cos(ry), sinY = Math.sin(ry);
-      const cosX = Math.cos(rx), sinX = Math.sin(rx);
-
-      // Depth range for normalising (used for size/shade scale)
-      const maxR = mol.nodes[0].r * 10;
-
-      const nodePos = mol.nodes.map(n => {
-        // Y-axis rotation: ox/oz plane
-        const rx1 =  n.ox * cosY + n.oz * sinY;
-        const rz1 = -n.ox * sinY + n.oz * cosY;
-        // X-axis rotation: oy/rz1 plane
-        const ry2 =  n.oy * cosX - rz1 * sinX;
-        const rz2 =  n.oy * sinX + rz1 * cosX;
-        return {
-          x: ax + rx1,
-          y: ay + ry2,
-          z: rz2,          // positive = toward viewer
-          r: n.r, col: n.col, type: n.type,
-        };
-      });
-
-      // ── Bonds (back to front by avg z) ──
-      const bondsSorted = mol.bonds.map(([ai, bi]) => ({
-        ai, bi, avgZ: (nodePos[ai].z + nodePos[bi].z) * 0.5,
-      }));
-      bondsSorted.sort((a, b) => a.avgZ - b.avgZ);
-
-      bondsSorted.forEach(({ ai, bi }) => {
-        const a = nodePos[ai], b = nodePos[bi];
-        const za = (a.z + maxR) / (maxR * 2);
-        const zb = (b.z + maxR) / (maxR * 2);
-        const wA = mol.nodes[ai].r * (0.12 + za * 0.10);
-        const wB = mol.nodes[bi].r * (0.12 + zb * 0.10);
-        const bw = (wA + wB) * 0.5;
-        const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-        const aOpacity = Math.round((0.3 + za * 0.45) * 255).toString(16).padStart(2,'0');
-        const bOpacity = Math.round((0.3 + zb * 0.45) * 255).toString(16).padStart(2,'0');
-        grad.addColorStop(0, a.col + aOpacity);
-        grad.addColorStop(1, b.col + bOpacity);
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth   = bw;
-        ctx.globalAlpha = liveAlpha;
-        ctx.stroke();
-      });
-
-      // ── Nodes (back to front by z) ──
-      const sorted = nodePos.map((np, i) => ({ np, n: mol.nodes[i] }));
-      sorted.sort((a, b) => a.np.z - b.np.z);
-
-      sorted.forEach(({ np, n }) => {
-        // z in [-maxR, +maxR], normalise to [0,1]
-        const zNorm  = (np.z + maxR) / (maxR * 2);
-        // depth scale eases in after xfade so size at handoff = 1.0 (matches particle)
-        const depthScale = xfadeT >= 1 ? Math.min(liveElapsed / 1.2, 1) : 0;
-        const depthS = 1.0 + (0.28 * zNorm - 0.14) * depthScale; // 1.0 → 0.72–1.28
-        const drawR  = np.r * depthS;
-
-        // Specular highlight offset toward top-left (light source)
-        const hiX = np.x - drawR * 0.36;
-        const hiY = np.y - drawR * 0.36;
-
-        const darkCol = np.type==='center' ? '#0a2018' : np.type==='mid' ? '#0d2a20' : '#112e24';
-
-        const sphGrd = ctx.createRadialGradient(hiX, hiY, drawR * 0.02, np.x, np.y, drawR);
-        sphGrd.addColorStop(0,    '#ffffffee');   // bright specular cap
-        sphGrd.addColorStop(0.08, '#ffffffaa');
-        sphGrd.addColorStop(0.28, np.col);        // base colour
-        sphGrd.addColorStop(0.72, np.col + 'dd');
-        sphGrd.addColorStop(1,    darkCol);        // dark limb — sells the sphere
-
-        ctx.beginPath(); ctx.arc(np.x, np.y, drawR, 0, Math.PI*2);
-        ctx.fillStyle = sphGrd; ctx.globalAlpha = liveAlpha; ctx.fill();
-        ctx.globalAlpha = 1;
-      });
-    });
-  }
+  LAYERS.forEach(layer => drawLayer(layer, t, cx, cy, baseR));
 }
-
-// Start after layout is painted so W/H is correct
-requestAnimationFrame(() => {
-  resize();
-  buildParticles(getMolecules());
-  requestAnimationFrame(draw);
-});
+requestAnimationFrame(draw);
 
 // ── Text reveal orchestration ─────────────────────────────
-// Staggered sequence: label → title lines → divider → sub → cta → stats
-// Delays tuned so text lands as particles are still flying in (feels connected)
+// Staggered sequence: label → title lines → divider → sub → cta
 function revealText() {
   const delay = (el, ms, fn) => setTimeout(() => { if (el) fn(el); }, ms);
 
@@ -1830,50 +1522,17 @@ function revealText() {
   const divider  = document.querySelector('.hero-divider');
   const sub      = document.querySelector('.hero-sub');
   const cta      = document.querySelector('.hero-cta');
-  const stats    = document.querySelector('.hero-stats');
 
-  // label revealed when section 2 (#ip) is ~50% visible
-  // title lines slide up with stagger
   lines.forEach((line, i) => {
     delay(line, 320 + i * 140, el => el.classList.add('revealed'));
   });
 
-  // divider draws after last title line
   delay(divider, 320 + lines.length * 140 + 60, el => el.classList.add('revealed'));
-
-  // sub text
   delay(sub, 820, el => el.classList.add('revealed'));
-
-  // cta buttons
   delay(cta, 1020, el => el.classList.add('revealed'));
-
-  // stats with count-up
-  delay(stats, 1200, el => {
-    el.classList.add('revealed');
-    el.querySelectorAll('.stat-num[data-target]').forEach((num, i) => {
-      setTimeout(() => countUp(num), i * 120);
-    });
-  });
-}
-
-function countUp(el) {
-  const target = parseInt(el.dataset.target, 10);
-  const suffix = el.dataset.suffix || '';
-  if (target === 0) { el.textContent = '0' + suffix; return; }
-  const duration = 900;
-  const start = performance.now();
-  function tick(now) {
-    const t = Math.min((now - start) / duration, 1);
-    // ease out expo
-    const eased = t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    el.textContent = Math.round(eased * target) + suffix;
-    if (t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
 }
 
 // Start text reveal shortly after page load
-// (particles start flying at t=0; text appears during the flight)
 setTimeout(revealText, 80);
 </script>
 
