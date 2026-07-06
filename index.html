@@ -32,17 +32,17 @@
     overflow-x: hidden;
   }
 
-  /* radial glow behind molecule scene */
+  /* soft blue glow behind hero visual, light theme */
   #hero::before {
     content: '';
     position: absolute;
-    right: max(16%, calc((100vw - 1800px) / 2 + 120px)); top: 50%;
+    right: max(8%, calc((100vw - 1800px) / 2 + 40px)); top: 50%;
     transform: translateY(-50%);
-    width: min(62vw, 1100px); height: 85vh;
+    width: min(56vw, 1000px); height: 80vh;
     background: radial-gradient(ellipse at center,
-      #1a3d2e88 0%,
-      #0d2a2055 40%,
-      transparent 70%
+      #eaf3ff 0%,
+      #f5f9ff 45%,
+      transparent 72%
     );
     pointer-events: none;
     z-index: 0;
@@ -94,14 +94,7 @@
     padding-bottom: clamp(80px, 10vh, 140px);
     box-sizing: border-box;
     height: 100vh;
-  }
-
-  #scene {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    background: #fcfdff;
   }
 
   #hero-inner {
@@ -112,6 +105,8 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: clamp(24px, 4vw, 64px);
   }
 
   .hero-content {
@@ -121,86 +116,145 @@
     padding: 0 0 0 clamp(80px, 12vw, 240px);
   }
 
-  .hero-label {
+  .hero-eyebrow {
     font-size: 14px; letter-spacing: 0.2em;
-    color: var(--text-mid); margin-bottom: 28px;
-    font-weight: 400; opacity: 0.9;
-    text-transform: uppercase;
+    color: #6b7280; margin-bottom: 28px;
+    font-weight: 500; opacity: 0.9;
   }
 
   .hero-title {
-    font-size: clamp(28px, 3.6vw, 72px);
+    font-size: clamp(28px, 3.6vw, 64px);
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.28;
     letter-spacing: 0;
-    color: var(--text);
+    color: #17181c;
   }
-  /* accent word — slightly brighter ivory, not a different hue */
   .hero-title .accent {
-    color: #ffffff;
+    color: #2f6bff;
   }
 
   .hero-divider {
     width: 40px; height: 1px;
-    background: var(--text);
+    background: #17181c;
     opacity: 0.2;
     margin: clamp(16px, 2.5vh, 32px) 0;
   }
 
   .hero-sub {
-    font-size: clamp(14px, 1.1vw, 24px);
-    color: #e8e4dcbf;
+    font-size: clamp(14px, 1.1vw, 20px);
+    color: #4b5563;
     line-height: 1.8;
-    max-width: clamp(320px, 28vw, 520px);
+    max-width: clamp(320px, 28vw, 480px);
     font-weight: 400;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
   }
 
-  .hero-cta { display: flex; gap: 16px; margin-top: clamp(20px, 3vh, 44px); align-items: center; }
+  .hero-cta { display: flex; gap: 16px; margin-top: clamp(24px, 4vh, 48px); align-items: center; }
 
-  .btn-primary {
-    background: transparent;
-    color: var(--text);
-    font-size: 14px; font-weight: 500; letter-spacing: 0.08em;
-    padding: 13px 30px;
-    border-radius: 2px;
-    border: 1px solid #e8e4dc40;
+  .btn-primary-blue {
+    background: #2f6bff;
+    color: #ffffff;
+    font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+    padding: 14px 28px;
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    text-transform: uppercase;
+    transition: background 0.2s, transform 0.2s;
   }
-  .btn-primary:hover {
-    background: #e8e4dc0d;
-    border-color: #e8e4dc80;
+  .btn-primary-blue:hover {
+    background: #1f54db;
   }
 
-  .btn-ghost {
-    color: var(--text-mid);
-    font-size: 14px; letter-spacing: 0.06em; font-weight: 400;
-    cursor: pointer; border: none; background: none;
-    display: flex; align-items: center; gap: 10px;
-    transition: color 0.2s;
-    text-transform: uppercase;
+  /* ── Hero visual: photo + scan-grid + metrics card ───── */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    width: 56%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
   }
-  .btn-ghost:hover { color: var(--text); }
-  .btn-ghost::after { content: '↗'; font-size: 14px; }
 
-  /* stat strip */
-  .hero-stats {
-    display: flex; gap: clamp(28px, 3vw, 56px); margin-top: clamp(40px, 6vh, 80px);
-    padding-top: clamp(16px, 2vh, 32px);
-    border-top: 1px solid #e8e4dc10;
+  .hero-photo {
+    position: relative;
+    z-index: 1;
+    height: clamp(500px, 75vh, 780px);
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   }
-  .stat-num {
-    font-size: clamp(18px, 1.5vw, 36px); font-weight: 700;
-    color: var(--text); letter-spacing: -0.02em;
+
+  #scan-grid {
+    position: absolute;
+    z-index: 2;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
-  .stat-num span { color: var(--text-mid); font-size: 0.65em; }
-  .stat-label {
-    font-size: 13px; color: var(--text-dim);
-    letter-spacing: 0.06em; margin-top: 4px;
-    text-transform: uppercase;
+
+  .hero-metrics {
+    position: absolute;
+    z-index: 3;
+    right: clamp(0px, 4vw, 48px);
+    bottom: clamp(40px, 8vh, 90px);
+    width: clamp(220px, 20vw, 280px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(20, 30, 60, 0.12);
+    padding: 20px 22px;
   }
+
+  .metrics-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #17181c;
+    letter-spacing: 0.02em;
+    margin-bottom: 14px;
+  }
+
+  .metric-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 28px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .metric-row:last-child { margin-bottom: 0; }
+
+  .metric-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  .metric-label.metric-alert { color: #e0393e; }
+
+  .metric-bar-track {
+    height: 6px;
+    background: #eef1f6;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .metric-bar {
+    height: 100%;
+    width: 0%;
+    background: #2f6bff;
+    border-radius: 3px;
+    transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .metric-bar.metric-alert { background: #e0393e; }
+
+  .metric-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #17181c;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-value.metric-alert { color: #e0393e; }
 
   .scroll-hint {
     position: absolute; bottom: 36px; left: 50%;
@@ -211,11 +265,11 @@
   }
   .scroll-hint span {
     font-size: 12px; letter-spacing: 0.15em;
-    color: var(--text); text-transform: uppercase;
+    color: #17181c; text-transform: uppercase;
   }
   .scroll-arrow {
     width: 1px; height: 40px;
-    background: linear-gradient(to bottom, var(--text), transparent);
+    background: linear-gradient(to bottom, #17181c, transparent);
     animation: scrollBounce 2.5s ease-in-out infinite;
   }
   @keyframes scrollBounce {
@@ -224,9 +278,8 @@
   }
 
   /* ── Text reveal animation ── */
-  /* Each animated block starts invisible; JS adds .revealed */
   .reveal-block {
-    overflow: hidden;        /* clips the child sliding up */
+    overflow: hidden;
   }
   .reveal-inner {
     display: block;
@@ -244,13 +297,12 @@
   /* label acts as logo — fixed to nav row on the left */
   .hero-label {
     font-size: 14px; letter-spacing: 0.22em;
-    color: var(--text);
+    color: #17181c;
     font-weight: 600; text-transform: uppercase;
     transition: color 0.35s;
   }
   .hero-label.revealed { color: #1a1a1a; }
 
-  /* divider grows from left */
   .hero-divider {
     transform: scaleX(0);
     transform-origin: left;
@@ -258,8 +310,7 @@
   }
   .hero-divider.revealed { transform: scaleX(1); }
 
-  /* sub, cta, stats: fade + rise */
-  .hero-sub, .hero-cta, .hero-stats {
+  .hero-sub, .hero-cta {
     opacity: 0;
     transform: translateY(18px);
     transition:
@@ -267,14 +318,10 @@
       transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hero-sub.revealed,
-  .hero-cta.revealed,
-  .hero-stats.revealed {
+  .hero-cta.revealed {
     opacity: 1;
     transform: translateY(0);
   }
-
-  /* stat numbers count up — handled in JS */
-  .stat-num { font-variant-numeric: tabular-nums; }
 
   .stat-industries {
     font-size: clamp(18px, 1.5vw, 36px);
