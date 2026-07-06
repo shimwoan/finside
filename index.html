@@ -1605,6 +1605,46 @@ function revealText() {
 
 // Start text reveal shortly after page load
 setTimeout(revealText, 80);
+
+// ── Metrics card: bar-fill + count-up on scroll into view ──
+(function() {
+  const card = document.querySelector('.hero-metrics');
+  if (!card) return;
+
+  function countUp(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    if (target === 0) { el.textContent = '0' + suffix; return; }
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function animateMetrics() {
+    card.querySelectorAll('.metric-bar[data-target]').forEach((bar, i) => {
+      const target = parseInt(bar.dataset.target, 10);
+      setTimeout(() => { bar.style.width = target + '%'; }, i * 90);
+    });
+    card.querySelectorAll('.metric-value[data-target]').forEach((val, i) => {
+      const target = parseInt(val.dataset.target, 10);
+      setTimeout(() => countUp(val), i * 90);
+    });
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    animateMetrics();
+  }, { threshold: 0.4 });
+
+  obs.observe(card);
+})();
 </script>
 
 <!-- Three.js -->
