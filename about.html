@@ -388,14 +388,19 @@
   <div class="section-inner leadership-layout">
     <div class="ceo-block reveal-fade">
       <div class="eyebrow">LEADERSHIP</div>
-      <h2 class="ceo-name">이동훈 <span>CEO</span></h2>
-      <p class="ceo-bio">
-        충북대학교 바이오시스템공학과 교수(2013~현재)로,
-        바이오시스템 정보기술 융합과 농업특화 인공지능 시스템 설계·자동화를
-        연구해 왔습니다. 보유 특허 30건(국내 8건, PCT 2건), 최근 3년
-        기술이전 18건(2.5억원)의 실적을 바탕으로 FINSIDE의 핵심 기술을
-        이끌고 있습니다.
-      </p>
+      <div class="ceo-profile">
+        <img class="ceo-photo" src="assets/ceo-portrait.png" alt="이동훈 CEO">
+        <div class="ceo-text">
+          <h2 class="ceo-name">이동훈 <span>CEO</span></h2>
+          <p class="ceo-bio">
+            충북대학교 바이오시스템공학과 교수(2013~현재)로,
+            바이오시스템 정보기술 융합과 농업특화 인공지능 시스템 설계·자동화를
+            연구해 왔습니다. 보유 특허 30건(국내 8건, PCT 2건), 최근 3년
+            기술이전 18건(2.5억원)의 실적을 바탕으로 FINSIDE의 핵심 기술을
+            이끌고 있습니다.
+          </p>
+        </div>
+      </div>
       <ul class="ceo-stats">
         <li><b>30건</b><span>보유 특허</span></li>
         <li><b>18건</b><span>최근 3년 기술이전</span></li>
@@ -427,6 +432,22 @@
     align-items: flex-start;
   }
   .ceo-block { flex: 0 1 58%; min-width: 0; }
+  .ceo-profile {
+    display: flex;
+    gap: clamp(24px, 3vw, 40px);
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  .ceo-photo {
+    flex: 0 0 auto;
+    width: clamp(120px, 12vw, 160px);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid #a68a6d33;
+    box-shadow: 0 12px 32px -16px rgba(42, 37, 32, 0.25);
+  }
+  .ceo-text { flex: 1; min-width: 0; }
   .ceo-name {
     font-size: clamp(24px, 2.6vw, 34px);
     font-weight: 700;
@@ -502,6 +523,10 @@
   @media (max-width: 900px) {
     .leadership-layout { flex-direction: column; }
     .ceo-block, .team-block { flex: none; width: 100%; }
+  }
+  @media (max-width: 560px) {
+    .ceo-profile { flex-direction: column; align-items: flex-start; }
+    .ceo-photo { width: 96px; }
   }
 </style>
 
