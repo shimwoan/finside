@@ -131,15 +131,20 @@
 
 <!-- ── About Hero ── -->
 <section id="about-hero">
-  <div class="section-inner">
-    <div class="about-hero-eyebrow reveal-fade">ABOUT US</div>
-    <h1 class="about-hero-title reveal-fade">
-      보이지 않는 <b>내부의 가치</b>를<br>발견합니다
-    </h1>
-    <p class="about-hero-sub reveal-fade">
-      FINSIDE(파인사이드)는 AI와 비접촉 내부 분석 기술을 기반으로,<br>
-      보이지 않는 내부 데이터를 정량화하여 산업에 적용하는 지능형 분석 솔루션 기업입니다.
-    </p>
+  <div class="section-inner about-hero-layout">
+    <div class="about-hero-text">
+      <div class="about-hero-eyebrow reveal-fade">ABOUT US</div>
+      <h1 class="about-hero-title reveal-fade">
+        보이지 않는 <b>내부의 가치</b>를<br>발견합니다
+      </h1>
+      <p class="about-hero-sub reveal-fade">
+        FINSIDE(파인사이드)는 AI와 비접촉 내부 분석 기술을 기반으로,<br>
+        보이지 않는 내부 데이터를 정량화하여 산업에 적용하는 지능형 분석 솔루션 기업입니다.
+      </p>
+    </div>
+    <div class="about-hero-visual reveal-fade">
+      <img class="about-hero-domains-img" src="assets/about-hero-domains.png" alt="FINSIDE 기술 적용 분야: 뷰티, 농산물, 바이오, 산업">
+    </div>
   </div>
 </section>
 
@@ -147,6 +152,19 @@
   #about-hero {
     padding: clamp(160px, 22vh, 240px) 0 clamp(80px, 10vh, 120px);
     background: #ffffff;
+  }
+  .about-hero-layout {
+    display: flex;
+    align-items: center;
+    gap: clamp(32px, 5vw, 80px);
+  }
+  .about-hero-text { flex: 0 1 52%; min-width: 0; }
+  .about-hero-visual { flex: 0 1 48%; min-width: 0; }
+  .about-hero-domains-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
   }
   .about-hero-eyebrow {
     font-size: 14px; letter-spacing: 0.28em;
@@ -170,6 +188,10 @@
     color: #6b6259;
     line-height: 1.85;
     max-width: 640px;
+  }
+  @media (max-width: 900px) {
+    .about-hero-layout { flex-direction: column-reverse; }
+    .about-hero-text, .about-hero-visual { flex: none; width: 100%; }
   }
 </style>
 
