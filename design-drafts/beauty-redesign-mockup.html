@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty 페이지 리디자인 옵션</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body { background: #f2ede1; padding: 60px 0 120px; }
+  .mockup-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .mockup-label {
+    font-family: 'SUIT', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+    color: #fff; background: #2a2520;
+    display: inline-block; padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .mockup-section-title {
+    font-family: 'SUIT', sans-serif;
+    font-size: 26px; font-weight: 800; color: #2a2520;
+    margin: 72px 0 4px;
+    border-top: 4px solid #2a2520;
+    padding-top: 24px;
+  }
+  .mockup-section-sub {
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px; color: #8a8175; margin-bottom: 32px;
+  }
+  .mockup-block {
+    background: #faf8f4;
+    border-radius: 24px;
+    padding: 48px clamp(24px, 5vw, 56px);
+    margin-bottom: 40px;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 50px -30px #2a251f2e;
+  }
+  .mockup-title {
+    font-family: 'SUIT', sans-serif;
+    font-size: 22px; font-weight: 700; color: #2a2520;
+    margin-bottom: 4px;
+  }
+  .mockup-desc {
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px; color: #8a8175; margin-bottom: 28px;
+  }
+
+  /* ============ TECH OPTION A: 차별화 포인트 아이콘 카드 ============ */
+  .feature-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 800px) { .feature-card-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: #fffdf9; border-radius: 16px; padding: 28px 24px;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f;
+  }
+  .feature-card-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, #c9b08d, #a68a6d);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 16px;
+  }
+  .feature-card-title { font-family: 'SUIT', sans-serif; font-size: 15px; font-weight: 700; color: #2a2520; margin-bottom: 8px; }
+  .feature-card-desc { font-size: 13px; color: #6b6259; line-height: 1.7; }
+
+  /* ============ TECH OPTION B: 프로세스 플로우 ============ */
+  .flow-row { display: flex; align-items: stretch; gap: 0; }
+  @media (max-width: 800px) { .flow-row { flex-direction: column; } }
+  .flow-step {
+    flex: 1; background: #fffdf9; border-radius: 16px; padding: 26px 22px;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f;
+    position: relative;
+  }
+  .flow-step-num {
+    font-family: 'SUIT', sans-serif; font-size: 12px; font-weight: 800;
+    color: #a68a6d; letter-spacing: 0.08em; margin-bottom: 10px;
+  }
+  .flow-step-title { font-family: 'SUIT', sans-serif; font-size: 16px; font-weight: 700; color: #2a2520; margin-bottom: 8px; }
+  .flow-step-desc { font-size: 13px; color: #6b6259; line-height: 1.6; }
+  .flow-arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; flex: none; color: #c2b8a8; font-size: 20px;
+  }
+  @media (max-width: 800px) { .flow-arrow { width: auto; height: 28px; transform: rotate(90deg); } }
+
+  /* ============ TECH OPTION C: 스펙 하이라이트 스트립 ============ */
+  .spec-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #ede7db; border-radius: 16px; overflow: hidden; }
+  @media (max-width: 800px) { .spec-strip { grid-template-columns: repeat(2, 1fr); } }
+  .spec-cell { background: #fffdf9; padding: 26px 20px; text-align: center; }
+  .spec-cell-value { font-family: 'SUIT', sans-serif; font-size: 22px; font-weight: 800; color: #2a2520; margin-bottom: 6px; }
+  .spec-cell-label { font-size: 12px; color: #8a8175; font-weight: 600; }
+
+  /* ============ BIZ OPTION A: B2B/B2C 스플릿 카드 ============ */
+  .biz-split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .biz-split { grid-template-columns: 1fr; } }
+  .biz-card { background: #fffdf9; border-radius: 16px; padding: 28px 26px; box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f; }
+  .biz-card-tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    padding: 4px 12px; border-radius: 12px; margin-bottom: 14px;
+  }
+  .biz-card.b2b .biz-card-tag { background: #ede7db; color: #6b5a44; }
+  .biz-card.b2c .biz-card-tag { background: #e3ece6; color: #3f6b52; }
+  .biz-card-title { font-family: 'SUIT', sans-serif; font-size: 17px; font-weight: 700; color: #2a2520; margin-bottom: 14px; }
+  .biz-stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #2a251f0f; }
+  .biz-stat-row:last-child { border-bottom: none; }
+  .biz-stat-label { font-size: 13px; color: #6b6259; }
+  .biz-stat-value { font-family: 'SUIT', sans-serif; font-size: 14px; font-weight: 800; color: #2a2520; font-variant-numeric: tabular-nums; }
+  .biz-market-row { display: flex; gap: 24px; margin-top: 20px; }
+  .biz-market-item { flex: 1; }
+
+  /* ============ BIZ OPTION B: 파트너 로고칩 + 퍼널 ============ */
+  .funnel-wrap { display: flex; flex-direction: column; gap: 12px; }
+  .funnel-row { display: flex; align-items: center; gap: 16px; }
+  .funnel-bar-track { flex: 1; height: 40px; border-radius: 10px; background: #ede7db; overflow: hidden; display: flex; align-items: center; }
+  .funnel-bar-fill { height: 100%; display: flex; align-items: center; padding-left: 16px; font-family: 'SUIT', sans-serif; font-size: 13px; font-weight: 700; color: #fff; border-radius: 10px 0 0 10px; }
+  .funnel-label { flex: 0 0 140px; font-size: 13px; font-weight: 700; color: #2a2520; text-align: right; }
+  .partner-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .partner-chip { font-size: 12px; padding: 6px 14px; border-radius: 20px; background: #ede7db; color: #4a453d; font-weight: 600; }
+
+  /* ============ ACHIEVEMENTS: 특허 카드 시각화 ============ */
+  .patent-visual-card { display: flex; align-items: center; gap: 24px; }
+  .patent-donut { flex: none; width: 96px; height: 96px; position: relative; }
+  .patent-donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .patent-donut-center {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .patent-donut-num { font-family: 'SUIT', sans-serif; font-size: 22px; font-weight: 800; color: #2a2520; }
+  .patent-donut-total { font-size: 10px; color: #8a8175; }
+  .patent-legend { flex: 1; }
+  .patent-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #6b6259; margin-bottom: 8px; }
+  .patent-legend-item:last-child { margin-bottom: 0; }
+  .patent-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .patent-legend-item b { color: #2a2520; }
+
+  .patent-bar-visual { display: flex; height: 28px; border-radius: 8px; overflow: hidden; margin-top: 14px; }
+  .patent-bar-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="mockup-wrap">
+
+  <h1 style="font-family:'SUIT',sans-serif; font-size:28px; font-weight:800; color:#2a2520; margin-bottom:8px;">Beauty 페이지 리디자인 — 시각화 옵션</h1>
+  <p style="font-family:'SUIT',sans-serif; font-size:14px; color:#8a8175;">TECHNOLOGY / BUSINESS MODEL / ACHIEVEMENTS 3개 섹션 각각 옵션 제시. 경쟁제품 비교표는 완전히 제거하고 다른 내용으로 대체.</p>
+
+  <!-- ============================================================ -->
+  <div class="mockup-section-title">1. TECHNOLOGY 섹션 — 경쟁제품 비교표 대체안</div>
+  <div class="mockup-section-sub">기존: 스킨 라이트 테라피 3S 등 경쟁 제품 비교 표(&lt;table&gt;) → 삭제, 기술 차별화 내용으로 대체</div>
+
+  <!-- TECH A -->
+  <div class="mockup-label">옵션 A — 차별화 포인트 아이콘 카드 3개</div>
+  <div class="mockup-block">
+    <div class="mockup-title">LWIR 기반 비접촉 피부 진단</div>
+    <div class="mockup-desc">핵심 차별화 포인트를 아이콘 카드로. 가장 범용적이고 다른 도메인 페이지와 톤이 잘 맞음.</div>
+    <div class="feature-card-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">◐</div>
+        <div class="feature-card-title">비접촉 측정</div>
+        <div class="feature-card-desc">광학 센서가 피부에 닿지 않고 수분·유분·탄력을 정량 측정 — 위생적이고 반복 측정 오차가 적음</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">◈</div>
+        <div class="feature-card-title">공용 원천기술 스핀오프</div>
+        <div class="feature-card-desc">FINSIDE의 LWIR 내부 상태 예측 기술을 뷰티 영역에 적용한 OSMU 확장 — 검증된 기반 기술</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">◎</div>
+        <div class="feature-card-title">AI 앱 연동 프로토타입</div>
+        <div class="feature-card-desc">측정 결과를 모바일 앱으로 즉시 제공하는 프로토타입까지 개발 완료 — 실증 단계 진입</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH B -->
+  <div class="mockup-label">옵션 B — 측정 프로세스 플로우 (측정 → 분석 → 추천)</div>
+  <div class="mockup-block">
+    <div class="mockup-title">LWIR 기반 비접촉 피부 진단</div>
+    <div class="mockup-desc">기술이 실제로 어떻게 작동하는지 스토리텔링. B2B2C 흐름과 자연스럽게 연결됨.</div>
+    <div class="flow-row">
+      <div class="flow-step">
+        <div class="flow-step-num">STEP 1</div>
+        <div class="flow-step-title">비접촉 측정</div>
+        <div class="flow-step-desc">LWIR 광학 센서로 피부 표면에 닿지 않고 수분·유분·탄력 데이터 수집</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">STEP 2</div>
+        <div class="flow-step-title">AI 정량 분석</div>
+        <div class="flow-step-desc">FINSIDE 공용 원천기술 기반 알고리즘이 측정값을 피부 상태 지표로 환산</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-step-num">STEP 3</div>
+        <div class="flow-step-title">맞춤 추천 &amp; R&amp;D 데이터</div>
+        <div class="flow-step-desc">모바일 앱으로 초개인화 스킨케어 추천, 동시에 화장품 브랜드 R&amp;D 데이터로 활용</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH C -->
+  <div class="mockup-label">옵션 C — 스펙 하이라이트 스트립 (숫자 중심)</div>
+  <div class="mockup-block">
+    <div class="mockup-title">LWIR 기반 비접촉 피부 진단</div>
+    <div class="mockup-desc">측정 가능한 지표를 숫자/스펙 형태로 강조. 가장 간결하고 제작 공수가 적음.</div>
+    <div class="spec-strip">
+      <div class="spec-cell">
+        <div class="spec-cell-value">4종</div>
+        <div class="spec-cell-label">측정 지표<br>(수분·유분·탄력·톤)</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-value">0mm</div>
+        <div class="spec-cell-label">피부 접촉 거리<br>(완전 비접촉)</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-value">LWIR</div>
+        <div class="spec-cell-label">원적외선 기반<br>광학 센서</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-cell-value">Proto</div>
+        <div class="spec-cell-label">AI 앱 연동<br>프로토타입 완성</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="mockup-section-title">2. BUSINESS MODEL &amp; CUSTOMERS 섹션</div>
+  <div class="mockup-section-sub">기존: B2B/B2C 설명이 긴 텍스트 문단 하나로 나열 → 구조화된 카드/차트로 분리</div>
+
+  <!-- BIZ A -->
+  <div class="mockup-label">옵션 A — B2B / B2C 스플릿 카드 + 시장 규모</div>
+  <div class="mockup-block">
+    <div class="mockup-title">B2B2C로 연결되는 피부 데이터</div>
+    <div class="mockup-desc">고객군을 B2B/B2C로 명확히 분리하고, 숫자 데이터를 행 단위로 스캔하기 쉽게 배치.</div>
+    <div class="biz-split">
+      <div class="biz-card b2b">
+        <div class="biz-card-tag">B2B</div>
+        <div class="biz-card-title">유통·브랜드 파트너십</div>
+        <div class="biz-stat-row"><div class="biz-stat-label">화장품 소매점 (2024 기준)</div><div class="biz-stat-value">약 1,300개</div></div>
+        <div class="biz-stat-row"><div class="biz-stat-label">전국 피부관리실 목표 (약 35,000개 중)</div><div class="biz-stat-value">10% · 3,500개</div></div>
+        <div class="biz-stat-row"><div class="biz-stat-label">공동 마케팅·라이선싱</div><div class="biz-stat-value">에이피알·세라젬·달바</div></div>
+      </div>
+      <div class="biz-card b2c">
+        <div class="biz-card-tag">B2C</div>
+        <div class="biz-card-title">디바이스 + 구독 모델</div>
+        <div class="biz-stat-row"><div class="biz-stat-label">디바이스 판매가</div><div class="biz-stat-value">30만원</div></div>
+        <div class="biz-stat-row"><div class="biz-stat-label">월 구독료</div><div class="biz-stat-value">3~5만원</div></div>
+        <div class="biz-stat-row"><div class="biz-stat-label">참고 시장 성장률(CAGR)</div><div class="biz-stat-value">17.9%</div></div>
+      </div>
+    </div>
+    <div class="biz-market-row">
+      <div class="biz-market-item">
+        <div class="compare-bar-row">
+          <div class="compare-bar-row-label">TAM <b>$19.79B</b></div>
+          <div class="compare-bar-track"><div class="compare-bar-fill" style="width: 100%;"></div></div>
+        </div>
+        <div class="compare-bar-row">
+          <div class="compare-bar-row-label">SAM <b>약 $8.1B</b></div>
+          <div class="compare-bar-track"><div class="compare-bar-fill" style="width: 41%;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIZ B -->
+  <div class="mockup-label">옵션 B — 채널별 침투 퍼널 + 파트너 칩</div>
+  <div class="mockup-block">
+    <div class="mockup-title">B2B2C로 연결되는 피부 데이터</div>
+    <div class="mockup-desc">화장품 소매점·피부관리실 침투율을 막대로 비교하고, 파트너사를 칩으로 나열. 파트너십의 폭을 강조하고 싶을 때 적합.</div>
+    <div class="funnel-wrap">
+      <div class="funnel-row">
+        <div class="funnel-label">화장품 소매점</div>
+        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 60%; background: linear-gradient(90deg, #c9b08d, #a68a6d);">약 1,300개 (2024)</div></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">피부관리실 목표</div>
+        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 35%; background: linear-gradient(90deg, #9db8a8, #6f9a80);">3,500개 / 35,000개(10%)</div></div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">B2C 구독</div>
+        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width: 45%; background: linear-gradient(90deg, #cbb0d8, #9c74ae);">30만원 + 월 3~5만원</div></div>
+      </div>
+    </div>
+    <div class="partner-chip-row">
+      <span class="partner-chip">올리브영 (레퍼런스)</span>
+      <span class="partner-chip">키엘 (레퍼런스)</span>
+      <span class="partner-chip">에이피알</span>
+      <span class="partner-chip">세라젬</span>
+      <span class="partner-chip">달바</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="mockup-section-title">3. ACHIEVEMENTS 섹션 — 특허 카드 시각화</div>
+  <div class="mockup-section-sub">기존: "국내 8건 + PCT 2건 (회사 전체 특허 30건 중)" 텍스트만 있는 카드 → 도넛/막대 등으로 시각화</div>
+
+  <!-- ACH A -->
+  <div class="mockup-label">옵션 A — 도넛 차트 (회사 전체 특허 중 Beauty 비중)</div>
+  <div class="mockup-block">
+    <div class="mockup-title">특허와 성장 로드맵</div>
+    <div class="mockup-desc">전체 30건 중 Beauty 도메인이 차지하는 비중을 도넛으로. "회사 전체 특허 30건 중"이라는 맥락이 시각적으로 살아남.</div>
+    <div class="domain-chart-card patent-visual-card" style="max-width:480px;">
+      <div class="patent-donut">
+        <svg viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#ede7db" stroke-width="4"/>
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#a68a6d" stroke-width="4"
+                  stroke-dasharray="26.7 73.3" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#c9b08d" stroke-width="4"
+                  stroke-dasharray="6.7 93.3" stroke-dashoffset="-26.7" stroke-linecap="round"/>
+        </svg>
+        <div class="patent-donut-center">
+          <div class="patent-donut-num">10</div>
+          <div class="patent-donut-total">/ 30건</div>
+        </div>
+      </div>
+      <div class="patent-legend">
+        <div class="patent-legend-item"><span class="patent-legend-dot" style="background:#a68a6d;"></span>국내 특허 <b>8건</b></div>
+        <div class="patent-legend-item"><span class="patent-legend-dot" style="background:#c9b08d;"></span>PCT(국제) <b>2건</b></div>
+        <div class="patent-legend-item"><span class="patent-legend-dot" style="background:#ede7db;"></span>기타 도메인 <b>20건</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACH B -->
+  <div class="mockup-label">옵션 B — 세그먼트 막대 (국내 vs PCT)</div>
+  <div class="mockup-block">
+    <div class="mockup-title">특허와 성장 로드맵</div>
+    <div class="mockup-desc">grant-bar 스타일을 재사용. 제작 공수가 가장 적고 기존 컴포넌트와 완전히 통일됨.</div>
+    <div class="domain-chart-card" style="max-width:480px;">
+      <div class="domain-chart-label">보유 특허 — Beauty 도메인 10건 (회사 전체 30건 중)</div>
+      <div class="patent-bar-visual">
+        <div class="patent-bar-seg" style="width: 80%; background: #a68a6d;">국내 8건</div>
+        <div class="patent-bar-seg" style="width: 20%; background: #c9b08d;">PCT 2건</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACH C -->
+  <div class="mockup-label">옵션 C — 큰 숫자 강조 + 보조 스탯 (미니멀)</div>
+  <div class="mockup-block">
+    <div class="mockup-title">특허와 성장 로드맵</div>
+    <div class="mockup-desc">차트 대신 타이포그래피로 임팩트를 주는 방식. 다른 옵션 대비 가장 절제된 톤.</div>
+    <div class="domain-chart-card" style="max-width:480px; display:flex; align-items:baseline; gap:20px;">
+      <div style="font-family:'SUIT',sans-serif; font-size:56px; font-weight:800; color:#2a2520; line-height:1;">10<span style="font-size:20px; color:#a68a6d;">건</span></div>
+      <div style="font-size:13px; color:#6b6259; line-height:1.7;">
+        국내 특허 <b style="color:#2a2520;">8건</b> · PCT(국제) <b style="color:#2a2520;">2건</b><br>
+        회사 전체 특허 30건 중 <b style="color:#2a2520;">33%</b>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

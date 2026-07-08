@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty 페이지 — 컬러 팔레트 옵션</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
+    background: #e8e4dc; margin: 0; padding: 60px 0 120px;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  h1 { font-size: 28px; font-weight: 800; color: #2a2520; margin-bottom: 8px; }
+  .intro { font-size: 14px; color: #8a8175; margin-bottom: 8px; line-height: 1.7; }
+  .ref-note {
+    font-size: 13px; color: #6b6259; background: #fff; border-radius: 12px;
+    padding: 14px 18px; margin: 20px 0 40px; border-left: 3px solid #a68a6d;
+  }
+
+  .palette-section { margin-top: 64px; }
+  .palette-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.03em;
+    color: #fff; padding: 7px 16px 7px 8px; border-radius: 20px; margin-bottom: 20px;
+  }
+  .palette-label .swatch-row { display: flex; gap: 4px; }
+  .palette-label .sw { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); }
+  .palette-desc { font-size: 13px; color: #8a8175; margin-bottom: 24px; max-width: 640px; line-height: 1.6; }
+
+  /* the page mockup itself, scaled down like a device frame */
+  .page-frame {
+    border-radius: 20px; overflow: hidden; box-shadow: 0 30px 70px -30px rgba(0,0,0,0.35);
+  }
+  .pg-section { padding: 56px clamp(24px, 5vw, 64px); }
+  .pg-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 14px; }
+  .pg-heading { font-size: 24px; font-weight: 800; margin: 0 0 22px; line-height: 1.4; }
+  .pg-body { font-size: 14px; line-height: 1.8; margin-bottom: 24px; }
+
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 800px) { .card-grid-3 { grid-template-columns: 1fr; } }
+  .card {
+    border-radius: 16px; padding: 24px 22px;
+  }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 14px;
+  }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .card-desc { font-size: 12.5px; line-height: 1.6; }
+
+  .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  @media (max-width: 800px) { .chart-grid { grid-template-columns: 1fr; } }
+  .chart-card { border-radius: 16px; padding: 22px 20px; }
+  .chart-card.span-full { grid-column: 1 / -1; }
+  .chart-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+
+  /* donut ring shared */
+  .ring-wrap { display: flex; align-items: center; gap: 20px; }
+  .ring { flex: none; width: 84px; height: 84px; position: relative; }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-num { font-size: 19px; font-weight: 800; }
+  .ring-total { font-size: 9px; }
+  .ring-legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; margin-bottom: 6px; }
+  .ring-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+
+  .bar-track { display: flex; height: 24px; border-radius: 7px; overflow: hidden; margin-top: 10px; }
+  .bar-seg { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+
+  .biz-split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .biz-split-2 { grid-template-columns: 1fr; } }
+  .biz-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 10px; margin-bottom: 12px; }
+  .biz-stat-row { display: flex; justify-content: space-between; font-size: 12px; padding: 8px 0; }
+  .biz-stat-row + .biz-stat-row { border-top-width: 1px; border-top-style: solid; }
+
+  .gauge-row { display: flex; gap: 16px; }
+  .gauge-item { flex: 1; text-align: center; }
+  .gauge-ring { width: 76px; height: 76px; margin: 0 auto 10px; position: relative; }
+  .gauge-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .gauge-ring-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; }
+  .gauge-label { font-size: 11px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Beauty 페이지 — 컬러 팔레트 옵션</h1>
+  <p class="intro">현재 사이트는 웜 베이지/탄(#a68a6d) 톤 하나로 통일되어 있습니다. /ref 폴더의 IR 자료(피부 진단 디바이스 대시보드, 매장 키오스크 UI)를 참고해, Beauty 도메인만 다른 색감으로 차별화하는 3가지 옵션을 같은 레이아웃(카드/차트 구성은 이전 목업과 동일)에 색만 바꿔 비교합니다.</p>
+  <div class="ref-note">
+    참고: ref/FINSIDE_IR_vFF pptx 내 피부 진단기 대시보드 이미지는 다크 네이비 배경 + 컬러 슬라이더(빨강~초록) 조합이었고, 매장 키오스크 화면은 화이트 배경 + 그린 원형 게이지였습니다. 이 두 톤을 옵션 1·2에 반영했고, 옵션 3은 스킨케어 브랜드에서 흔한 코랄/누드 톤입니다.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- OPTION 1: CLINICAL DARK NAVY -->
+  <!-- ============================================================ -->
+  <div class="palette-section">
+    <div class="palette-label" style="background:#0f1b2b;">
+      <span class="swatch-row">
+        <span class="sw" style="background:#1a2b42;"></span>
+        <span class="sw" style="background:#5ec8b8;"></span>
+        <span class="sw" style="background:#e8c468;"></span>
+      </span>
+      옵션 1 — 클리니컬 다크 네이비
+    </div>
+    <div class="palette-desc">진단 디바이스 화면(모니터의 다크 UI)에서 착안. TECHNOLOGY 섹션을 어두운 배경으로 전환해 "정밀 진단 장비" 느낌을 강조. 데이터/차트가 돋보이는 대비가 강한 톤.</div>
+
+    <div class="page-frame">
+      <div class="pg-section" style="background:#0f1b2b;">
+        <div class="pg-eyebrow" style="color:#5ec8b8;">TECHNOLOGY</div>
+        <h2 class="pg-heading" style="color:#f4f1ea;">LWIR 기반 <b style="color:#5ec8b8;">비접촉 피부 진단</b></h2>
+        <p class="pg-body" style="color:#a9b4c2;">
+          원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 기술을 피부에 적용했습니다. 접촉 없이 수분·유분·탄력 상태를
+          정량 데이터로 측정하고, AI 기반 모바일 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+        </p>
+        <div class="card-grid-3">
+          <div class="card" style="background:#16263b;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#5ec8b8,#3a9b8d); color:#0f1b2b;">◐</div>
+            <div class="card-title" style="color:#f4f1ea;">비접촉 측정</div>
+            <div class="card-desc" style="color:#8b96a5;">광학 센서가 피부에 닿지 않고 정량 측정 — 위생적이고 오차가 적음</div>
+          </div>
+          <div class="card" style="background:#16263b;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#5ec8b8,#3a9b8d); color:#0f1b2b;">◈</div>
+            <div class="card-title" style="color:#f4f1ea;">공용 원천기술 스핀오프</div>
+            <div class="card-desc" style="color:#8b96a5;">FINSIDE LWIR 기술의 뷰티 영역 OSMU 확장 — 검증된 기반 기술</div>
+          </div>
+          <div class="card" style="background:#16263b;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#e8c468,#c9a04a); color:#0f1b2b;">◎</div>
+            <div class="card-title" style="color:#f4f1ea;">AI 앱 연동 프로토타입</div>
+            <div class="card-desc" style="color:#8b96a5;">모바일 앱 실시간 결과 제공 프로토타입 개발 완료 — 실증 단계 진입</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-section" style="background:#f4f1ea;">
+        <div class="pg-eyebrow" style="color:#2a7d6e;">ACHIEVEMENTS</div>
+        <h2 class="pg-heading" style="color:#132434;">특허와 <b style="color:#2a7d6e;">성장 로드맵</b></h2>
+        <div class="chart-grid">
+          <div class="chart-card" style="background:#fff; box-shadow: 0 1px 0 #0f1b2b0d, 0 20px 40px -24px #0f1b2b26;">
+            <div class="chart-label" style="color:#2a7d6e;">특허</div>
+            <div class="ring-wrap">
+              <div class="ring">
+                <svg viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e4ede9" stroke-width="4"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2a7d6e" stroke-width="4" stroke-dasharray="26.7 73.3" stroke-linecap="round"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#5ec8b8" stroke-width="4" stroke-dasharray="6.7 93.3" stroke-dashoffset="-26.7" stroke-linecap="round"/>
+                </svg>
+                <div class="ring-center"><div class="ring-num" style="color:#132434;">10</div><div class="ring-total" style="color:#8a8175;">/ 30건</div></div>
+              </div>
+              <div>
+                <div class="ring-legend-item" style="color:#5a6a75;"><span class="ring-dot" style="background:#2a7d6e;"></span>국내 <b style="color:#132434;">8건</b></div>
+                <div class="ring-legend-item" style="color:#5a6a75;"><span class="ring-dot" style="background:#5ec8b8;"></span>PCT <b style="color:#132434;">2건</b></div>
+                <div class="ring-legend-item" style="color:#5a6a75;"><span class="ring-dot" style="background:#e4ede9;"></span>기타 <b style="color:#132434;">20건</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card span-full" style="background:#fff; box-shadow: 0 1px 0 #0f1b2b0d, 0 20px 40px -24px #0f1b2b26;">
+            <div class="chart-label" style="color:#2a7d6e;">시장 규모 — TAM $19.79B / SAM $8.1B</div>
+            <div style="font-size:12px; color:#5a6a75; margin-bottom:6px;">TAM <b style="color:#132434;">$19.79B</b></div>
+            <div class="bar-track" style="background:#e4ede9;"><div class="bar-seg" style="width:100%; background:linear-gradient(90deg,#5ec8b8,#2a7d6e); color:#fff;"></div></div>
+            <div style="font-size:12px; color:#5a6a75; margin:14px 0 6px;">SAM <b style="color:#132434;">약 $8.1B</b></div>
+            <div class="bar-track" style="background:#e4ede9;"><div class="bar-seg" style="width:41%; background:linear-gradient(90deg,#5ec8b8,#2a7d6e); color:#fff;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- OPTION 2: KIOSK GREEN & WHITE -->
+  <!-- ============================================================ -->
+  <div class="palette-section">
+    <div class="palette-label" style="background:#3f6b52;">
+      <span class="swatch-row">
+        <span class="sw" style="background:#ffffff;"></span>
+        <span class="sw" style="background:#5fae7f;"></span>
+        <span class="sw" style="background:#f2a154;"></span>
+      </span>
+      옵션 2 — 매장 키오스크 그린 &amp; 화이트
+    </div>
+    <div class="palette-desc">리테일 매장 피부 진단 키오스크(화이트 배경 + 그린 원형 게이지)에서 착안. 밝고 신뢰감 있는 "헬스/웰니스" 톤. 현재 사이트의 밝은 배경 구조와 가장 잘 어울려 이질감이 적음.</div>
+
+    <div class="page-frame">
+      <div class="pg-section" style="background:#f6faf7;">
+        <div class="pg-eyebrow" style="color:#3f6b52;">TECHNOLOGY</div>
+        <h2 class="pg-heading" style="color:#1f2e24;">LWIR 기반 <b style="color:#3f6b52;">비접촉 피부 진단</b></h2>
+        <p class="pg-body" style="color:#5a6b5f;">
+          원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 기술을 피부에 적용했습니다. 접촉 없이 수분·유분·탄력 상태를
+          정량 데이터로 측정하고, AI 기반 모바일 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+        </p>
+        <div class="card-grid-3">
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #1f2e240d, 0 20px 40px -24px #1f2e2426;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#7ec99a,#3f6b52); color:#fff;">◐</div>
+            <div class="card-title" style="color:#1f2e24;">비접촉 측정</div>
+            <div class="card-desc" style="color:#5a6b5f;">광학 센서가 피부에 닿지 않고 정량 측정 — 위생적이고 오차가 적음</div>
+          </div>
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #1f2e240d, 0 20px 40px -24px #1f2e2426;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#7ec99a,#3f6b52); color:#fff;">◈</div>
+            <div class="card-title" style="color:#1f2e24;">공용 원천기술 스핀오프</div>
+            <div class="card-desc" style="color:#5a6b5f;">FINSIDE LWIR 기술의 뷰티 영역 OSMU 확장 — 검증된 기반 기술</div>
+          </div>
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #1f2e240d, 0 20px 40px -24px #1f2e2426;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#f2a154,#d97f2e); color:#fff;">◎</div>
+            <div class="card-title" style="color:#1f2e24;">AI 앱 연동 프로토타입</div>
+            <div class="card-desc" style="color:#5a6b5f;">모바일 앱 실시간 결과 제공 프로토타입 개발 완료 — 실증 단계 진입</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-section" style="background:#ffffff;">
+        <div class="pg-eyebrow" style="color:#3f6b52;">ACHIEVEMENTS</div>
+        <h2 class="pg-heading" style="color:#1f2e24;">특허와 <b style="color:#3f6b52;">성장 로드맵</b></h2>
+        <div class="gauge-row">
+          <div class="gauge-item">
+            <div class="gauge-ring">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e3f0e7" stroke-width="4"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3f6b52" stroke-width="4" stroke-dasharray="26.7 73.3" stroke-linecap="round"/>
+              </svg>
+              <div class="gauge-ring-center" style="color:#1f2e24;">8건</div>
+            </div>
+            <div class="gauge-label" style="color:#5a6b5f;">국내 특허</div>
+          </div>
+          <div class="gauge-item">
+            <div class="gauge-ring">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e3f0e7" stroke-width="4"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#7ec99a" stroke-width="4" stroke-dasharray="6.7 93.3" stroke-linecap="round"/>
+              </svg>
+              <div class="gauge-ring-center" style="color:#1f2e24;">2건</div>
+            </div>
+            <div class="gauge-label" style="color:#5a6b5f;">PCT 특허</div>
+          </div>
+          <div class="gauge-item">
+            <div class="gauge-ring">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e3f0e7" stroke-width="4"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f2a154" stroke-width="4" stroke-dasharray="33 67" stroke-linecap="round"/>
+              </svg>
+              <div class="gauge-ring-center" style="color:#1f2e24;">33%</div>
+            </div>
+            <div class="gauge-label" style="color:#5a6b5f;">전사 특허 비중</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- OPTION 3: SKIN CORAL & NUDE -->
+  <!-- ============================================================ -->
+  <div class="palette-section">
+    <div class="palette-label" style="background:#a85d4f;">
+      <span class="swatch-row">
+        <span class="sw" style="background:#f6e8e0;"></span>
+        <span class="sw" style="background:#d97b63;"></span>
+        <span class="sw" style="background:#c9a26b;"></span>
+      </span>
+      옵션 3 — 스킨 코랄 &amp; 누드
+    </div>
+    <div class="palette-desc">스킨케어/뷰티 브랜드에서 흔히 쓰는 코랄·피부톤 팔레트. 현재 베이지 톤과 계열은 가깝지만 채도를 올려 "뷰티다움"을 더 직접적으로 드러냄.</div>
+
+    <div class="page-frame">
+      <div class="pg-section" style="background:#fbf1ec;">
+        <div class="pg-eyebrow" style="color:#a85d4f;">TECHNOLOGY</div>
+        <h2 class="pg-heading" style="color:#3a2620;">LWIR 기반 <b style="color:#a85d4f;">비접촉 피부 진단</b></h2>
+        <p class="pg-body" style="color:#7a5f57;">
+          원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 기술을 피부에 적용했습니다. 접촉 없이 수분·유분·탄력 상태를
+          정량 데이터로 측정하고, AI 기반 모바일 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+        </p>
+        <div class="card-grid-3">
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #3a26200d, 0 20px 40px -24px #3a262026;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#e8a595,#d97b63); color:#fff;">◐</div>
+            <div class="card-title" style="color:#3a2620;">비접촉 측정</div>
+            <div class="card-desc" style="color:#7a5f57;">광학 센서가 피부에 닿지 않고 정량 측정 — 위생적이고 오차가 적음</div>
+          </div>
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #3a26200d, 0 20px 40px -24px #3a262026;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#e8a595,#d97b63); color:#fff;">◈</div>
+            <div class="card-title" style="color:#3a2620;">공용 원천기술 스핀오프</div>
+            <div class="card-desc" style="color:#7a5f57;">FINSIDE LWIR 기술의 뷰티 영역 OSMU 확장 — 검증된 기반 기술</div>
+          </div>
+          <div class="card" style="background:#fff; box-shadow: 0 1px 0 #3a26200d, 0 20px 40px -24px #3a262026;">
+            <div class="card-icon" style="background:linear-gradient(135deg,#d9b876,#c9a26b); color:#fff;">◎</div>
+            <div class="card-title" style="color:#3a2620;">AI 앱 연동 프로토타입</div>
+            <div class="card-desc" style="color:#7a5f57;">모바일 앱 실시간 결과 제공 프로토타입 개발 완료 — 실증 단계 진입</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-section" style="background:#ffffff;">
+        <div class="pg-eyebrow" style="color:#a85d4f;">BUSINESS MODEL &amp; CUSTOMERS</div>
+        <h2 class="pg-heading" style="color:#3a2620;">B2B2C로 <b style="color:#a85d4f;">연결되는 피부 데이터</b></h2>
+        <div class="biz-split-2">
+          <div class="card" style="background:#fbf1ec;">
+            <div class="biz-tag" style="background:#f3d9d0; color:#8a4536;">B2B</div>
+            <div class="card-title" style="color:#3a2620; margin-bottom:12px;">유통·브랜드 파트너십</div>
+            <div class="biz-stat-row" style="color:#7a5f57;"><span>화장품 소매점</span><b style="color:#3a2620;">약 1,300개</b></div>
+            <div class="biz-stat-row" style="color:#7a5f57; border-color:#3a26201a;"><span>피부관리실 목표</span><b style="color:#3a2620;">3,500개</b></div>
+            <div class="biz-stat-row" style="color:#7a5f57; border-color:#3a26201a;"><span>공동 마케팅·라이선싱</span><b style="color:#3a2620;">3개사</b></div>
+          </div>
+          <div class="card" style="background:#faf3e8;">
+            <div class="biz-tag" style="background:#ecdcb8; color:#7a5a1f;">B2C</div>
+            <div class="card-title" style="color:#3a2620; margin-bottom:12px;">디바이스 + 구독 모델</div>
+            <div class="biz-stat-row" style="color:#7a5f57;"><span>디바이스 판매가</span><b style="color:#3a2620;">30만원</b></div>
+            <div class="biz-stat-row" style="color:#7a5f57; border-color:#3a26201a;"><span>월 구독료</span><b style="color:#3a2620;">3~5만원</b></div>
+            <div class="biz-stat-row" style="color:#7a5f57; border-color:#3a26201a;"><span>시장 CAGR</span><b style="color:#3a2620;">17.9%</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

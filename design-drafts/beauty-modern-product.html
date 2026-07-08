@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty 페이지 — 모던 프로덕트 디자인 옵션 (BeconX / LULULAB 레퍼런스)</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
+    background: #e9e9ea; margin: 0; padding: 60px 0 140px;
+  }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  h1 { font-size: 28px; font-weight: 800; color: #111; margin-bottom: 10px; }
+  .intro { font-size: 14px; color: #555; margin-bottom: 4px; line-height: 1.7; max-width: 780px; }
+  .ref-note {
+    font-size: 13px; color: #333; background: #fff; border-radius: 6px;
+    padding: 16px 20px; margin: 20px 0 48px; border-left: 3px solid #111;
+    line-height: 1.8;
+  }
+  .ref-note b { color: #000; }
+  .ref-note .swatches { display: inline-flex; gap: 6px; vertical-align: middle; margin: 0 2px; }
+  .ref-note .sw { width: 13px; height: 13px; display: inline-block; border-radius: 3px; border: 1px solid rgba(0,0,0,0.15); }
+
+  .opt-section { margin-top: 72px; }
+  .opt-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+    color: #fff; padding: 8px 18px; border-radius: 4px; margin-bottom: 10px;
+  }
+  .opt-desc { font-size: 13px; color: #555; margin-bottom: 26px; max-width: 700px; line-height: 1.7; }
+  .opt-desc b { color: #111; }
+
+  .page-frame {
+    overflow: hidden; box-shadow: 0 40px 90px -35px rgba(0,0,0,0.4); border-radius: 6px;
+  }
+  .pg-section { padding: 80px clamp(24px, 6vw, 88px); }
+  .pg-eyebrow {
+    font-size: 12px; font-weight: 800; letter-spacing: 0.16em; margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .pg-heading {
+    font-size: clamp(30px, 4vw, 46px); font-weight: 800; margin: 0 0 28px; line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .pg-body { font-size: 15px; line-height: 1.85; margin-bottom: 0; max-width: 640px; }
+
+  /* ============ OPTION A — BeconX 스타일: 블랙/화이트 + 블루, 데이터 대시보드 ============ */
+  .optA { background: #fff; color: #0a0a0a; }
+  .optA .pg-eyebrow { color: #116dff; }
+  .optA .pg-heading b { color: #116dff; }
+  .optA-tech {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 0;
+  }
+  .optA-tech-left { padding-right: 56px; border-right: 1px solid #e4e4e6; }
+  .optA-spec-list { margin-top: 36px; display: flex; flex-direction: column; }
+  .optA-spec-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 18px 0; border-top: 1px solid #e4e4e6;
+  }
+  .optA-spec-row:last-child { border-bottom: 1px solid #e4e4e6; }
+  .optA-spec-label { font-size: 13px; color: #6b6b6f; font-weight: 600; }
+  .optA-spec-value { font-size: 15px; color: #0a0a0a; font-weight: 700; }
+  .optA-tech-right { padding-left: 56px; display: flex; flex-direction: column; justify-content: center; }
+  .optA-metric-big { font-size: 84px; font-weight: 900; line-height: 1; color: #0a0a0a; letter-spacing: -0.03em; }
+  .optA-metric-big span { color: #116dff; }
+  .optA-metric-label { font-size: 14px; color: #6b6b6f; font-weight: 600; margin-top: 12px; }
+  .optA-metric-sub { font-size: 13px; color: #999; margin-top: 30px; line-height: 1.7; padding-top: 24px; border-top: 1px solid #e4e4e6; }
+
+  .optA-biz { background: #0a0a0a; color: #fff; }
+  .optA-biz .pg-eyebrow { color: #4eb7f5; }
+  .optA-biz-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #2a2a2c; margin-top: 40px; }
+  .optA-biz-cell { background: #0a0a0a; padding: 32px; }
+  .optA-biz-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: #116dff; margin-bottom: 14px; }
+  .optA-biz-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+  .optA-biz-desc { font-size: 13.5px; color: #a0a0a5; line-height: 1.8; }
+  .optA-biz-num { font-size: 34px; font-weight: 900; color: #fff; margin-top: 18px; }
+  .optA-biz-num span { color: #4eb7f5; font-size: 16px; font-weight: 700; }
+
+  .optA-ach { background: #fff; }
+  .optA-ach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #e4e4e6; margin-top: 40px; border: 1px solid #e4e4e6; }
+  .optA-ach-cell { background: #fff; padding: 28px 22px; }
+  .optA-ach-num { font-size: 40px; font-weight: 900; color: #0a0a0a; letter-spacing: -0.02em; }
+  .optA-ach-num span { color: #116dff; }
+  .optA-ach-label { font-size: 12.5px; color: #6b6b6f; margin-top: 8px; font-weight: 600; }
+  .optA-revenue { margin-top: 48px; }
+  .optA-rev-row { display: flex; align-items: center; gap: 16px; padding: 10px 0; }
+  .optA-rev-year { width: 48px; font-size: 13px; font-weight: 700; color: #6b6b6f; }
+  .optA-rev-track { flex: 1; height: 28px; background: #f0f0f0; position: relative; border-radius: 2px; overflow: hidden; }
+  .optA-rev-fill { height: 100%; background: #116dff; border-radius: 2px; display: flex; align-items: center; }
+  .optA-rev-val { font-size: 13px; font-weight: 800; color: #0a0a0a; width: 64px; text-align: right; }
+
+  /* ============ OPTION B — LULULAB 스타일: 화이트 베이스 + 마젠타 강조, 볼드 타이포 ============ */
+  .optB { background: #fff; color: #111; }
+  .optB .pg-eyebrow { color: #da005c; }
+  .optB .pg-heading b { color: #da005c; }
+  .optB-tech-hero {
+    margin-top: 8px; padding: 44px 0 8px; border-bottom: 4px solid #111;
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px;
+  }
+  .optB-tech-hero-num { font-size: 120px; font-weight: 900; line-height: 0.85; letter-spacing: -0.04em; color: #111; }
+  .optB-tech-hero-num span { color: #da005c; }
+  .optB-tech-hero-cap { font-size: 14px; font-weight: 700; color: #555; padding-bottom: 14px; max-width: 260px; line-height: 1.6; text-align: right; }
+  .optB-chip-row { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+  .optB-chip {
+    font-size: 13px; font-weight: 700; padding: 9px 18px; border-radius: 100px;
+    border: 2px solid #111; color: #111;
+  }
+  .optB-chip.active { background: #da005c; border-color: #da005c; color: #fff; }
+
+  .optB-biz { background: #111; color: #fff; }
+  .optB-biz .pg-eyebrow { color: #ff4d94; }
+  .optB-split { display: grid; grid-template-columns: 1fr 1fr; margin-top: 44px; border: 2px solid #333; border-radius: 8px; overflow: hidden; }
+  .optB-split-col { padding: 36px 32px; }
+  .optB-split-col:first-child { border-right: 2px solid #333; }
+  .optB-split-tag { display: inline-block; font-size: 12px; font-weight: 900; padding: 5px 12px; border-radius: 4px; background: #da005c; color: #fff; margin-bottom: 18px; }
+  .optB-split-title { font-size: 22px; font-weight: 800; margin-bottom: 14px; }
+  .optB-split-desc { font-size: 13.5px; color: #b8b8b8; line-height: 1.8; }
+  .optB-split-stat { display: flex; align-items: baseline; gap: 8px; margin-top: 22px; }
+  .optB-split-stat-num { font-size: 32px; font-weight: 900; }
+  .optB-split-stat-label { font-size: 12.5px; color: #999; }
+
+  .optB-ach { background: #fbfbfb; }
+  .optB-ach-hero {
+    display: flex; align-items: center; justify-content: center; gap: 60px;
+    margin: 44px 0 56px; padding: 44px; background: #fff; border: 2px solid #111; border-radius: 12px;
+  }
+  .optB-donut { position: relative; width: 168px; height: 168px; border-radius: 50%; flex: none; }
+  .optB-donut-hole {
+    position: absolute; inset: 20px; background: #fbfbfb; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .optB-donut-num { font-size: 30px; font-weight: 900; color: #111; }
+  .optB-donut-lbl { font-size: 11px; color: #777; font-weight: 700; margin-top: 2px; }
+  .optB-legend { display: flex; flex-direction: column; gap: 14px; }
+  .optB-legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; }
+  .optB-legend-dot { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+  .optB-legend-val { color: #da005c; font-weight: 900; }
+  .optB-bars2 { display: flex; align-items: flex-end; gap: 20px; height: 200px; padding: 0 8px; }
+  .optB-bars2-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .optB-bars2-val { font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+  .optB-bars2-bar { width: 100%; max-width: 56px; background: #111; border-radius: 3px 3px 0 0; }
+  .optB-bars2-bar.hi { background: #da005c; }
+  .optB-bars2-yr { font-size: 12px; color: #777; font-weight: 700; margin-top: 10px; }
+
+  /* ============ OPTION C — 합성: 다크 히어로 + 화이트 데이터 섹션, 매거진 레이아웃 ============ */
+  .optC { background: #0d0d0f; color: #fff; }
+  .optC-tech {
+    display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: start;
+  }
+  .optC .pg-eyebrow { color: #ff3d71; letter-spacing: 0.2em; }
+  .optC-tech-title { font-size: clamp(34px, 4vw, 52px); font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 24px; }
+  .optC-tech-title b { color: #ff3d71; }
+  .optC-tech-desc { font-size: 14.5px; color: #b0b0b5; line-height: 1.9; }
+  .optC-diagram { border: 1px solid #2a2a30; border-radius: 4px; padding: 28px; background: #131316; }
+  .optC-diagram-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #232328; }
+  .optC-diagram-row:last-child { border-bottom: none; }
+  .optC-diagram-label { font-size: 13px; color: #8a8a90; font-weight: 600; }
+  .optC-diagram-gauge { flex: 1; margin: 0 20px; height: 6px; background: #232328; border-radius: 3px; overflow: hidden; }
+  .optC-diagram-fill { height: 100%; background: linear-gradient(90deg, #ff3d71, #ff8a5c); border-radius: 3px; }
+  .optC-diagram-pct { font-size: 14px; font-weight: 800; color: #fff; width: 40px; text-align: right; }
+
+  .optC-biz { background: #fff; color: #111; }
+  .optC-biz .pg-eyebrow { color: #ff3d71; }
+  .optC-biz-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 44px; border-top: 2px solid #111; }
+  .optC-biz-card { padding: 30px 24px; border-right: 1px solid #ddd; }
+  .optC-biz-card:last-child { border-right: none; }
+  .optC-biz-idx { font-size: 13px; font-weight: 900; color: #ff3d71; margin-bottom: 16px; }
+  .optC-biz-title { font-size: 16px; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
+  .optC-biz-desc { font-size: 13px; color: #666; line-height: 1.75; }
+
+  .optC-ach { background: #0d0d0f; }
+  .optC-ach-strip { display: flex; margin-top: 44px; border: 1px solid #2a2a30; border-radius: 4px; overflow: hidden; }
+  .optC-ach-block { flex: 1; padding: 30px 26px; border-right: 1px solid #2a2a30; }
+  .optC-ach-block:last-child { border-right: none; }
+  .optC-ach-block-num { font-size: 46px; font-weight: 900; letter-spacing: -0.02em; }
+  .optC-ach-block-num span { color: #ff3d71; }
+  .optC-ach-block-lbl { font-size: 12.5px; color: #8a8a90; font-weight: 600; margin-top: 8px; }
+  .optC-tam { margin-top: 36px; }
+  .optC-tam-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+  .optC-tam-label { width: 130px; font-size: 13px; font-weight: 700; color: #b0b0b5; }
+  .optC-tam-track { flex: 1; height: 10px; background: #1c1c20; border-radius: 5px; overflow: hidden; }
+  .optC-tam-fill { height: 100%; background: linear-gradient(90deg, #ff3d71, #ff8a5c); border-radius: 5px; }
+  .optC-tam-val { width: 90px; text-align: right; font-size: 13px; font-weight: 800; color: #fff; }
+
+  @media (max-width: 860px) {
+    .optA-tech, .optC-tech { grid-template-columns: 1fr; }
+    .optA-tech-left { border-right: none; border-bottom: 1px solid #e4e4e6; padding: 0 0 40px; margin-bottom: 40px; }
+    .optA-tech-right { padding-left: 0; }
+    .optA-biz-grid, .optB-split, .optC-biz-cards { grid-template-columns: 1fr; }
+    .optA-ach-grid { grid-template-columns: repeat(2, 1fr); }
+    .optB-tech-hero { grid-template-columns: 1fr; }
+    .optB-tech-hero-cap { text-align: left; }
+    .optB-ach-hero { flex-direction: column; gap: 28px; }
+    .optC-ach-strip { flex-direction: column; }
+    .optC-ach-block { border-right: none; border-bottom: 1px solid #2a2a30; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Beauty 페이지 — 모던 프로덕트 디자인 리디자인</h1>
+  <p class="intro">
+    "실제 프로덕트 디자인 느낌이 아니다"라는 피드백에 따라, 기존 베이지톤 카드形 레이아웃에서 완전히 벗어나
+    비컨(BeconX)과 룰루랩(LULULAB) 실제 사이트의 CSS를 직접 분석해 반영했습니다.
+  </p>
+  <div class="ref-note">
+    <b>비컨(beconx.com) 실측 컬러</b> — 트루 블랙 <span class="swatches"><span class="sw" style="background:#000"></span></span>
+    / 화이트 <span class="swatches"><span class="sw" style="background:#fff"></span></span>
+    / 비비드 블루 <span class="swatches"><span class="sw" style="background:#116dff"></span><span class="sw" style="background:#4eb7f5"></span></span>
+    / 스틸블루 <span class="swatches"><span class="sw" style="background:#2b5672"></span></span> · 코너 반경 0~7px(각진 형태), Wix "madefor" 지오메트릭 산세리프<br>
+    <b>룰루랩(lulu-lab.com) 실측 컬러</b> — 블랙/화이트/그레이 베이스 + 마젠타 강조 <span class="swatches"><span class="sw" style="background:#da005c"></span></span>
+    · font-weight 500/600/900 다용, 히어로 타이포 최대 5.625rem(90px) · 코너 반경 5~10px<br>
+    → 공통점: <b>트루 블랙/화이트 고대비, 큰 볼드 숫자 타이포, 각진 코너, 단일 채도 높은 강조색, 카드보다는 대시보드/매거진식 레이아웃</b>.
+    FINSIDE 현재 톤(베이지 #faf8f4, 코너 12~20px 라운드)과 정반대 방향입니다.
+  </div>
+
+  <!-- ============ OPTION A ============ -->
+  <div class="opt-section">
+    <div class="opt-label" style="background:#116dff;">OPTION A — BeconX 스타일 (블랙&화이트 + 비비드 블루)</div>
+    <p class="opt-desc">
+      트루 화이트/블랙 대비와 얇은 구분선(divider)만으로 섹션을 나눕니다. 카드에 배경색이나 그림자를 쓰지 않고,
+      <b>스펙 리스트 + 초대형 숫자 타이포</b>로 정보를 배치합니다. BUSINESS MODEL은 다크모드 전환으로 리듬을 주고,
+      ACHIEVEMENTS는 4분할 데이터 스트립 + 얇은 바 차트로 대시보드처럼 구성했습니다.
+    </p>
+    <div class="page-frame">
+
+      <section class="pg-section optA">
+        <div class="pg-eyebrow">TECHNOLOGY</div>
+        <div class="optA-tech">
+          <div class="optA-tech-left">
+            <h2 class="pg-heading">LWIR 기반<br><b>비접촉 피부 진단</b></h2>
+            <p class="pg-body">
+              원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 기술을 피부에 적용했습니다. FINSIDE 공용 원천기술의
+              뷰티 스핀오프로, 접촉 없이 수분·유분·탄력을 정량 측정하고 AI 앱으로 결과를 제공합니다.
+            </p>
+            <div class="optA-spec-list">
+              <div class="optA-spec-row"><span class="optA-spec-label">측정 방식</span><span class="optA-spec-value">비접촉 LWIR 광학 센서</span></div>
+              <div class="optA-spec-row"><span class="optA-spec-label">측정 항목</span><span class="optA-spec-value">수분 · 유분 · 탄력</span></div>
+              <div class="optA-spec-row"><span class="optA-spec-label">결과 제공</span><span class="optA-spec-value">모바일 앱 연동 (AI 분석)</span></div>
+              <div class="optA-spec-row"><span class="optA-spec-label">개발 단계</span><span class="optA-spec-value">프로토타입 완료</span></div>
+            </div>
+          </div>
+          <div class="optA-tech-right">
+            <div class="optA-metric-big">0<span>초</span></div>
+            <div class="optA-metric-label">접촉 시간 — 완전 비접촉 측정</div>
+            <div class="optA-metric-sub">
+              FINSIDE의 공용 원천기술(LWIR 비파괴 진단)을 뷰티 영역에 적용한 OSMU 스핀오프 제품입니다.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-section optA-biz">
+        <div class="pg-eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+        <h2 class="pg-heading">B2B2C로 <b>연결되는 피부 데이터</b></h2>
+        <div class="optA-biz-grid">
+          <div class="optA-biz-cell">
+            <div class="optA-biz-tag">B2B</div>
+            <div class="optA-biz-title">화장품 소매점 · 피부관리실</div>
+            <div class="optA-biz-desc">2024년 기준 약 1,300개 매장(올리브영·키엘 사례 참고 입점 확대) + 전국 약 35,000개 피부관리실 중 목표 10%(약 3,500개). 에이피알·세라젬·달바와 공동 마케팅·라이선싱.</div>
+            <div class="optA-biz-num">3,500<span>개소 목표</span></div>
+          </div>
+          <div class="optA-biz-cell">
+            <div class="optA-biz-tag">B2C</div>
+            <div class="optA-biz-title">홈케어 디바이스 구독</div>
+            <div class="optA-biz-desc">디바이스 판매 30만원 + 월 구독 3~5만원 모델. TAM $19.79B, SAM 약 $8.1B(Grand View Research, CAGR 17.9%).</div>
+            <div class="optA-biz-num">17.9<span>% CAGR</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-section optA-ach">
+        <div class="pg-eyebrow">ACHIEVEMENTS</div>
+        <h2 class="pg-heading">특허와 <b>성장 로드맵</b></h2>
+        <div class="optA-ach-grid">
+          <div class="optA-ach-cell"><div class="optA-ach-num"><span>8</span></div><div class="optA-ach-label">국내 특허</div></div>
+          <div class="optA-ach-cell"><div class="optA-ach-num"><span>2</span></div><div class="optA-ach-label">PCT 국제출원</div></div>
+          <div class="optA-ach-cell"><div class="optA-ach-num">$19.79<span style="font-size:20px;">B</span></div><div class="optA-ach-label">TAM</div></div>
+          <div class="optA-ach-cell"><div class="optA-ach-num">$8.1<span style="font-size:20px;">B</span></div><div class="optA-ach-label">SAM</div></div>
+        </div>
+        <div class="optA-revenue">
+          <div class="optA-rev-row"><div class="optA-rev-year">2026</div><div class="optA-rev-track"><div class="optA-rev-fill" style="width:4%;"></div></div><div class="optA-rev-val">5억</div></div>
+          <div class="optA-rev-row"><div class="optA-rev-year">2027</div><div class="optA-rev-track"><div class="optA-rev-fill" style="width:6%;"></div></div><div class="optA-rev-val">10억</div></div>
+          <div class="optA-rev-row"><div class="optA-rev-year">2028</div><div class="optA-rev-track"><div class="optA-rev-fill" style="width:12%;"></div></div><div class="optA-rev-val">30억</div></div>
+          <div class="optA-rev-row"><div class="optA-rev-year">2029</div><div class="optA-rev-track"><div class="optA-rev-fill" style="width:52%;"></div></div><div class="optA-rev-val">150억</div></div>
+          <div class="optA-rev-row"><div class="optA-rev-year">2030</div><div class="optA-rev-track"><div class="optA-rev-fill" style="width:100%;"></div></div><div class="optA-rev-val">300억</div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============ OPTION B ============ -->
+  <div class="opt-section">
+    <div class="opt-label" style="background:#da005c;">OPTION B — LULULAB 스타일 (화이트 + 마젠타, 볼드 타이포)</div>
+    <p class="opt-desc">
+      룰루랩의 실제 강조색(#da005c)과 초대형 숫자 타이포를 그대로 가져왔습니다. TECHNOLOGY는 "0초" 같은 하나의
+      핵심 숫자를 90px급으로 강조하는 히어로 스탯 + 알약형 필터 칩 형태, BUSINESS MODEL은 흑백 반전 스플릿 카드,
+      ACHIEVEMENTS는 도넛 차트 + 굵은 바 차트 조합입니다.
+    </p>
+    <div class="page-frame">
+
+      <section class="pg-section optB">
+        <div class="pg-eyebrow">TECHNOLOGY</div>
+        <h2 class="pg-heading">LWIR 기반 <b>비접촉 피부 진단</b></h2>
+        <p class="pg-body">
+          원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용했습니다. 생물·바이오소재의
+          내부 상태를 예측하는 FINSIDE 공용 원천기술의 뷰티 스핀오프(OSMU)입니다.
+        </p>
+        <div class="optB-tech-hero">
+          <div class="optB-tech-hero-num">ZERO<br><span>CONTACT</span></div>
+          <div class="optB-tech-hero-cap">접촉 없이 수분·유분·탄력을<br>정량 데이터로 측정하고<br>AI 앱으로 즉시 제공</div>
+        </div>
+        <div class="optB-chip-row">
+          <div class="optB-chip active">수분</div>
+          <div class="optB-chip">유분</div>
+          <div class="optB-chip">탄력</div>
+          <div class="optB-chip">AI 모바일 연동</div>
+        </div>
+      </section>
+
+      <section class="pg-section optB-biz">
+        <div class="pg-eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+        <h2 class="pg-heading" style="color:#fff;">B2B2C로 <b style="color:#ff4d94;">연결되는 피부 데이터</b></h2>
+        <div class="optB-split">
+          <div class="optB-split-col">
+            <div class="optB-split-tag">B2B</div>
+            <div class="optB-split-title">소매점 · 피부관리실 · 브랜드</div>
+            <div class="optB-split-desc">화장품 소매점(약 1,300개, 올리브영·키엘 참고 확대) + 전국 피부관리실 약 35,000개 중 목표 10%. 에이피알·세라젬·달바 공동 마케팅 및 라이선싱.</div>
+            <div class="optB-split-stat"><span class="optB-split-stat-num">3,500</span><span class="optB-split-stat-label">목표 매장/관리실 수</span></div>
+          </div>
+          <div class="optB-split-col">
+            <div class="optB-split-tag">B2C</div>
+            <div class="optB-split-title">홈케어 디바이스 + 구독</div>
+            <div class="optB-split-desc">디바이스 판매 30만원 + 월 구독 3~5만원. TAM $19.79B · SAM 약 $8.1B (Grand View Research, CAGR 17.9%).</div>
+            <div class="optB-split-stat"><span class="optB-split-stat-num">17.9%</span><span class="optB-split-stat-label">시장 연평균 성장률</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-section optB-ach">
+        <div class="pg-eyebrow">ACHIEVEMENTS</div>
+        <h2 class="pg-heading">특허와 <b>성장 로드맵</b></h2>
+        <div class="optB-ach-hero">
+          <div class="optB-donut" style="background: conic-gradient(#da005c 0% 80%, #111 80% 100%);">
+            <div class="optB-donut-hole">
+              <div class="optB-donut-num">10</div>
+              <div class="optB-donut-lbl">건 (국내8+PCT2)</div>
+            </div>
+          </div>
+          <div class="optB-legend">
+            <div class="optB-legend-item"><span class="optB-legend-dot" style="background:#da005c;"></span>국내 특허 <span class="optB-legend-val">8건</span></div>
+            <div class="optB-legend-item"><span class="optB-legend-dot" style="background:#111;"></span>PCT 국제출원 <span class="optB-legend-val" style="color:#111;">2건</span></div>
+            <div class="optB-legend-item" style="color:#777; font-weight:600;">회사 전체 특허 30건 중</div>
+          </div>
+        </div>
+        <div class="optB-bars2">
+          <div class="optB-bars2-col"><div class="optB-bars2-val">5억</div><div class="optB-bars2-bar" style="height:4%;"></div><div class="optB-bars2-yr">2026</div></div>
+          <div class="optB-bars2-col"><div class="optB-bars2-val">10억</div><div class="optB-bars2-bar" style="height:6%;"></div><div class="optB-bars2-yr">2027</div></div>
+          <div class="optB-bars2-col"><div class="optB-bars2-val">30억</div><div class="optB-bars2-bar" style="height:12%;"></div><div class="optB-bars2-yr">2028</div></div>
+          <div class="optB-bars2-col"><div class="optB-bars2-val">150억</div><div class="optB-bars2-bar" style="height:52%;"></div><div class="optB-bars2-yr">2029</div></div>
+          <div class="optB-bars2-col"><div class="optB-bars2-val">300억</div><div class="optB-bars2-bar hi" style="height:100%;"></div><div class="optB-bars2-yr">2030</div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============ OPTION C ============ -->
+  <div class="opt-section">
+    <div class="opt-label" style="background:#ff3d71;">OPTION C — 합성형: 다크 매거진 히어로 + 화이트 데이터 섹션</div>
+    <p class="opt-desc">
+      BeconX의 다크 대시보드 감성과 룰루랩의 볼드 타이포·강조색 리듬을 결합한 절충안입니다. TECHNOLOGY는 다크 배경에
+      대형 타이포 + 우측 진단 게이지 패널, BUSINESS MODEL은 화이트 배경 3분할 매거진 카드, ACHIEVEMENTS는 다시 다크로
+      돌아와 스트립형 통계 + TAM/SAM 바를 배치해 섹션마다 명암 리듬을 줍니다.
+    </p>
+    <div class="page-frame">
+
+      <section class="pg-section optC">
+        <div class="pg-eyebrow">TECHNOLOGY</div>
+        <div class="optC-tech">
+          <div>
+            <h2 class="optC-tech-title">LWIR 기반<br><b>비접촉 피부 진단</b></h2>
+            <p class="optC-tech-desc">
+              원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용한 제품입니다.
+              FINSIDE 공용 원천기술의 뷰티 스핀오프(OSMU)로, 접촉 없이 수분·유분·탄력을 정량 측정하고
+              AI 모바일 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+            </p>
+          </div>
+          <div class="optC-diagram">
+            <div class="optC-diagram-row"><span class="optC-diagram-label">수분</span><div class="optC-diagram-gauge"><div class="optC-diagram-fill" style="width:72%;"></div></div><span class="optC-diagram-pct">72%</span></div>
+            <div class="optC-diagram-row"><span class="optC-diagram-label">유분</span><div class="optC-diagram-gauge"><div class="optC-diagram-fill" style="width:48%;"></div></div><span class="optC-diagram-pct">48%</span></div>
+            <div class="optC-diagram-row"><span class="optC-diagram-label">탄력</span><div class="optC-diagram-gauge"><div class="optC-diagram-fill" style="width:65%;"></div></div><span class="optC-diagram-pct">65%</span></div>
+            <div class="optC-diagram-row"><span class="optC-diagram-label">AI 진단 신뢰도</span><div class="optC-diagram-gauge"><div class="optC-diagram-fill" style="width:94%;"></div></div><span class="optC-diagram-pct">94%</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-section optC-biz">
+        <div class="pg-eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+        <h2 class="pg-heading">B2B2C로 <b>연결되는 피부 데이터</b></h2>
+        <div class="optC-biz-cards">
+          <div class="optC-biz-card">
+            <div class="optC-biz-idx">01 — B2B RETAIL</div>
+            <div class="optC-biz-title">화장품 소매점</div>
+            <div class="optC-biz-desc">약 1,300개 매장(2024년 기준). 올리브영·키엘 사례 참고 입점 확대 목표.</div>
+          </div>
+          <div class="optC-biz-card">
+            <div class="optC-biz-idx">02 — B2B CLINIC</div>
+            <div class="optC-biz-title">피부관리실 · 브랜드</div>
+            <div class="optC-biz-desc">전국 약 35,000개 중 목표 10%(3,500개). 에이피알·세라젬·달바 공동 마케팅·라이선싱.</div>
+          </div>
+          <div class="optC-biz-card">
+            <div class="optC-biz-idx">03 — B2C DEVICE</div>
+            <div class="optC-biz-title">홈케어 디바이스 구독</div>
+            <div class="optC-biz-desc">판매 30만원 + 월 구독 3~5만원. TAM $19.79B / SAM $8.1B.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pg-section optC-ach">
+        <div class="pg-eyebrow">ACHIEVEMENTS</div>
+        <h2 class="pg-heading">특허와 <b>성장 로드맵</b></h2>
+        <div class="optC-ach-strip">
+          <div class="optC-ach-block"><div class="optC-ach-block-num"><span>8</span></div><div class="optC-ach-block-lbl">국내 특허</div></div>
+          <div class="optC-ach-block"><div class="optC-ach-block-num"><span>2</span></div><div class="optC-ach-block-lbl">PCT 국제출원</div></div>
+          <div class="optC-ach-block"><div class="optC-ach-block-num"><span>300억</span></div><div class="optC-ach-block-lbl">2030 매출 목표</div></div>
+          <div class="optC-ach-block"><div class="optC-ach-block-num"><span>17.9%</span></div><div class="optC-ach-block-lbl">시장 CAGR</div></div>
+        </div>
+        <div class="optC-tam">
+          <div class="optC-tam-row"><div class="optC-tam-label">TAM</div><div class="optC-tam-track"><div class="optC-tam-fill" style="width:100%;"></div></div><div class="optC-tam-val">$19.79B</div></div>
+          <div class="optC-tam-row"><div class="optC-tam-label">SAM</div><div class="optC-tam-track"><div class="optC-tam-fill" style="width:41%;"></div></div><div class="optC-tam-val">$8.1B</div></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
