@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Circulation — FINSIDE</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-about">
+
+<script>window.NAV_PAGE = 'domains-resource';</script>
+<script src="partials/header.js"></script>
+
+<section class="domain-detail-hero">
+  <div class="section-inner domain-detail-hero-layout">
+    <div class="domain-detail-hero-text">
+      <div class="eyebrow reveal-fade">RESOURCE CIRCULATION</div>
+      <h1 class="domain-detail-hero-title reveal-fade">
+        폐자원에서 다시<br><b>가치를 찾아내는 기술</b>
+      </h1>
+      <p class="domain-detail-hero-lead reveal-fade">
+        초분광·열화상 센서로 폐플라스틱 등 폐자원의 재질 성분을 실시간으로 분석해 소재별 자동 선별을
+        지원합니다. 선별 정확도를 높이고 수작업 의존도를 낮춰, 재활용률 향상과 자원순환 공정 전반의
+        효율·경제성을 개선합니다.
+      </p>
+      <div class="domain-detail-hero-tags reveal-fade">
+        <span class="domain-chip">소재 선별</span>
+        <span class="domain-chip">실시간 성분 분석</span>
+        <span class="domain-chip">공정 자동화</span>
+      </div>
+    </div>
+    <div class="domain-detail-hero-visual reveal-fade">
+      <div class="domain-detail-hero-img">
+        <img src="assets/domain-panel-resource.png" alt="폐플라스틱 초분광 선별 시스템">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="domain-detail-section" style="background: #faf8f4;">
+  <div class="section-inner">
+    <div class="domain-detail-section-title reveal-fade">
+      <div class="eyebrow">TECHNOLOGY</div>
+      <h2 class="heading" style="margin-top: 20px;">초분광·가시광 <b>융합 선별</b></h2>
+    </div>
+    <p class="domain-detail-body reveal-fade">
+      초분광(hyperspectral)과 가시광 센서를 융합해 폐플라스틱의 재질 성분을 진단하는 원천기술(TRL 6,
+      2024~25)을 시작으로, AI 선별 알고리즘을 고도화(TRL 7, 2026 목표)해 폐배터리 해체·재활용 필드
+      실험까지 적용 범위를 넓히고, 2027년에는 다중 스펙트럼 자율지능형 AI 선별시스템으로 발전시키는
+      로드맵을 갖고 있습니다. 시스템은 가시광·열화상 센서와 고정 장치·조명·촬영각도 조절 구조로
+      구성됩니다.
+    </p>
+  </div>
+</section>
+
+<section class="domain-detail-section">
+  <div class="section-inner">
+    <div class="domain-detail-section-title reveal-fade">
+      <div class="eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+      <h2 class="heading" style="margin-top: 20px;">고비용 장비의 <b>대안을 제시하다</b></h2>
+    </div>
+    <p class="domain-detail-body reveal-fade">
+      고객은 기존 폐플라스틱 선별 장비 제조사(B2B) — 초분광 전용 고비용 시스템 대비 저렴한 대안을
+      필요로 하는 시장입니다. 파트너사 위드위(WithWe)와 함께 "폐플라스틱 분류 One-Stop 시스템"을
+      공동개발하며 TRL 6에서 7로의 스케일업을 진행하고 있습니다. 2026년에는 폐배터리 해체·재활용
+      분야로의 적용 확장을 실증할 예정입니다.
+    </p>
+  </div>
+</section>
+
+<section class="domain-cta-strip">
+  <div class="section-inner reveal-fade">
+    <div class="eyebrow">EXPLORE MORE</div>
+    <h2 class="heading" style="margin-top: 16px;">다른 <b>사업 분야</b> 보기</h2>
+    <div class="domain-cta-links">
+      <a href="domains-beauty.html">뷰티</a>
+      <a href="domains-agriculture.html">농산물</a>
+      <a href="domains-bio.html">바이오공정</a>
+      <a href="index.html#domains">전체 사업 분야 보기</a>
+    </div>
+  </div>
+</section>
+
+<script src="partials/footer.js"></script>
+
+<script>
+(function() {
+  const fadeEls = document.querySelectorAll('.reveal-fade');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  fadeEls.forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
