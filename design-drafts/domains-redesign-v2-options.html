@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domains Redesign v2 — 4 Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SUIT', 'Pretendard', sans-serif; background: #efece5; color: #222; line-height: 1.6; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 60px 24px 160px; }
+  .intro h1 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  .intro p { font-size: 15px; color: #555; max-width: 760px; margin-bottom: 10px; }
+  .ref-note { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 18px 20px; margin: 20px 0 40px; font-size: 13.5px; color: #444; }
+  .ref-note b { color: #111; }
+
+  .opt-section { margin-top: 90px; }
+  .opt-label { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; padding: 7px 16px; border-radius: 999px; color: #fff; margin-bottom: 14px; }
+  .opt-desc { font-size: 14px; color: #555; max-width: 780px; margin-bottom: 30px; }
+  .domain-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 6px; background: #e5e0d5; color: #6b6259; margin: 0 0 18px; }
+  .page-frame { border-radius: 14px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+
+  /* ============ shared reset for mock sections ============ */
+  .pg-section { padding: 90px 5%; }
+  .pg-inner { max-width: 1080px; margin: 0 auto; }
+
+  /* ================================================================
+     OPTION 1 — DATA / DASHBOARD CENTRIC
+     ================================================================ */
+  .opt1-label { background: #1450e6; }
+  .opt1 { background: #f4f6fb; color: #14181f; font-family: 'SF Mono', 'Roboto Mono', monospace, -apple-system; }
+  .opt1 .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #1450e6; font-family: -apple-system, sans-serif; }
+  .opt1 h2 { font-size: clamp(26px, 3vw, 38px); font-weight: 800; margin: 14px 0 30px; font-family: -apple-system, sans-serif; letter-spacing: -0.01em; }
+  .opt1 p.body { font-size: 15px; color: #454b57; max-width: 760px; margin-bottom: 34px; font-family: -apple-system, sans-serif; }
+
+  .opt1-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #d8dde6; border: 1px solid #d8dde6; border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
+  .opt1-kpi { background: #fff; padding: 22px 20px; }
+  .opt1-kpi-label { font-size: 11px; color: #8a92a3; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .opt1-kpi-val { font-size: 30px; font-weight: 800; color: #1450e6; font-family: -apple-system, sans-serif; }
+  .opt1-kpi-sub { font-size: 11.5px; color: #9aa1af; margin-top: 4px; font-family: -apple-system, sans-serif; }
+
+  .opt1-panel { background: #fff; border: 1px solid #d8dde6; border-radius: 10px; padding: 26px 28px; margin-bottom: 20px; }
+  .opt1-panel-title { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a92a3; margin-bottom: 18px; font-family: -apple-system, sans-serif; }
+
+  .opt1-gauge-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .opt1-gauge { flex: 1; min-width: 160px; }
+  .opt1-gauge-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; font-family: -apple-system, sans-serif; }
+  .opt1-gauge-top b { font-size: 15px; color: #1450e6; }
+  .opt1-gauge-track { height: 6px; background: #e6e9f0; border-radius: 3px; overflow: hidden; }
+  .opt1-gauge-fill { height: 100%; background: linear-gradient(90deg, #1450e6, #4e8dff); border-radius: 3px; }
+
+  .opt1-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .opt1-card { background: #fff; border: 1px solid #d8dde6; border-radius: 10px; padding: 24px; }
+  .opt1-card-tag { display: inline-block; font-size: 11px; font-weight: 800; background: #1450e6; color: #fff; padding: 3px 10px; border-radius: 5px; margin-bottom: 12px; font-family: -apple-system, sans-serif; }
+  .opt1-card-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; font-family: -apple-system, sans-serif; }
+  .opt1-card-desc { font-size: 13px; color: #5a6170; margin-bottom: 16px; font-family: -apple-system, sans-serif; }
+  .opt1-card-metric { display: flex; align-items: baseline; gap: 6px; border-top: 1px dashed #d8dde6; padding-top: 12px; }
+  .opt1-card-metric b { font-size: 22px; color: #1450e6; font-family: -apple-system, sans-serif; }
+  .opt1-card-metric span { font-size: 12px; color: #8a92a3; font-family: -apple-system, sans-serif; }
+
+  .opt1-table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: -apple-system, sans-serif; }
+  .opt1-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #8a92a3; padding: 8px 12px; border-bottom: 2px solid #d8dde6; }
+  .opt1-table td { padding: 10px 12px; border-bottom: 1px solid #e6e9f0; color: #454b57; }
+  .opt1-table tr.hi td { background: #eef3ff; font-weight: 700; color: #1450e6; }
+
+  .opt1-bars { display: flex; align-items: flex-end; gap: 14px; height: 130px; margin-top: 10px; }
+  .opt1-bars-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .opt1-bars-val { font-size: 12px; font-weight: 700; margin-bottom: 6px; font-family: -apple-system, sans-serif; }
+  .opt1-bars-bar { width: 100%; background: #c7d4ea; border-radius: 4px 4px 0 0; }
+  .opt1-bars-bar.hi { background: #1450e6; }
+  .opt1-bars-yr { font-size: 10.5px; color: #8a92a3; margin-top: 6px; font-family: -apple-system, sans-serif; }
+
+  .opt1-donut-row { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; }
+  .opt1-donut { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .opt1-donut-hole { width: 78px; height: 78px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: -apple-system, sans-serif; }
+  .opt1-donut-hole b { font-size: 22px; }
+  .opt1-donut-hole span { font-size: 9.5px; color: #8a92a3; }
+  .opt1-legend-item { font-size: 12.5px; color: #454b57; margin-bottom: 6px; font-family: -apple-system, sans-serif; }
+  .opt1-legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+
+  /* ================================================================
+     OPTION 2 — EDITORIAL / MAGAZINE
+     ================================================================ */
+  .opt2-label { background: #7a1f1f; }
+  .opt2 { background: #fbf9f5; color: #1c1a17; }
+  .opt2 .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.22em; color: #7a1f1f; text-transform: uppercase; }
+  .opt2 h2 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 400; line-height: 1.15; margin: 20px 0 8px; letter-spacing: -0.01em; }
+  .opt2 h2 b { font-style: italic; font-weight: 400; }
+  .opt2-rule { width: 60px; height: 3px; background: #7a1f1f; margin: 24px 0 34px; }
+  .opt2 p.body { font-size: 17px; line-height: 1.75; color: #3a352f; max-width: 700px; margin-bottom: 30px; font-family: Georgia, serif; }
+  .opt2 p.body b { background: linear-gradient(transparent 60%, #f0d9d9 60%); }
+
+  .opt2-dropcap-stat { display: flex; gap: 28px; align-items: baseline; margin: 40px 0; border-top: 1px solid #ddd6ca; border-bottom: 1px solid #ddd6ca; padding: 28px 0; }
+  .opt2-dropcap-num { font-family: Georgia, serif; font-size: clamp(48px, 7vw, 96px); font-weight: 400; font-style: italic; color: #7a1f1f; line-height: 1; }
+  .opt2-dropcap-cap { font-size: 14.5px; color: #55504a; max-width: 340px; font-family: -apple-system, sans-serif; }
+
+  .opt2-pullquote { font-family: Georgia, serif; font-size: 22px; font-style: italic; line-height: 1.5; color: #3a352f; border-left: 3px solid #7a1f1f; padding-left: 24px; margin: 36px 0; max-width: 640px; }
+
+  .opt2-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin: 40px 0; }
+  .opt2-col-num { font-family: Georgia, serif; font-size: 13px; color: #7a1f1f; margin-bottom: 10px; }
+  .opt2-col-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: -apple-system, sans-serif; }
+  .opt2-col-desc { font-size: 14.5px; color: #4a453e; line-height: 1.7; margin-bottom: 18px; font-family: -apple-system, sans-serif; }
+  .opt2-col-stat { font-family: Georgia, serif; font-size: 34px; color: #7a1f1f; }
+  .opt2-col-stat span { font-size: 12px; color: #7a726a; display: block; font-family: -apple-system, sans-serif; margin-top: 2px; }
+
+  .opt2-table { width: 100%; border-collapse: collapse; font-family: Georgia, serif; font-size: 14px; margin: 30px 0; }
+  .opt2-table th { text-align: left; font-weight: 600; padding: 12px 14px; border-bottom: 2px solid #1c1a17; font-family: -apple-system, sans-serif; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #55504a; }
+  .opt2-table td { padding: 12px 14px; border-bottom: 1px solid #ddd6ca; }
+  .opt2-table tr.hi td { font-weight: 700; color: #7a1f1f; }
+
+  .opt2-figure { margin: 40px 0; }
+  .opt2-fig-cap { font-size: 11.5px; color: #7a726a; font-family: -apple-system, sans-serif; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .opt2-bars { display: flex; align-items: flex-end; gap: 20px; height: 140px; }
+  .opt2-bars-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .opt2-bars-val { font-family: Georgia, serif; font-size: 15px; margin-bottom: 8px; }
+  .opt2-bars-bar { width: 100%; background: #e3d4d4; }
+  .opt2-bars-bar.hi { background: #7a1f1f; }
+  .opt2-bars-yr { font-size: 11px; color: #7a726a; margin-top: 8px; font-family: -apple-system, sans-serif; }
+
+  /* ================================================================
+     OPTION 3 — MINIMAL / TECH PRODUCT
+     ================================================================ */
+  .opt3-label { background: #111; }
+  .opt3 { background: #fff; color: #111; }
+  .opt3 .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: #999; }
+  .opt3 h2 { font-size: clamp(24px, 2.6vw, 32px); font-weight: 600; margin: 16px 0 20px; letter-spacing: -0.01em; }
+  .opt3 p.body { font-size: 15px; color: #666; max-width: 640px; margin-bottom: 48px; font-weight: 400; }
+
+  .opt3-spec-list { border-top: 1px solid #eee; }
+  .opt3-spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #eee; }
+  .opt3-spec-label { font-size: 13px; color: #999; }
+  .opt3-spec-val { font-size: 15px; font-weight: 500; color: #111; }
+  .opt3-spec-val b { font-weight: 600; color: #111; }
+
+  .opt3-icon-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #eee; margin: 48px 0; }
+  .opt3-icon-card { background: #fff; padding: 30px 20px; text-align: center; }
+  .opt3-icon-glyph { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #111; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .opt3-icon-glyph.active { background: #111; color: #fff; }
+  .opt3-icon-label { font-size: 12.5px; color: #444; }
+
+  .opt3-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #eee; margin: 20px 0; }
+  .opt3-card { background: #fff; padding: 40px 36px; }
+  .opt3-card-tag { font-size: 11px; letter-spacing: 0.08em; color: #999; margin-bottom: 14px; text-transform: uppercase; }
+  .opt3-card-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .opt3-card-desc { font-size: 13.5px; color: #777; line-height: 1.7; margin-bottom: 28px; }
+  .opt3-card-stat { font-size: 40px; font-weight: 300; letter-spacing: -0.02em; }
+  .opt3-card-stat span { font-size: 12px; color: #999; display: block; font-weight: 400; margin-top: 4px; }
+
+  .opt3-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 20px 0; }
+  .opt3-table th { text-align: left; font-weight: 500; padding: 12px 10px; color: #999; font-size: 11.5px; border-bottom: 1px solid #111; }
+  .opt3-table td { padding: 12px 10px; border-bottom: 1px solid #eee; color: #444; }
+  .opt3-table tr.hi td { color: #111; font-weight: 600; }
+
+  .opt3-minimal-bars { display: flex; align-items: flex-end; gap: 10px; height: 110px; margin: 30px 0; }
+  .opt3-mb-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .opt3-mb-val { font-size: 12px; margin-bottom: 6px; color: #444; }
+  .opt3-mb-bar { width: 100%; background: #eee; }
+  .opt3-mb-bar.hi { background: #111; }
+  .opt3-mb-yr { font-size: 10.5px; color: #999; margin-top: 6px; }
+
+  .opt3-donut-row { display: flex; align-items: center; gap: 40px; margin: 30px 0; }
+  .opt3-donut { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .opt3-donut-hole { width: 66px; height: 66px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .opt3-donut-hole b { font-size: 18px; font-weight: 600; }
+  .opt3-donut-hole span { font-size: 9px; color: #999; }
+  .opt3-legend-item { font-size: 12.5px; color: #555; margin-bottom: 6px; }
+  .opt3-legend-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+
+  .opt3-pvs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch; margin: 8px 0 44px; }
+  .opt3-pvs-col { border: 1px solid #eee; padding: 26px 24px; }
+  .opt3-pvs-tag { font-size: 11px; letter-spacing: 0.08em; color: #999; text-transform: uppercase; margin-bottom: 12px; }
+  .opt3-pvs-col.solution { border-color: #111; }
+  .opt3-pvs-col.solution .opt3-pvs-tag { color: #111; font-weight: 600; }
+  .opt3-pvs-list { font-size: 13.5px; color: #555; line-height: 1.9; }
+  .opt3-pvs-list li { margin-bottom: 4px; }
+  .opt3-pvs-arrow { display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ccc; }
+
+  .opt3-milestones { display: flex; border-top: 1px solid #eee; margin: 8px 0; }
+  .opt3-milestone { flex: 1; padding: 20px 16px 0; border-right: 1px solid #eee; }
+  .opt3-milestone:last-child { border-right: none; }
+  .opt3-milestone-stage { font-size: 11px; color: #999; margin-bottom: 8px; }
+  .opt3-milestone-val { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .opt3-milestone-desc { font-size: 12px; color: #777; line-height: 1.6; }
+
+  /* ================================================================
+     OPTION 4 — INDUSTRIAL / ENTERPRISE B2B
+     ================================================================ */
+  .opt4-label { background: #0a2540; }
+  .opt4 { background: #0d1b2a; color: #d7e0ea; }
+  .opt4 .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #5b9cd6; font-family: 'SF Mono', monospace, -apple-system; }
+  .opt4 h2 { font-size: clamp(24px, 2.8vw, 34px); font-weight: 700; margin: 14px 0 22px; color: #fff; }
+  .opt4 p.body { font-size: 14.5px; color: #9fb2c4; max-width: 720px; margin-bottom: 36px; }
+
+  .opt4-blueprint { border: 1px solid #29465f; border-radius: 4px; padding: 24px 26px; background: #102436; position: relative; margin-bottom: 20px; }
+  .opt4-blueprint::before { content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border: 1px dashed #29465f; pointer-events: none; }
+  .opt4-blueprint-label { font-family: 'SF Mono', monospace; font-size: 10.5px; color: #5b9cd6; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
+
+  .opt4-spec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .opt4-spec-cell { border-left: 2px solid #29465f; padding-left: 12px; }
+  .opt4-spec-cell-label { font-size: 10.5px; color: #6f88a0; font-family: 'SF Mono', monospace; text-transform: uppercase; margin-bottom: 6px; }
+  .opt4-spec-cell-val { font-size: 20px; font-weight: 700; color: #5b9cd6; font-family: 'SF Mono', monospace; }
+
+  .opt4-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0; }
+  .opt4-card { border: 1px solid #29465f; border-radius: 4px; padding: 26px 28px; background: #102436; }
+  .opt4-card-tag { display: inline-block; font-family: 'SF Mono', monospace; font-size: 11px; font-weight: 700; color: #0d1b2a; background: #5b9cd6; padding: 3px 10px; margin-bottom: 14px; }
+  .opt4-card-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .opt4-card-desc { font-size: 13px; color: #9fb2c4; line-height: 1.7; margin-bottom: 20px; }
+  .opt4-card-stat { font-family: 'SF Mono', monospace; font-size: 26px; font-weight: 700; color: #5b9cd6; border-top: 1px solid #29465f; padding-top: 14px; }
+  .opt4-card-stat span { font-size: 11px; color: #6f88a0; display: block; margin-top: 4px; font-family: -apple-system, sans-serif; }
+
+  .opt4-table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: 'SF Mono', monospace; }
+  .opt4-table th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #6f88a0; padding: 10px 12px; border-bottom: 1px solid #29465f; }
+  .opt4-table td { padding: 11px 12px; border-bottom: 1px solid #1a3348; color: #b8c6d4; }
+  .opt4-table tr.hi td { background: #16324a; color: #5b9cd6; font-weight: 700; }
+
+  .opt4-bars { display: flex; align-items: flex-end; gap: 14px; height: 130px; margin-top: 10px; }
+  .opt4-bars-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .opt4-bars-val { font-family: 'SF Mono', monospace; font-size: 12px; color: #d7e0ea; margin-bottom: 6px; }
+  .opt4-bars-bar { width: 100%; background: #1e4258; border-radius: 2px 2px 0 0; }
+  .opt4-bars-bar.hi { background: #5b9cd6; }
+  .opt4-bars-yr { font-size: 10px; color: #6f88a0; margin-top: 6px; font-family: 'SF Mono', monospace; }
+
+  .opt4-donut-row { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; }
+  .opt4-donut { width: 118px; height: 118px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .opt4-donut-hole { width: 78px; height: 78px; background: #102436; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .opt4-donut-hole b { font-size: 20px; color: #fff; font-family: 'SF Mono', monospace; }
+  .opt4-donut-hole span { font-size: 9px; color: #6f88a0; }
+  .opt4-legend-item { font-size: 12.5px; color: #b8c6d4; margin-bottom: 6px; font-family: 'SF Mono', monospace; }
+  .opt4-legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <h1>사업 분야 상세 페이지 — 2차 리디자인 옵션 (v2)</h1>
+    <p>
+      기존 4개 도메인 페이지(Beauty/Agriculture/Bio/Resource)의 TECHNOLOGY, BUSINESS MODEL &amp; CUSTOMERS,
+      ACHIEVEMENTS 섹션을 전면 재검토합니다. Beauty에 최근 적용한 "Option B(LULULAB 스타일)"도 포함해
+      전체 4개 페이지 모두 새 디자인 방향으로 교체 대상입니다.
+    </p>
+    <p>
+      아래는 서로 다른 4가지 완전히 새로운 방향입니다. 각 방향을 <b>Beauty</b>(가장 풍부한 콘텐츠 형태: 스탯,
+      칩, 스플릿 카드, 도넛, 바 차트)와 <b>Bio &amp; Process</b>(비교표가 포함된, 더 밀도 높은 콘텐츠 형태)
+      두 도메인에 실제 카피/수치 그대로 적용해 각 방향이 서로 다른 콘텐츠 형태에서도 일관되게 동작하는지
+      함께 검증합니다. 선택된 방향은 Agriculture(TRL 스테퍼 + 3단 지원과제 바)와 Resource(Achievements
+      섹션 없음, Technology/Business만 존재)에도 동일한 컴포넌트 언어로 자연스럽게 확장됩니다.
+    </p>
+    <div class="ref-note">
+      <b>참조 근거:</b> ref/ 폴더의 IR·사업계획 PPTX 자료 기반 (기존 스펙 문서
+      <code>docs/superpowers/specs/2026-07-08-business-domains-pages-design.md</code>에 정리된 도메인별 수치·카피를
+      그대로 사용). 모든 통계·문구는 실제 프로덕션 콘텐츠이며 목업용으로 각색하지 않았습니다.
+    </div>
+  </div>
+
+  <!-- ============================================================
+       OPTION 1 — DATA / DASHBOARD CENTRIC (Recommended)
+       ============================================================ -->
+  <div class="opt-section">
+    <span class="opt-label opt1-label">OPTION 1 — 데이터 / 대시보드 중심 (Recommended)</span>
+    <p class="opt-desc">
+      TRL·매출·특허·시장규모 등 모든 수치를 대시보드 위젯처럼 KPI 카드/게이지/미니 차트로 앞세우는 방향.
+      옅은 블루-그레이 배경 + 흰색 패널 + 파란 액센트(#1450e6)로 "제품 대시보드"의 신뢰감을 준다. 모노스페이스
+      숫자 타이포와 얇은 그리드 라인으로 계측기기 판독값 같은 정밀한 인상을 만든다.
+    </p>
+    <div class="page-frame">
+
+      <!-- Beauty — Technology -->
+      <section class="pg-section opt1">
+        <div class="pg-inner">
+          <span class="domain-tag">BEAUTY</span>
+          <div class="eyebrow">TECHNOLOGY</div>
+          <h2>LWIR 기반 비접촉 피부 진단</h2>
+          <p class="body">
+            원적외선(LWIR, Long-Wave Infrared) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용한
+            제품입니다. 생물·바이오소재의 내부 상태(수분, 경도, 물성 등)를 예측하는 FINSIDE의 공용 원천기술을
+            뷰티 영역에 적용한 OSMU(One Source Multi-Use) 스핀오프로, 접촉 없이 피부의 수분·유분·탄력 상태를
+            정량 데이터로 측정하고 AI 기반 모바일 연동 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+          </p>
+          <div class="opt1-kpi-row">
+            <div class="opt1-kpi"><div class="opt1-kpi-label">측정 방식</div><div class="opt1-kpi-val">0-Contact</div><div class="opt1-kpi-sub">비접촉 측정</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">측정 항목</div><div class="opt1-kpi-val">3</div><div class="opt1-kpi-sub">수분 · 유분 · 탄력</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">결과 제공</div><div class="opt1-kpi-val">Real-time</div><div class="opt1-kpi-sub">AI 모바일 앱 연동</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">개발 단계</div><div class="opt1-kpi-val">Prototype</div><div class="opt1-kpi-sub">OSMU 스핀오프</div></div>
+          </div>
+          <div class="opt1-panel">
+            <div class="opt1-panel-title">측정 지표 실시간 판독값 (예시)</div>
+            <div class="opt1-gauge-row">
+              <div class="opt1-gauge"><div class="opt1-gauge-top"><span>수분</span><b>72%</b></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:72%;"></div></div></div>
+              <div class="opt1-gauge"><div class="opt1-gauge-top"><span>유분</span><b>41%</b></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:41%;"></div></div></div>
+              <div class="opt1-gauge"><div class="opt1-gauge-top"><span>탄력</span><b>65%</b></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:65%;"></div></div></div>
+              <div class="opt1-gauge"><div class="opt1-gauge-top"><span>AI 신뢰도</span><b>91%</b></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:91%;"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Business -->
+      <section class="pg-section opt1" style="background:#eef1f7;">
+        <div class="pg-inner">
+          <div class="eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+          <h2>B2B2C로 연결되는 피부 데이터</h2>
+          <div class="opt1-2col">
+            <div class="opt1-card">
+              <span class="opt1-card-tag">B2B</span>
+              <div class="opt1-card-title">소매점 · 피부관리실 · 브랜드</div>
+              <div class="opt1-card-desc">
+                화장품 소매점(2024년 기준 약 1,300개 매장, 올리브영·키엘 사례를 참고한 입점 확대 목표), 전국 약
+                35,000개 피부관리실 중 목표 10%. 에이피알·세라젬·달바 등 스킨케어 기업과의 공동 마케팅 및 기술
+                라이선싱.
+              </div>
+              <div class="opt1-card-metric"><b>3,500</b><span>목표 매장/관리실 수</span></div>
+            </div>
+            <div class="opt1-card">
+              <span class="opt1-card-tag">B2C</span>
+              <div class="opt1-card-title">홈케어 디바이스 + 구독</div>
+              <div class="opt1-card-desc">
+                디바이스 판매 30만원 + 월 구독 3~5만원 모델. 시장 규모는 TAM $19.79B, SAM 약 $8.1B
+                (Grand View Research, CAGR 17.9%)로 추산됩니다.
+              </div>
+              <div class="opt1-card-metric"><b>17.9%</b><span>시장 연평균 성장률</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Achievements -->
+      <section class="pg-section opt1">
+        <div class="pg-inner">
+          <div class="eyebrow">ACHIEVEMENTS</div>
+          <h2>특허와 성장 로드맵</h2>
+          <div class="opt1-panel">
+            <div class="opt1-panel-title">특허 현황 — 국내 8건 + PCT 2건 (회사 전체 30건 중)</div>
+            <div class="opt1-donut-row">
+              <div class="opt1-donut" style="background: conic-gradient(#1450e6 0% 80%, #c7d4ea 80% 100%);">
+                <div class="opt1-donut-hole"><b>10</b><span>TOTAL</span></div>
+              </div>
+              <div>
+                <div class="opt1-legend-item"><span class="opt1-legend-dot" style="background:#1450e6;"></span>국내 특허 8건</div>
+                <div class="opt1-legend-item"><span class="opt1-legend-dot" style="background:#c7d4ea;"></span>PCT 국제출원 2건</div>
+              </div>
+            </div>
+          </div>
+          <div class="opt1-panel">
+            <div class="opt1-panel-title">2026~2030 매출 로드맵</div>
+            <div class="opt1-bars">
+              <div class="opt1-bars-col"><div class="opt1-bars-val">5억</div><div class="opt1-bars-bar" style="height:4%;"></div><div class="opt1-bars-yr">2026</div></div>
+              <div class="opt1-bars-col"><div class="opt1-bars-val">10억</div><div class="opt1-bars-bar" style="height:6%;"></div><div class="opt1-bars-yr">2027</div></div>
+              <div class="opt1-bars-col"><div class="opt1-bars-val">30억</div><div class="opt1-bars-bar" style="height:12%;"></div><div class="opt1-bars-yr">2028</div></div>
+              <div class="opt1-bars-col"><div class="opt1-bars-val">150억</div><div class="opt1-bars-bar" style="height:52%;"></div><div class="opt1-bars-yr">2029</div></div>
+              <div class="opt1-bars-col"><div class="opt1-bars-val">300억</div><div class="opt1-bars-bar hi" style="height:100%;"></div><div class="opt1-bars-yr">2030</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Technology (with comparison table) -->
+      <section class="pg-section opt1" style="background:#eef1f7;">
+        <div class="pg-inner">
+          <span class="domain-tag">BIO &amp; PROCESS</span>
+          <div class="eyebrow">TECHNOLOGY</div>
+          <h2>FBE 시스템 — 보이지 않는 공정 품질을 데이터로</h2>
+          <p class="body">
+            비접촉 LWIR 열화상 센서와 AI 실시간 분석을 결합한 "FBE 시스템"은, 표면 증발 냉각 효과에 따른 시계열
+            데이터 분석을 통해 이동하는 컨베이어 위에서도 축분(가축분뇨)의 바이오차 전환 공정을 무중단으로
+            계측합니다. 기존 설비를 교체하지 않고 리트로핏 모듈로 적용할 수 있습니다.
+          </p>
+          <div class="opt1-panel">
+            <div class="opt1-panel-title">측정 방식 비교</div>
+            <table class="opt1-table">
+              <thead><tr><th>측정 방식</th><th>속도</th><th>샘플</th><th>정확도</th><th>현장 적합성</th></tr></thead>
+              <tbody>
+                <tr><td>전기전도도 타입 측정기</td><td>즉시</td><td>국소부위</td><td>낮음</td><td>제한적</td></tr>
+                <tr><td>간이 건조감량법</td><td>10~60분</td><td>매우소량</td><td>중간(±5℃)</td><td>부적합</td></tr>
+                <tr><td>열풍건조기</td><td>~24시간</td><td>소량~중량</td><td>매우 높음</td><td>매우 부적합</td></tr>
+                <tr class="hi"><td>FBE 시스템</td><td>실시간</td><td>제한 없음</td><td>높음</td><td>최적</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Business -->
+      <section class="pg-section opt1">
+        <div class="pg-inner">
+          <div class="eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+          <h2>고품질 바이오차 대량 생산의 병목을 해결하다</h2>
+          <div class="opt1-kpi-row">
+            <div class="opt1-kpi"><div class="opt1-kpi-label">연간 발생량</div><div class="opt1-kpi-val">5천만t</div><div class="opt1-kpi-sub">국내 가축분뇨</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">규제 배경</div><div class="opt1-kpi-val">2016</div><div class="opt1-kpi-sub">런던협약 해양투기 금지</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">함수율 목표</div><div class="opt1-kpi-val">70%→20%</div><div class="opt1-kpi-sub">전처리 공정 필수화</div></div>
+            <div class="opt1-kpi"><div class="opt1-kpi-label">고객군</div><div class="opt1-kpi-val">B2B</div><div class="opt1-kpi-sub">바이오차 생산·장비 통합사</div></div>
+          </div>
+          <p class="body" style="margin-top:24px;">
+            지자체·공공기관 파일럿 테스트, 바이오차 설비 제조사와의 공동개발, 전시·SNS 브랜딩을 통해 시장에
+            접근합니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- Bio — Achievements -->
+      <section class="pg-section opt1" style="background:#eef1f7;">
+        <div class="pg-inner">
+          <div class="eyebrow">ACHIEVEMENTS</div>
+          <h2>TRL 진행과 핵심 파트너</h2>
+          <div class="opt1-2col">
+            <div class="opt1-card">
+              <div class="opt1-card-title">TRL 진행 — 현재 6, 2027 목표 7</div>
+              <div class="opt1-gauge" style="margin-bottom:10px;"><div class="opt1-gauge-top"><span>TRL 6 (2024~25 충북대 개발·검증)</span></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:85%;"></div></div></div>
+              <div class="opt1-gauge"><div class="opt1-gauge-top"><span>2026 필드실증 (충북대·해표산업) → 2027 TRL 7 목표</span></div><div class="opt1-gauge-track"><div class="opt1-gauge-fill" style="width:45%;"></div></div></div>
+            </div>
+            <div class="opt1-card">
+              <div class="opt1-card-title">해표산업 — 누적 기술이전 계약</div>
+              <div class="opt1-bars" style="height:90px;">
+                <div class="opt1-bars-col"><div class="opt1-bars-val">3백만</div><div class="opt1-bars-bar" style="height:4%;"></div><div class="opt1-bars-yr">24-1차</div></div>
+                <div class="opt1-bars-col"><div class="opt1-bars-val">5천만</div><div class="opt1-bars-bar" style="height:71%;"></div><div class="opt1-bars-yr">24-2차</div></div>
+                <div class="opt1-bars-col"><div class="opt1-bars-val">4천만</div><div class="opt1-bars-bar" style="height:57%;"></div><div class="opt1-bars-yr">25-1차</div></div>
+                <div class="opt1-bars-col"><div class="opt1-bars-val">7천만</div><div class="opt1-bars-bar hi" style="height:100%;"></div><div class="opt1-bars-yr">25-2차</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="opt1-panel">
+            <div class="opt1-panel-title">추가 협력</div>
+            <p class="body" style="margin-bottom:0;">포네이처스 — IoT 자동 배양·센서, ESG·탄소중립 연계</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       OPTION 2 — EDITORIAL / MAGAZINE
+       ============================================================ -->
+  <div class="opt-section">
+    <span class="opt-label opt2-label">OPTION 2 — 에디토리얼 / 매거진</span>
+    <p class="opt-desc">
+      Wired/Intelligencer 스타일의 다큐먼트형 레이아웃. 세리프 헤드라인, 이탤릭 강조, 드롭캡 스탯, 풀쿼트,
+      가는 룰 라인으로 "읽는" 경험을 준다. 버건디(#7a1f1f) 단일 강조색과 크림 배경으로 여백을 넉넉히 확보해
+      차분하고 권위 있는 톤을 만든다.
+    </p>
+    <div class="page-frame">
+
+      <!-- Beauty — Technology -->
+      <section class="pg-section opt2">
+        <div class="pg-inner">
+          <span class="domain-tag">BEAUTY</span>
+          <div class="eyebrow">Technology</div>
+          <h2>피부를 읽는 방식, <b>접촉 없이</b></h2>
+          <div class="opt2-rule"></div>
+          <p class="body">
+            원적외선(LWIR, Long-Wave Infrared) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에
+            적용한 제품입니다. 생물·바이오소재의 내부 상태(수분, 경도, 물성 등)를 예측하는 FINSIDE의 공용
+            원천기술을 뷰티 영역에 적용한 <b>OSMU(One Source Multi-Use) 스핀오프</b>로, 접촉 없이 피부의
+            수분·유분·탄력 상태를 정량 데이터로 측정하고 AI 기반 모바일 연동 앱으로 결과를 제공하는
+            프로토타입까지 개발되어 있습니다.
+          </p>
+          <div class="opt2-dropcap-stat">
+            <div class="opt2-dropcap-num">Zero</div>
+            <div class="opt2-dropcap-cap">접촉. 그럼에도 수분·유분·탄력을 정량 데이터로 측정하고 AI 앱으로
+              즉시 제공하는 것 — 이것이 이 기술이 만든 격차다.</div>
+          </div>
+          <p class="opt2-pullquote">"측정 항목은 셋 — 수분, 유분, 탄력. 그리고 이 모든 것은 AI 모바일 앱으로
+            즉시 연동된다."</p>
+        </div>
+      </section>
+
+      <!-- Beauty — Business -->
+      <section class="pg-section opt2" style="background:#f5efe9;">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>B2B2C로 <b>연결되는</b> 피부 데이터</h2>
+          <div class="opt2-rule"></div>
+          <div class="opt2-2col">
+            <div>
+              <div class="opt2-col-num">01 — B2B</div>
+              <div class="opt2-col-title">소매점 · 피부관리실 · 브랜드</div>
+              <div class="opt2-col-desc">
+                화장품 소매점(2024년 기준 약 1,300개 매장, 올리브영·키엘 사례를 참고한 입점 확대 목표), 전국
+                약 35,000개 피부관리실 중 목표 10%. 에이피알·세라젬·달바 등 스킨케어 기업과의 공동 마케팅 및
+                기술 라이선싱.
+              </div>
+              <div class="opt2-col-stat">3,500<span>목표 매장/관리실 수</span></div>
+            </div>
+            <div>
+              <div class="opt2-col-num">02 — B2C</div>
+              <div class="opt2-col-title">홈케어 디바이스 + 구독</div>
+              <div class="opt2-col-desc">
+                디바이스 판매 30만원 + 월 구독 3~5만원 모델. 시장 규모는 TAM $19.79B, SAM 약 $8.1B
+                (Grand View Research, CAGR 17.9%)로 추산됩니다.
+              </div>
+              <div class="opt2-col-stat">17.9%<span>시장 연평균 성장률</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Achievements -->
+      <section class="pg-section opt2">
+        <div class="pg-inner">
+          <div class="eyebrow">Achievements</div>
+          <h2>특허와 <b>성장 로드맵</b></h2>
+          <div class="opt2-rule"></div>
+          <p class="body">회사 전체 특허 30건 중 뷰티 영역은 국내 8건, PCT 국제출원 2건을 보유하고 있습니다.</p>
+          <div class="opt2-figure">
+            <div class="opt2-bars">
+              <div class="opt2-bars-col"><div class="opt2-bars-val">5억</div><div class="opt2-bars-bar" style="height:4%;"></div><div class="opt2-bars-yr">2026</div></div>
+              <div class="opt2-bars-col"><div class="opt2-bars-val">10억</div><div class="opt2-bars-bar" style="height:6%;"></div><div class="opt2-bars-yr">2027</div></div>
+              <div class="opt2-bars-col"><div class="opt2-bars-val">30억</div><div class="opt2-bars-bar" style="height:12%;"></div><div class="opt2-bars-yr">2028</div></div>
+              <div class="opt2-bars-col"><div class="opt2-bars-val">150억</div><div class="opt2-bars-bar" style="height:52%;"></div><div class="opt2-bars-yr">2029</div></div>
+              <div class="opt2-bars-col"><div class="opt2-bars-val">300억</div><div class="opt2-bars-bar hi" style="height:100%;"></div><div class="opt2-bars-yr">2030</div></div>
+            </div>
+            <div class="opt2-fig-cap">Fig. 1 — 2026~2030 매출 로드맵</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Technology (table) -->
+      <section class="pg-section opt2" style="background:#f5efe9;">
+        <div class="pg-inner">
+          <span class="domain-tag">BIO &amp; PROCESS</span>
+          <div class="eyebrow">Technology</div>
+          <h2>보이지 않는 공정을 <b>실시간으로</b></h2>
+          <div class="opt2-rule"></div>
+          <p class="body">
+            비접촉 LWIR 열화상 센서와 AI 실시간 분석을 결합한 "FBE 시스템"은, 표면 증발 냉각 효과에 따른 시계열
+            데이터 분석을 통해 이동하는 컨베이어 위에서도 축분(가축분뇨)의 바이오차 전환 공정을 <b>무중단으로
+            계측</b>합니다. 기존 설비를 교체하지 않고 리트로핏 모듈로 적용할 수 있습니다.
+          </p>
+          <table class="opt2-table">
+            <thead><tr><th>측정 방식</th><th>속도</th><th>샘플</th><th>정확도</th><th>현장 적합성</th></tr></thead>
+            <tbody>
+              <tr><td>전기전도도 타입 측정기</td><td>즉시</td><td>국소부위</td><td>낮음</td><td>제한적</td></tr>
+              <tr><td>간이 건조감량법</td><td>10~60분</td><td>매우소량</td><td>중간(±5℃)</td><td>부적합</td></tr>
+              <tr><td>열풍건조기</td><td>~24시간</td><td>소량~중량</td><td>매우 높음</td><td>매우 부적합</td></tr>
+              <tr class="hi"><td>FBE 시스템</td><td>실시간</td><td>제한 없음</td><td>높음</td><td>최적</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bio — Business -->
+      <section class="pg-section opt2">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>병목을 해결하다</h2>
+          <div class="opt2-rule"></div>
+          <div class="opt2-dropcap-stat">
+            <div class="opt2-dropcap-num">5천만t</div>
+            <div class="opt2-dropcap-cap">국내에서 연간 발생하는 가축분뇨 — 런던협약(2016)에 의해 해양 투기가
+              금지되며 전처리 공정이 필수가 되었다.</div>
+          </div>
+          <p class="body">
+            원천 함수율 70% 이상을 20% 이하로 낮추는 전처리 공정이 필수가 되었습니다. 고객은 바이오차 생산
+            기업과 장비 통합사(B2B)이며, 지자체·공공기관 파일럿 테스트, 바이오차 설비 제조사와의 공동개발,
+            전시·SNS 브랜딩을 통해 시장에 접근합니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- Bio — Achievements -->
+      <section class="pg-section opt2" style="background:#f5efe9;">
+        <div class="pg-inner">
+          <div class="eyebrow">Achievements</div>
+          <h2>TRL 진행과 <b>핵심 파트너</b></h2>
+          <div class="opt2-rule"></div>
+          <div class="opt2-2col">
+            <div>
+              <div class="opt2-col-num">현재</div>
+              <div class="opt2-col-title">TRL 6 — 2024~25 충북대 개발·검증</div>
+              <div class="opt2-col-desc">2026 필드실증(충북대·해표산업)을 거쳐 2027 TRL 7 목표.</div>
+            </div>
+            <div>
+              <div class="opt2-col-num">파트너</div>
+              <div class="opt2-col-title">해표산업 — 누적 기술이전 계약</div>
+              <div class="opt2-col-desc">2024 1차 3백만 → 2024 2차 5천만 → 2025 1차 4천만 → 2025 2차 7천만.
+                포네이처스와는 IoT 자동 배양·센서, ESG·탄소중립 연계 협력 중.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       OPTION 3 — MINIMAL / TECH PRODUCT
+       ============================================================ -->
+  <div class="opt-section">
+    <span class="opt-label opt3-label">OPTION 3 — 미니멀 / 테크 제품</span>
+    <p class="opt-desc">
+      Apple/Linear 스타일. 흑백 + 얇은 1px 그리드 라인, 절제된 톤, 스펙시트형 레이아웃. 장식을 최소화하고
+      타이포그래피 위계와 여백만으로 정보를 정리한다. 액센트 컬러 없이 흑백 대비만으로 강조를 표현한다.
+    </p>
+    <div class="page-frame">
+
+      <!-- Beauty — Technology -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <span class="domain-tag">BEAUTY</span>
+          <div class="eyebrow">Technology</div>
+          <h2>LWIR 기반 비접촉 피부 진단</h2>
+          <p class="body">
+            원적외선(LWIR) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용한 제품입니다.
+            생물·바이오소재의 내부 상태를 예측하는 FINSIDE의 공용 원천기술을 뷰티 영역에 적용한 OSMU 스핀오프로,
+            접촉 없이 피부 상태를 정량 데이터로 측정하고 AI 앱으로 결과를 제공하는 프로토타입까지 개발되어
+            있습니다.
+          </p>
+          <div class="opt3-pvs">
+            <div class="opt3-pvs-col">
+              <div class="opt3-pvs-tag">기존 기기의 한계</div>
+              <ul class="opt3-pvs-list">
+                <li>IMate · E-PLUS · AngelHouse · VCARE 등</li>
+                <li>측정 부위·환경에 따른 결과 편차 큼</li>
+                <li>낮은 정확도·재현성 → 반복 구매·상담 비용</li>
+              </ul>
+            </div>
+            <div class="opt3-pvs-arrow">→</div>
+            <div class="opt3-pvs-col solution">
+              <div class="opt3-pvs-tag">FINSIDE의 해법</div>
+              <ul class="opt3-pvs-list">
+                <li>LWIR 비접촉 진단으로 측정 편차 최소화</li>
+                <li>AI 모바일 앱으로 즉시 결과·추천 제공</li>
+                <li>가격 경쟁력 확보로 접근성 개선</li>
+              </ul>
+            </div>
+          </div>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">측정 방식</span><span class="opt3-spec-val">비접촉 (LWIR)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">측정 항목</span><span class="opt3-spec-val">수분 · 유분 · 탄력</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">결과 제공</span><span class="opt3-spec-val">AI 모바일 앱 연동</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">개발 단계</span><span class="opt3-spec-val"><b>프로토타입 완료 (1차 개선)</b></span></div>
+          </div>
+          <div class="opt3-icon-row">
+            <div class="opt3-icon-card"><div class="opt3-icon-glyph active">수</div><div class="opt3-icon-label">수분</div></div>
+            <div class="opt3-icon-card"><div class="opt3-icon-glyph">유</div><div class="opt3-icon-label">유분</div></div>
+            <div class="opt3-icon-card"><div class="opt3-icon-glyph">탄</div><div class="opt3-icon-label">탄력</div></div>
+            <div class="opt3-icon-card"><div class="opt3-icon-glyph">AI</div><div class="opt3-icon-label">모바일 연동</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Business -->
+      <section class="pg-section opt3" style="background:#fafafa;">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>B2B2C로 연결되는 피부 데이터</h2>
+          <div class="opt3-2col">
+            <div class="opt3-card">
+              <div class="opt3-card-tag">B2B</div>
+              <div class="opt3-card-title">소매점 · 피부관리실 · 브랜드</div>
+              <div class="opt3-card-desc">
+                화장품 소매점 약 1,300개(2024), 전국 약 35,000개 피부관리실 중 목표 10%. 에이피알·세라젬·달바
+                등과 공동 마케팅·데이터 기반 제품 추천 제휴, 2029년 관련 매출 목표 100억원 이상.
+              </div>
+              <div class="opt3-card-stat">3,500<span>목표 매장/관리실 수</span></div>
+            </div>
+            <div class="opt3-card">
+              <div class="opt3-card-tag">B2C</div>
+              <div class="opt3-card-title">홈케어 디바이스 + 구독</div>
+              <div class="opt3-card-desc">
+                디바이스 30만원 + 월 구독 3~5만원, 등급별 보상판매·AI SW 유지보수로 추가 수익.
+                올리브영·키엘과 유사한 유통 채널을 목표로 국내 시장 우선 공략 후 동남아로 확장.
+              </div>
+              <div class="opt3-card-stat">17.9%<span>글로벌 시장 연평균 성장률</span></div>
+            </div>
+          </div>
+          <div class="opt3-spec-list" style="margin-top:8px;">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">TAM</span><span class="opt3-spec-val">$19.79B (전세계 스킨케어 장치)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">SAM</span><span class="opt3-spec-val">약 $8.1B (전세계 스킨케어 진단기기)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">SOM</span><span class="opt3-spec-val"><b>약 1.6조원</b> (국내 스킨케어 진단기기)</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Achievements -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <div class="eyebrow">Achievements</div>
+          <h2>특허와 성장 로드맵</h2>
+          <div class="opt3-donut-row">
+            <div class="opt3-donut" style="background: conic-gradient(#111 0% 80%, #ddd 80% 100%);">
+              <div class="opt3-donut-hole"><b>10</b><span>건</span></div>
+            </div>
+            <div>
+              <div class="opt3-legend-item"><span class="opt3-legend-dot" style="background:#111;"></span>국내 특허 8건</div>
+              <div class="opt3-legend-item"><span class="opt3-legend-dot" style="background:#ddd;"></span>PCT 국제출원 2건</div>
+              <div class="opt3-legend-item" style="color:#999;">회사 전체 특허 30건 중</div>
+            </div>
+          </div>
+          <div class="opt3-minimal-bars">
+            <div class="opt3-mb-col"><div class="opt3-mb-val">5억</div><div class="opt3-mb-bar" style="height:4%;"></div><div class="opt3-mb-yr">2026</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">10억</div><div class="opt3-mb-bar" style="height:6%;"></div><div class="opt3-mb-yr">2027</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">30억</div><div class="opt3-mb-bar" style="height:12%;"></div><div class="opt3-mb-yr">2028</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">150억</div><div class="opt3-mb-bar" style="height:52%;"></div><div class="opt3-mb-yr">2029</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">300억</div><div class="opt3-mb-bar hi" style="height:100%;"></div><div class="opt3-mb-yr">2030</div></div>
+          </div>
+          <div class="opt3-milestones">
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">Seed</div><div class="opt3-milestone-val">2억</div><div class="opt3-milestone-desc">국내 시장 안착</div></div>
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">Pre-A</div><div class="opt3-milestone-val">20억</div><div class="opt3-milestone-desc">동남아 진출 준비</div></div>
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">Series A</div><div class="opt3-milestone-val">50억</div><div class="opt3-milestone-desc">동남아 진출</div></div>
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">Series B</div><div class="opt3-milestone-val">200억</div><div class="opt3-milestone-desc">글로벌 확장 · 기술특례 IPO 준비</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Technology (table) -->
+      <section class="pg-section opt3" style="background:#fafafa;">
+        <div class="pg-inner">
+          <span class="domain-tag">BIO &amp; PROCESS</span>
+          <div class="eyebrow">Technology</div>
+          <h2>FBE 시스템 — 공정 품질을 데이터로</h2>
+          <p class="body">
+            비접촉 LWIR 열화상 센서와 AI 실시간 분석을 결합한 FBE 시스템은 이동하는 컨베이어 위에서도 축분의
+            바이오차 전환 공정을 무중단으로 계측합니다. 기존 설비 교체 없이 리트로핏 모듈로 적용 가능합니다.
+          </p>
+          <table class="opt3-table">
+            <thead><tr><th>측정 방식</th><th>속도</th><th>샘플</th><th>정확도</th><th>현장 적합성</th></tr></thead>
+            <tbody>
+              <tr><td>전기전도도 타입 측정기</td><td>즉시</td><td>국소부위</td><td>낮음</td><td>제한적</td></tr>
+              <tr><td>간이 건조감량법</td><td>10~60분</td><td>매우소량</td><td>중간(±5℃)</td><td>부적합</td></tr>
+              <tr><td>열풍건조기</td><td>~24시간</td><td>소량~중량</td><td>매우 높음</td><td>매우 부적합</td></tr>
+              <tr class="hi"><td>FBE 시스템</td><td>실시간</td><td>제한 없음</td><td>높음</td><td>최적</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bio — Business -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>고품질 바이오차 생산의 병목을 해결하다</h2>
+          <p class="body">
+            국내에서 연간 약 5천만 톤 발생하는 가축분뇨는 런던협약(2016)에 의해 해양 투기가 금지되면서,
+            원천 함수율 70% 이상을 20% 이하로 낮추는 전처리 공정이 필수가 되었습니다. 이 규제 전환이
+            만든 계측 수요가 FBE 시스템의 시장 진입점입니다.
+          </p>
+          <div class="opt3-2col">
+            <div class="opt3-card">
+              <div class="opt3-card-tag">고객군</div>
+              <div class="opt3-card-title">바이오차 생산기업 · 장비 통합사</div>
+              <div class="opt3-card-desc">
+                지자체·공공기관 파일럿 테스트, 바이오차 설비 제조사와의 공동개발, 전시·SNS 브랜딩을 통해
+                시장에 접근. 대표 파트너 해표산업(기술이전 계약 누적 4건).
+              </div>
+              <div class="opt3-card-stat">B2B<span>설비 통합사 대상 라이선싱</span></div>
+            </div>
+            <div class="opt3-card">
+              <div class="opt3-card-tag">확장 협력</div>
+              <div class="opt3-card-title">포네이처스 — IoT 연계</div>
+              <div class="opt3-card-desc">
+                IoT 자동 배양·센서 결합, ESG·탄소중립 연계 공동 협력 중. 기후테크·공정개선 분야 후속
+                지원사업(산업부·환경부)과 연계해 사업 범위 확대를 추진.
+              </div>
+              <div class="opt3-card-stat">ESG<span>탄소중립 연계 협력</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Achievements -->
+      <section class="pg-section opt3" style="background:#fafafa;">
+        <div class="pg-inner">
+          <div class="eyebrow">Achievements</div>
+          <h2>TRL 진행과 핵심 파트너</h2>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2024~25</span><span class="opt3-spec-val">충북대 — 개발·검증 (TRL 6)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2026</span><span class="opt3-spec-val">필드실증 (충북대 · 해표산업)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2027</span><span class="opt3-spec-val"><b>TRL 7 목표</b></span></div>
+          </div>
+          <div class="opt3-2col" style="margin-top:36px;">
+            <div class="opt3-card">
+              <div class="opt3-card-tag">해표산업 — 누적 기술이전 계약</div>
+              <div class="opt3-card-title">4건 · 약 1.2억원</div>
+              <div class="opt3-card-desc">
+                2024년 1차 계약을 시작으로 2회에 걸쳐 계약 규모가 확대되며 필드실증 파트너십으로 이어짐
+                (2024 1차 300만원 → 2024 2차 5,000만원 → 2025 1차 4,000만원 → 2025 2차 7,000만원).
+              </div>
+            </div>
+            <div class="opt3-card">
+              <div class="opt3-card-tag">사업화 계획</div>
+              <div class="opt3-card-title">필드 공정 적용 확대</div>
+              <div class="opt3-card-desc">
+                2024~25년 함수율 분석 기술이전을 시작으로, 2026~27년 필드 공정 적용 범위를 넓혀 추가
+                기술이전을 추진합니다.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agriculture — Technology -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <span class="domain-tag">AGRICULTURE</span>
+          <div class="eyebrow">Technology</div>
+          <h2>모듈형 선별 플랫폼</h2>
+          <p class="body">
+            V자형 레일 이송 구조 위에서 부피·중량·착색·당도·수분·경도 측정 모듈을 필요에 따라 조합하는
+            모듈형 선별 플랫폼입니다. LWIR 국소가열 분석, 2번 반사 기반 착색 측정, 접촉형 인디케이터,
+            비접촉 복원(단열 팽창 공기 기반), 마이크로 분광 표면 투과 스펙트럼 분석 모듈을 AI 제어 시스템과
+            Plug &amp; Play 자동인식으로 연결합니다.
+          </p>
+          <div class="opt3-2col" style="margin-bottom:20px;">
+            <div class="opt3-card">
+              <div class="opt3-card-tag">Compact Type</div>
+              <div class="opt3-card-title">농가 단위 소규모 처리</div>
+              <div class="opt3-card-desc">
+                개별 농가에서 필요한 측정 모듈만 선택 조합해 소규모 선별 라인을 구성.
+              </div>
+            </div>
+            <div class="opt3-card">
+              <div class="opt3-card-tag">Industrial Type</div>
+              <div class="opt3-card-title">산지 유통센터 · APC 대용량 처리</div>
+              <div class="opt3-card-desc">
+                산지 유통센터·농산물산지유통센터(APC)의 고속·대용량 선별 라인에 대응.
+              </div>
+            </div>
+          </div>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">측정 항목</span><span class="opt3-spec-val">당도 · 수분 · 경도 · 착색 · 중량</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">이송 구조</span><span class="opt3-spec-val">V자형 레일</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">모듈 연결</span><span class="opt3-spec-val">AI 제어 + Plug &amp; Play 자동인식</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">폼팩터</span><span class="opt3-spec-val"><b>Compact / Industrial 2종</b></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agriculture — Business -->
+      <section class="pg-section opt3" style="background:#fafafa;">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>외산이 지배하는 시장, 모듈 라이선싱으로</h2>
+          <p class="body">
+            충주 APC 현장 시장조사 결과 APC 시장은 현재 외산 장비가 지배하고 있어, 국산 모듈형 대안에 대한
+            수요가 확인되었습니다.
+          </p>
+          <div class="opt3-2col">
+            <div class="opt3-card">
+              <div class="opt3-card-tag">고객군</div>
+              <div class="opt3-card-title">개별 농가 · 산지 유통센터 · APC</div>
+              <div class="opt3-card-desc">
+                Compact Type은 개별 농가, Industrial Type은 산지 유통센터·APC 대상. 모듈·부품 단위
+                라이선싱과 AI 품질예측 엔진의 서비스형(SaaS) 제공을 병행합니다.
+              </div>
+              <div class="opt3-card-stat">B2B<span>모듈 라이선싱 + SaaS</span></div>
+            </div>
+            <div class="opt3-card">
+              <div class="opt3-card-tag">실증 · 공동개발 파트너</div>
+              <div class="opt3-card-title">5개사 협력 네트워크</div>
+              <div class="opt3-card-desc">
+                진영산업(AI 과일 선별), 한성티앤아이(비파괴 당도 선별), 한아(중량 선별·물류 분류),
+                이듬(작물 생육 측정), 에이오팜(TRL 6→7 현장실증, 2026~27).
+              </div>
+              <div class="opt3-card-stat">5<span>공동개발·실증 파트너사</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agriculture — Achievements -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <div class="eyebrow">Achievements</div>
+          <h2>TRL 진행과 정부 지원 과제</h2>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2024</span><span class="opt3-spec-val">수분·당도 측정 개발 (TRL 4)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2025</span><span class="opt3-spec-val">모듈형 선별기 시제품 (TRL 6)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2026 목표</span><span class="opt3-spec-val"><b>실증평가 · 인증 (TRL 7)</b></span></div>
+          </div>
+          <div class="opt3-minimal-bars">
+            <div class="opt3-mb-col"><div class="opt3-mb-val">20억</div><div class="opt3-mb-bar" style="height:18%;"></div><div class="opt3-mb-yr">2028</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">70억</div><div class="opt3-mb-bar" style="height:58%;"></div><div class="opt3-mb-yr">2029</div></div>
+            <div class="opt3-mb-col"><div class="opt3-mb-val">120억</div><div class="opt3-mb-bar hi" style="height:100%;"></div><div class="opt3-mb-yr">2030</div></div>
+          </div>
+          <div class="opt3-card-tag" style="margin-bottom:14px;">충북도 지원 과제 — 3년 · 90억원 규모</div>
+          <div class="opt3-milestones">
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">67.7%</div><div class="opt3-milestone-val">충북대</div><div class="opt3-milestone-desc">산학협력단</div></div>
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">24.4%</div><div class="opt3-milestone-val">위드위</div><div class="opt3-milestone-desc">공동 수행기관</div></div>
+            <div class="opt3-milestone"><div class="opt3-milestone-stage">7.8%</div><div class="opt3-milestone-val">농업회사법인A</div><div class="opt3-milestone-desc">공동 수행기관</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resource — Technology -->
+      <section class="pg-section opt3" style="background:#fafafa;">
+        <div class="pg-inner">
+          <span class="domain-tag">RESOURCE CIRCULATION</span>
+          <div class="eyebrow">Technology</div>
+          <h2>초분광 · 가시광 융합 선별</h2>
+          <p class="body">
+            초분광(hyperspectral)과 가시광 센서를 융합해 폐플라스틱의 재질 성분을 진단하는 원천기술을
+            시작으로, AI 선별 알고리즘을 고도화해 폐배터리 해체·재활용 필드 실험까지 적용 범위를 넓히고,
+            다중 스펙트럼 자율지능형 AI 선별시스템으로 발전시키는 로드맵을 갖고 있습니다. 시스템은
+            가시광·열화상 센서와 고정 장치·조명·촬영각도 조절 구조로 구성됩니다.
+          </p>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2024~25</span><span class="opt3-spec-val">초분광+가시광 재질 진단 (TRL 6)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2026 목표</span><span class="opt3-spec-val">AI 선별 고도화 + 폐배터리 필드실험 (TRL 7)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2027</span><span class="opt3-spec-val"><b>다중 스펙트럼 자율지능형 선별시스템</b></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resource — Business -->
+      <section class="pg-section opt3">
+        <div class="pg-inner">
+          <div class="eyebrow">Business Model &amp; Customers</div>
+          <h2>고비용 장비의 대안을 제시하다</h2>
+          <div class="opt3-pvs">
+            <div class="opt3-pvs-col">
+              <div class="opt3-pvs-tag">기존 시장의 한계</div>
+              <ul class="opt3-pvs-list">
+                <li>초분광 전용 고비용 시스템 위주</li>
+                <li>폐플라스틱 선별 장비 제조사(B2B) 대상 진입장벽 높음</li>
+              </ul>
+            </div>
+            <div class="opt3-pvs-arrow">→</div>
+            <div class="opt3-pvs-col solution">
+              <div class="opt3-pvs-tag">FINSIDE의 해법</div>
+              <ul class="opt3-pvs-list">
+                <li>저비용 초분광+가시광 융합 대안 제시</li>
+                <li>위드위(WithWe)와 One-Stop 시스템 공동개발</li>
+              </ul>
+            </div>
+          </div>
+          <div class="opt3-spec-list">
+            <div class="opt3-spec-row"><span class="opt3-spec-label">고객군</span><span class="opt3-spec-val">폐플라스틱 선별 장비 제조사 (B2B)</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">공동개발 파트너</span><span class="opt3-spec-val">위드위(WithWe) — 폐플라스틱 분류 One-Stop 시스템</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">현재 단계</span><span class="opt3-spec-val">TRL 6 → 7 스케일업 진행 중</span></div>
+            <div class="opt3-spec-row"><span class="opt3-spec-label">2026 계획</span><span class="opt3-spec-val"><b>폐배터리 해체·재활용 분야 적용 확장 실증</b></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       OPTION 4 — INDUSTRIAL / ENTERPRISE B2B
+       ============================================================ -->
+  <div class="opt-section">
+    <span class="opt-label opt4-label">OPTION 4 — 산업 / 엔터프라이즈 B2B</span>
+    <p class="opt-desc">
+      네이비/다크 톤 + 블루프린트(설계도)풍 점선 프레임, 모노스페이스 스펙 숫자로 "엔지니어링 솔루션"의
+      신뢰감을 준다. 전체를 다크 배경으로 통일해 기술 문서/데이터시트 같은 인상을 만들고, 하늘색(#5b9cd6)
+      단일 강조색으로 핵심 수치만 부각한다.
+    </p>
+    <div class="page-frame">
+
+      <!-- Beauty — Technology -->
+      <section class="pg-section opt4">
+        <div class="pg-inner">
+          <span class="domain-tag" style="background:#16324a; color:#5b9cd6;">BEAUTY</span>
+          <div class="eyebrow">TECHNOLOGY</div>
+          <h2>LWIR 기반 비접촉 피부 진단</h2>
+          <p class="body">
+            원적외선(LWIR, Long-Wave Infrared) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에
+            적용한 제품입니다. FINSIDE의 공용 원천기술을 뷰티 영역에 적용한 OSMU 스핀오프로, 접촉 없이 피부의
+            수분·유분·탄력 상태를 정량 데이터로 측정하고 AI 기반 모바일 연동 앱으로 결과를 제공하는
+            프로토타입까지 개발되어 있습니다.
+          </p>
+          <div class="opt4-blueprint">
+            <div class="opt4-blueprint-label">SPEC — 측정 시스템 개요</div>
+            <div class="opt4-spec-grid">
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">Method</div><div class="opt4-spec-cell-val">0-Contact</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">Metrics</div><div class="opt4-spec-cell-val">3</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">Output</div><div class="opt4-spec-cell-val">AI App</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">Stage</div><div class="opt4-spec-cell-val">Proto</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Business -->
+      <section class="pg-section opt4" style="background:#0a1826;">
+        <div class="pg-inner">
+          <div class="eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+          <h2>B2B2C로 연결되는 피부 데이터</h2>
+          <div class="opt4-2col">
+            <div class="opt4-card">
+              <span class="opt4-card-tag">B2B</span>
+              <div class="opt4-card-title">소매점 · 피부관리실 · 브랜드</div>
+              <div class="opt4-card-desc">
+                화장품 소매점(2024년 기준 약 1,300개 매장), 전국 약 35,000개 피부관리실 중 목표 10%.
+                에이피알·세라젬·달바 등과 공동 마케팅 및 기술 라이선싱.
+              </div>
+              <div class="opt4-card-stat">3,500<span>목표 매장/관리실 수</span></div>
+            </div>
+            <div class="opt4-card">
+              <span class="opt4-card-tag">B2C</span>
+              <div class="opt4-card-title">홈케어 디바이스 + 구독</div>
+              <div class="opt4-card-desc">
+                디바이스 판매 30만원 + 월 구독 3~5만원 모델. TAM $19.79B, SAM 약 $8.1B (Grand View Research).
+              </div>
+              <div class="opt4-card-stat">17.9%<span>시장 연평균 성장률</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Beauty — Achievements -->
+      <section class="pg-section opt4">
+        <div class="pg-inner">
+          <div class="eyebrow">ACHIEVEMENTS</div>
+          <h2>특허와 성장 로드맵</h2>
+          <div class="opt4-blueprint">
+            <div class="opt4-blueprint-label">PATENT REGISTRY</div>
+            <div class="opt4-donut-row">
+              <div class="opt4-donut" style="background: conic-gradient(#5b9cd6 0% 80%, #1e4258 80% 100%);">
+                <div class="opt4-donut-hole"><b>10</b><span>TOTAL</span></div>
+              </div>
+              <div>
+                <div class="opt4-legend-item"><span class="opt4-legend-dot" style="background:#5b9cd6;"></span>국내 특허 — 8</div>
+                <div class="opt4-legend-item"><span class="opt4-legend-dot" style="background:#1e4258;"></span>PCT 국제출원 — 2</div>
+              </div>
+            </div>
+          </div>
+          <div class="opt4-blueprint">
+            <div class="opt4-blueprint-label">REVENUE ROADMAP — FY2026~2030</div>
+            <div class="opt4-bars">
+              <div class="opt4-bars-col"><div class="opt4-bars-val">5억</div><div class="opt4-bars-bar" style="height:4%;"></div><div class="opt4-bars-yr">2026</div></div>
+              <div class="opt4-bars-col"><div class="opt4-bars-val">10억</div><div class="opt4-bars-bar" style="height:6%;"></div><div class="opt4-bars-yr">2027</div></div>
+              <div class="opt4-bars-col"><div class="opt4-bars-val">30억</div><div class="opt4-bars-bar" style="height:12%;"></div><div class="opt4-bars-yr">2028</div></div>
+              <div class="opt4-bars-col"><div class="opt4-bars-val">150억</div><div class="opt4-bars-bar" style="height:52%;"></div><div class="opt4-bars-yr">2029</div></div>
+              <div class="opt4-bars-col"><div class="opt4-bars-val">300억</div><div class="opt4-bars-bar hi" style="height:100%;"></div><div class="opt4-bars-yr">2030</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Technology (table) -->
+      <section class="pg-section opt4" style="background:#0a1826;">
+        <div class="pg-inner">
+          <span class="domain-tag" style="background:#16324a; color:#5b9cd6;">BIO &amp; PROCESS</span>
+          <div class="eyebrow">TECHNOLOGY</div>
+          <h2>FBE 시스템 — 보이지 않는 공정 품질을 데이터로</h2>
+          <p class="body">
+            비접촉 LWIR 열화상 센서와 AI 실시간 분석을 결합한 "FBE 시스템"은, 표면 증발 냉각 효과에 따른
+            시계열 데이터 분석을 통해 이동하는 컨베이어 위에서도 축분의 바이오차 전환 공정을 무중단으로
+            계측합니다. 기존 설비 교체 없이 리트로핏 모듈로 적용 가능합니다.
+          </p>
+          <div class="opt4-blueprint">
+            <div class="opt4-blueprint-label">BENCHMARK — 측정 방식 비교</div>
+            <table class="opt4-table">
+              <thead><tr><th>측정 방식</th><th>속도</th><th>샘플</th><th>정확도</th><th>현장 적합성</th></tr></thead>
+              <tbody>
+                <tr><td>전기전도도 타입 측정기</td><td>즉시</td><td>국소부위</td><td>낮음</td><td>제한적</td></tr>
+                <tr><td>간이 건조감량법</td><td>10~60분</td><td>매우소량</td><td>중간(±5℃)</td><td>부적합</td></tr>
+                <tr><td>열풍건조기</td><td>~24시간</td><td>소량~중량</td><td>매우 높음</td><td>매우 부적합</td></tr>
+                <tr class="hi"><td>FBE 시스템</td><td>실시간</td><td>제한 없음</td><td>높음</td><td>최적</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Business -->
+      <section class="pg-section opt4">
+        <div class="pg-inner">
+          <div class="eyebrow">BUSINESS MODEL &amp; CUSTOMERS</div>
+          <h2>고품질 바이오차 대량 생산의 병목을 해결하다</h2>
+          <div class="opt4-blueprint">
+            <div class="opt4-blueprint-label">MARKET CONTEXT</div>
+            <div class="opt4-spec-grid">
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">연간 발생량</div><div class="opt4-spec-cell-val">5천만t</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">규제</div><div class="opt4-spec-cell-val">2016</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">함수율</div><div class="opt4-spec-cell-val">70→20%</div></div>
+              <div class="opt4-spec-cell"><div class="opt4-spec-cell-label">고객군</div><div class="opt4-spec-cell-val">B2B</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bio — Achievements -->
+      <section class="pg-section opt4" style="background:#0a1826;">
+        <div class="pg-inner">
+          <div class="eyebrow">ACHIEVEMENTS</div>
+          <h2>TRL 진행과 핵심 파트너</h2>
+          <div class="opt4-2col">
+            <div class="opt4-card">
+              <span class="opt4-card-tag">TRL</span>
+              <div class="opt4-card-title">TRL 6 — 2024~25 충북대 개발·검증</div>
+              <div class="opt4-card-desc">2026 필드실증(충북대·해표산업) → 2027 TRL 7 목표.</div>
+            </div>
+            <div class="opt4-card">
+              <span class="opt4-card-tag">해표산업</span>
+              <div class="opt4-card-title">누적 기술이전 계약</div>
+              <div class="opt4-card-desc">2024 1차 3백만 → 2024 2차 5천만 → 2025 1차 4천만 → 2025 2차 7천만.
+                포네이처스와 IoT 자동 배양·센서, ESG·탄소중립 연계 협력 중.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
