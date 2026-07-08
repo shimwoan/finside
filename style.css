@@ -1225,6 +1225,93 @@ nav .nav-logo { margin-bottom: 0; }
 .compare-bar-row-label { display: flex; justify-content: space-between; font-size: 12px; color: #6b6259; font-weight: 600; }
 .compare-bar-row-label b { color: #2a2520; font-weight: 800; font-variant-numeric: tabular-nums; }
 
+/* ── Beauty page redesign (Option B — LULULAB style) ── */
+.beauty-b-hero-stat {
+  margin-top: 40px;
+  padding: 32px 0 12px;
+  border-bottom: 4px solid #111;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+}
+.beauty-b-hero-num {
+  font-size: clamp(56px, 8vw, 120px);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: #111;
+}
+.beauty-b-hero-num span { color: #da005c; }
+.beauty-b-hero-cap {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b6259;
+  padding-bottom: 10px;
+  max-width: 260px;
+  line-height: 1.6;
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .beauty-b-hero-stat { grid-template-columns: 1fr; }
+  .beauty-b-hero-cap { text-align: left; }
+}
+
+.beauty-b-chip-row { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+.beauty-b-chip {
+  font-size: 13px; font-weight: 700; padding: 9px 18px; border-radius: 100px;
+  border: 2px solid #111; color: #111;
+}
+.beauty-b-chip.active { background: #da005c; border-color: #da005c; color: #fff; }
+
+.beauty-b-biz { background: #111; }
+.beauty-b-biz .domain-detail-section-title .eyebrow { color: #ff4d94; }
+.beauty-b-biz .heading { color: #fff; }
+.beauty-b-biz .heading b { color: #ff4d94; }
+.beauty-b-split {
+  display: grid; grid-template-columns: 1fr 1fr; margin-top: 12px;
+  border: 2px solid #333; border-radius: 8px; overflow: hidden;
+}
+.beauty-b-split-col { padding: 32px; }
+.beauty-b-split-col:first-child { border-right: 2px solid #333; }
+.beauty-b-split-tag {
+  display: inline-block; font-size: 12px; font-weight: 900; padding: 5px 12px;
+  border-radius: 4px; background: #da005c; color: #fff; margin-bottom: 16px;
+}
+.beauty-b-split-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.beauty-b-split-desc { font-size: 13.5px; color: #b8b8b8; line-height: 1.8; }
+.beauty-b-split-stat { display: flex; align-items: baseline; gap: 8px; margin-top: 20px; }
+.beauty-b-split-stat-num { font-size: 30px; font-weight: 900; color: #fff; font-variant-numeric: tabular-nums; }
+.beauty-b-split-stat-label { font-size: 12px; color: #999; }
+@media (max-width: 640px) {
+  .beauty-b-split { grid-template-columns: 1fr; }
+  .beauty-b-split-col:first-child { border-right: none; border-bottom: 2px solid #333; }
+}
+
+.beauty-b-ach-hero {
+  display: flex; align-items: center; gap: 48px;
+  margin: 12px 0 44px; padding: 36px; background: #fff;
+  border: 2px solid #111; border-radius: 10px; flex-wrap: wrap;
+}
+.beauty-b-donut { position: relative; width: 148px; height: 148px; border-radius: 50%; flex: none; }
+.beauty-b-donut-hole {
+  position: absolute; inset: 18px; background: #fbfbfb; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.beauty-b-donut-num { font-size: 28px; font-weight: 900; color: #111; }
+.beauty-b-donut-lbl { font-size: 11px; color: #6b6259; font-weight: 700; margin-top: 2px; text-align: center; }
+.beauty-b-legend { display: flex; flex-direction: column; gap: 12px; }
+.beauty-b-legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #2a2520; }
+.beauty-b-legend-dot { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.beauty-b-legend-val { color: #da005c; font-weight: 900; }
+
+.beauty-b-bars { display: flex; align-items: flex-end; gap: 18px; height: 160px; margin-top: 4px; }
+.beauty-b-bars-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.beauty-b-bars-val { font-size: 13px; font-weight: 800; color: #2a2520; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.beauty-b-bars-bar { width: 100%; max-width: 56px; background: #111; border-radius: 4px 4px 0 0; }
+.beauty-b-bars-bar.hi { background: #da005c; }
+.beauty-b-bars-yr { font-size: 11px; color: #6b6259; font-weight: 700; margin-top: 10px; }
+
 .domain-cta-strip {
   padding: clamp(50px, 7vh, 80px) 0;
   background: #ede7db;
