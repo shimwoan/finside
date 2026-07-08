@@ -79,6 +79,7 @@ html {
 html, body {
   width: 100%;
   font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
+  word-break: keep-all;
 }
 
 /* per-page theme (index = dark hero page, about = light page) */
