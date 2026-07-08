@@ -179,6 +179,116 @@ nav .nav-logo { margin-bottom: 0; }
   .nav-links a { font-size: 11px; letter-spacing: 0.02em; }
 }
 
+/* ── shared: contact modal (partials/header.js) ── */
+#contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #1a1712a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s;
+}
+#contact-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+body.modal-open { overflow: hidden; }
+
+#contact-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fffdf9;
+  border-radius: 16px;
+  padding: 40px clamp(24px, 4vw, 44px);
+  box-shadow: 0 30px 60px -20px #2a251f4a;
+  transform: translateY(12px);
+  transition: transform 0.25s;
+}
+#contact-modal-overlay.open #contact-modal { transform: translateY(0); }
+
+#contact-modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 32px; height: 32px;
+  border: none;
+  background: transparent;
+  color: #6b6259;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+#contact-modal-close:hover { background: #ede7db; }
+
+#contact-modal-title {
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 700;
+  color: #2a2520;
+  margin-bottom: 8px;
+}
+#contact-modal-sub {
+  font-size: 14px;
+  color: #6b6259;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.contact-field { margin-bottom: 18px; }
+.contact-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a453d;
+  margin-bottom: 8px;
+}
+.contact-field .req { color: #b0553f; }
+.contact-field .opt { color: #a39a8c; font-weight: 400; }
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ded5c4;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #2a2520;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  border-color: #a68a6d;
+}
+.contact-field textarea { resize: vertical; }
+
+#contact-form-status {
+  font-size: 13px;
+  min-height: 18px;
+  margin: 4px 0 18px;
+}
+#contact-form-status.error { color: #b0553f; }
+#contact-form-status.success { color: #4a7a5a; }
+
+#contact-submit {
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  #contact-modal { padding: 32px 20px; }
+}
+
 /* ── shared reveal-on-scroll fade (index.html #domains + about.html sections) ── */
 .reveal-fade {
   opacity: 0;

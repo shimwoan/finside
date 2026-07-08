@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template A: Card Grid — 사업분야 시안</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* ── Template A: static 4-card grid (Lululab / EntertainTake pattern) ── */
+  .tA-section { padding: 120px 0; background: #fbf9f5; }
+  .tA-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .tA-head { text-align: center; margin-bottom: 56px; }
+  .tA-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #a68a6d; text-transform: uppercase; margin-bottom: 14px; }
+  .tA-heading { font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif; font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; color: #2a2520; }
+
+  .tA-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .tA-card {
+    background: #fffdf9;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -28px #2a251f26;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+  }
+  .tA-card:hover { transform: translateY(-6px); box-shadow: 0 1px 0 #2a251f0f, 0 30px 50px -26px #2a251f33; }
+  .tA-card-img { aspect-ratio: 4/3; overflow: hidden; }
+  .tA-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tA-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+  .tA-card-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #a68a6d; text-transform: uppercase; margin-bottom: 10px; }
+  .tA-card-title { font-family: 'SUIT', sans-serif; font-size: 18px; font-weight: 800; color: #2a2520; line-height: 1.4; margin-bottom: 10px; }
+  .tA-card-desc { font-size: 13.5px; color: #6b6259; line-height: 1.7; flex: 1; margin-bottom: 16px; }
+  .tA-card-link { font-size: 13px; font-weight: 700; color: #8a6a4a; }
+  .tA-card:hover .tA-card-link { color: #4a453d; }
+
+  @media (max-width: 1000px) {
+    .tA-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .tA-grid { grid-template-columns: 1fr; }
+    .tA-section { padding: 72px 0; }
+  }
+</style>
+</head>
+<body class="page-index">
+
+<script src="../partials/header.js"></script>
+
+<section class="tA-section">
+  <div class="tA-inner">
+    <div class="tA-head">
+      <div class="tA-eyebrow">Application Domains</div>
+      <h2 class="tA-heading">사업 분야</h2>
+    </div>
+
+    <div class="tA-grid">
+      <a class="tA-card" href="../domains-beauty.html">
+        <div class="tA-card-img"><img src="../assets/domain-panel-beauty.png" alt="Beauty"></div>
+        <div class="tA-card-body">
+          <div class="tA-card-tag">Beauty</div>
+          <div class="tA-card-title">피부를 데이터로, 스킨케어를 초개인화로</div>
+          <p class="tA-card-desc">비접촉 광학 센서로 수분·유분·탄력 등 피부 상태를 정량 데이터로 측정합니다.</p>
+          <span class="tA-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tA-card" href="../domains-agriculture.html">
+        <div class="tA-card-img"><img src="../assets/domain-panel-agriculture.png" alt="Agriculture"></div>
+        <div class="tA-card-body">
+          <div class="tA-card-tag">Agriculture</div>
+          <div class="tA-card-title">수확 전에 품질을, 유통 전에 등급을</div>
+          <p class="tA-card-desc">초분광·열화상 영상으로 당도, 수분, 경도, 중량을 비파괴 방식으로 즉시 판별합니다.</p>
+          <span class="tA-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tA-card" href="../domains-bio.html">
+        <div class="tA-card-img"><img src="../assets/domain-panel-bio.png" alt="Bio & Process"></div>
+        <div class="tA-card-body">
+          <div class="tA-card-tag">Bio &amp; Process</div>
+          <div class="tA-card-title">눈에 보이지 않는 공정을 실시간으로</div>
+          <p class="tA-card-desc">바이오소재 생산 공정에서 원료 함수율을 비접촉 열화상 센서로 실시간 계측합니다.</p>
+          <span class="tA-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tA-card" href="../domains-resource.html">
+        <div class="tA-card-img"><img src="../assets/domain-panel-resource.png" alt="Resource Circulation"></div>
+        <div class="tA-card-body">
+          <div class="tA-card-tag">Resource Circulation</div>
+          <div class="tA-card-title">폐자원에서 다시 가치를 찾아내는 기술</div>
+          <p class="tA-card-desc">초분광·열화상 센서로 폐플라스틱 등 폐자원의 재질 성분을 실시간 분석합니다.</p>
+          <span class="tA-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script src="../partials/footer.js"></script>
+</body>
+</html>

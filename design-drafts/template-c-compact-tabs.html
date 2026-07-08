@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template C: Compact Tab Strip (current pattern, tightened) — 사업분야 시안</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* ── Template C: keep the existing tab-switcher interaction,
+     but as a slim horizontal pill-tab row above the panel (mobile-first pattern
+     applied at all widths), so all 4 domain names stay visible without scrolling ── */
+  .tC-section { padding: 120px 0; background: #fbf9f5; }
+  .tC-inner { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  .tC-head { text-align: center; margin-bottom: 48px; }
+  .tC-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #a68a6d; text-transform: uppercase; margin-bottom: 14px; }
+  .tC-heading { font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif; font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; color: #2a2520; }
+
+  .tC-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .tC-tab {
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background: #ede7db;
+    color: #6b6259;
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .tC-tab:hover { background: #e2d9c7; }
+  .tC-tab.active { background: #2a2520; color: #fffdf9; border-color: #2a2520; }
+
+  .tC-panel {
+    background: #fffdf9;
+    border-radius: 20px;
+    box-shadow: 0 1px 0 #2a251f0f, 0 30px 60px -30px #2a251f26;
+    padding: clamp(28px, 3vw, 44px);
+    display: flex;
+    gap: clamp(24px, 3vw, 40px);
+    align-items: center;
+  }
+  .tC-panel-img { flex: 0 0 38%; min-width: 0; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; }
+  .tC-panel-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tC-panel-text { flex: 1; min-width: 0; }
+  .tC-panel-tag { font-size: 12px; font-weight: 700; color: #a68a6d; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .tC-panel-title { font-family: 'SUIT', sans-serif; font-size: clamp(20px, 2vw, 26px); font-weight: 800; color: #2a2520; line-height: 1.4; margin-bottom: 14px; }
+  .tC-panel-desc { font-size: 14.5px; color: #6b6259; line-height: 1.8; margin-bottom: 18px; }
+  .tC-panel-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tC-panel-link { font-size: 14px; font-weight: 700; color: #8a6a4a; text-decoration: none; }
+  .tC-panel-link:hover { color: #4a453d; }
+
+  @media (max-width: 700px) {
+    .tC-panel { flex-direction: column; }
+    .tC-panel-img { flex: none; width: 100%; }
+    .tC-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+    .tC-tab { flex: 0 0 auto; }
+  }
+</style>
+</head>
+<body class="page-index">
+
+<script src="../partials/header.js"></script>
+
+<section class="tC-section">
+  <div class="tC-inner">
+    <div class="tC-head">
+      <div class="tC-eyebrow">Application Domains</div>
+      <h2 class="tC-heading">사업 분야</h2>
+    </div>
+
+    <div class="tC-tabs" role="tablist">
+      <button class="tC-tab active" data-domain="beauty" role="tab" aria-selected="true">Beauty</button>
+      <button class="tC-tab" data-domain="agriculture" role="tab" aria-selected="false">Agriculture</button>
+      <button class="tC-tab" data-domain="bio" role="tab" aria-selected="false">Bio &amp; Process</button>
+      <button class="tC-tab" data-domain="resource" role="tab" aria-selected="false">Resource Circulation</button>
+    </div>
+
+    <div class="tC-panel">
+      <div class="tC-panel-img">
+        <img data-domain-img="beauty" src="../assets/domain-panel-beauty.png" alt="">
+      </div>
+      <div class="tC-panel-text">
+        <div class="tC-panel-tag" data-domain-field="tag">Beauty</div>
+        <div class="tC-panel-title" data-domain-field="title">피부를 데이터로, 스킨케어를 초개인화로</div>
+        <p class="tC-panel-desc" data-domain-field="desc">
+          비접촉 광학 센서로 수분·유분·탄력 등 피부 상태를 정량 데이터로 측정합니다.
+          측정값은 맞춤형 스킨케어 추천과 화장품 R&D 개발 데이터로 이어져, 피부샵·클리닉·화장품 소매점과
+          스킨케어 브랜드(B2B), 홈케어 디바이스 사용자(B2C) 모두에게 근거 기반 데이터를 제공합니다.
+        </p>
+        <div class="tC-panel-tags" data-domain-field="tags">
+          <span class="domain-chip">비접촉 측정</span>
+          <span class="domain-chip">초개인화 추천</span>
+          <span class="domain-chip">B2B2C</span>
+        </div>
+        <a class="tC-panel-link" data-domain-field="href" href="../domains-beauty.html">자세히 보기 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../partials/footer.js"></script>
+
+<script>
+(function() {
+  const DATA = {
+    beauty: {
+      tag: 'Beauty',
+      title: '피부를 데이터로, 스킨케어를 초개인화로',
+      desc: '비접촉 광학 센서로 수분·유분·탄력 등 피부 상태를 정량 데이터로 측정합니다. 측정값은 맞춤형 스킨케어 추천과 화장품 R&D 개발 데이터로 이어져, 피부샵·클리닉·화장품 소매점과 스킨케어 브랜드(B2B), 홈케어 디바이스 사용자(B2C) 모두에게 근거 기반 데이터를 제공합니다.',
+      tags: ['비접촉 측정', '초개인화 추천', 'B2B2C'],
+      img: '../assets/domain-panel-beauty.png',
+      href: '../domains-beauty.html'
+    },
+    agriculture: {
+      tag: 'Agriculture',
+      title: '수확 전에 품질을, 유통 전에 등급을',
+      desc: '초분광·열화상 영상으로 당도, 수분(함수율), 경도, 중량, 착색 상태를 비파괴 방식으로 현장에서 즉시 판별합니다. 스마트팜부터 산지 유통 단계까지 품질 데이터를 표준화해, 선별·등급 판정의 정확도와 속도를 함께 끌어올립니다.',
+      tags: ['초분광·열화상', '비파괴 검사', '스마트팜'],
+      img: '../assets/domain-panel-agriculture.png',
+      href: '../domains-agriculture.html'
+    },
+    bio: {
+      tag: 'Bio & Process',
+      title: '눈에 보이지 않는 공정을 실시간으로',
+      desc: '바이오차 등 바이오소재 생산 공정에서 원료의 함수율(수분 상태)을 비접촉 열화상 센서로 실시간 계측합니다. 이동 중인 컨베이어 위에서도 공정을 중단하지 않고 품질 변화를 추적할 수 있어, 고온·분진 등 열악한 환경의 양산 라인에서도 일관된 공정 관리가 가능합니다.',
+      tags: ['실시간 계측', '비접촉 모니터링', 'TRL 검증'],
+      img: '../assets/domain-panel-bio.png',
+      href: '../domains-bio.html'
+    },
+    resource: {
+      tag: 'Resource Circulation',
+      title: '폐자원에서 다시 가치를 찾아내는 기술',
+      desc: '초분광·열화상 센서로 폐플라스틱 등 폐자원의 재질 성분을 실시간으로 분석해 소재별 자동 선별을 지원합니다. 선별 정확도를 높이고 수작업 의존도를 낮춰, 재활용률 향상과 자원순환 공정 전반의 효율·경제성을 개선합니다.',
+      tags: ['소재 선별', '실시간 성분 분석', '공정 자동화'],
+      img: '../assets/domain-panel-resource.png',
+      href: '../domains-resource.html'
+    }
+  };
+
+  const tabs = document.querySelectorAll('.tC-tab');
+  const tagEl = document.querySelector('[data-domain-field="tag"]');
+  const titleEl = document.querySelector('[data-domain-field="title"]');
+  const descEl = document.querySelector('[data-domain-field="desc"]');
+  const tagsEl = document.querySelector('[data-domain-field="tags"]');
+  const linkEl = document.querySelector('[data-domain-field="href"]');
+  const imgEl = document.querySelector('[data-domain-img]');
+
+  function activate(key) {
+    const d = DATA[key];
+    if (!d) return;
+    tabs.forEach(t => {
+      const isActive = t.dataset.domain === key;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    imgEl.src = d.img;
+    tagEl.textContent = d.tag;
+    titleEl.textContent = d.title;
+    descEl.textContent = d.desc;
+    tagsEl.innerHTML = d.tags.map(t => `<span class="domain-chip">${t}</span>`).join('');
+    linkEl.setAttribute('href', d.href);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activate(tab.dataset.domain));
+  });
+})();
+</script>
+
+</body>
+</html>

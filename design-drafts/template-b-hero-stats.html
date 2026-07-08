@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template B: Trust-Stat Hero + Card Grid — 사업분야 시안</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* ── Template B: Lululab-style trust-stat strip above a card grid ── */
+  .tB-section { padding: 120px 0; background: #fbf9f5; }
+  .tB-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .tB-head { text-align: center; margin-bottom: 40px; }
+  .tB-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #a68a6d; text-transform: uppercase; margin-bottom: 14px; }
+  .tB-heading { font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif; font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; color: #2a2520; margin-bottom: 18px; }
+  .tB-lead { font-size: 15.5px; color: #6b6259; max-width: 620px; margin: 0 auto; line-height: 1.8; }
+
+  .tB-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e5ddd0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 48px 0 64px;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -28px #2a251f26;
+  }
+  .tB-stat { background: #fffdf9; padding: 32px 24px; text-align: center; }
+  .tB-stat-value { font-family: 'SUIT', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 800; color: #2a2520; }
+  .tB-stat-unit { font-size: 15px; font-weight: 700; color: #a68a6d; margin-left: 2px; }
+  .tB-stat-label { font-size: 12.5px; color: #6b6259; margin-top: 8px; }
+
+  .tB-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .tB-card {
+    background: #fffdf9;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -28px #2a251f26;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
+  }
+  .tB-card:hover { transform: translateY(-6px); box-shadow: 0 1px 0 #2a251f0f, 0 30px 50px -26px #2a251f33; }
+  .tB-card-img { aspect-ratio: 4/3; overflow: hidden; }
+  .tB-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tB-card-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+  .tB-card-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #a68a6d; text-transform: uppercase; margin-bottom: 8px; }
+  .tB-card-title { font-family: 'SUIT', sans-serif; font-size: 16.5px; font-weight: 800; color: #2a2520; line-height: 1.4; margin-bottom: 8px; }
+  .tB-card-link { font-size: 13px; font-weight: 700; color: #8a6a4a; margin-top: auto; }
+  .tB-card:hover .tB-card-link { color: #4a453d; }
+
+  @media (max-width: 1000px) {
+    .tB-stats { grid-template-columns: repeat(2, 1fr); }
+    .tB-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .tB-stats { grid-template-columns: 1fr; }
+    .tB-grid { grid-template-columns: 1fr; }
+    .tB-section { padding: 72px 0; }
+  }
+</style>
+</head>
+<body class="page-index">
+
+<script src="../partials/header.js"></script>
+
+<section class="tB-section">
+  <div class="tB-inner">
+    <div class="tB-head">
+      <div class="tB-eyebrow">Application Domains</div>
+      <h2 class="tB-heading">사업 분야</h2>
+      <p class="tB-lead">비접촉 측정 기술로 4개 산업 영역의 품질·공정 데이터를 정량화합니다</p>
+    </div>
+
+    <div class="tB-stats">
+      <div class="tB-stat"><div class="tB-stat-value">4<span class="tB-stat-unit">개</span></div><div class="tB-stat-label">사업 영역</div></div>
+      <div class="tB-stat"><div class="tB-stat-value">TRL 7<span class="tB-stat-unit">단계</span></div><div class="tB-stat-label">최고 기술성숙도</div></div>
+      <div class="tB-stat"><div class="tB-stat-value">5+<span class="tB-stat-unit">개사</span></div><div class="tB-stat-label">실증·공동개발 파트너</div></div>
+      <div class="tB-stat"><div class="tB-stat-value">B2B2C</div><div class="tB-stat-label">비즈니스 모델</div></div>
+    </div>
+
+    <div class="tB-grid">
+      <a class="tB-card" href="../domains-beauty.html">
+        <div class="tB-card-img"><img src="../assets/domain-panel-beauty.png" alt="Beauty"></div>
+        <div class="tB-card-body">
+          <div class="tB-card-tag">Beauty</div>
+          <div class="tB-card-title">피부를 데이터로,<br>스킨케어를 초개인화로</div>
+          <span class="tB-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tB-card" href="../domains-agriculture.html">
+        <div class="tB-card-img"><img src="../assets/domain-panel-agriculture.png" alt="Agriculture"></div>
+        <div class="tB-card-body">
+          <div class="tB-card-tag">Agriculture</div>
+          <div class="tB-card-title">수확 전에 품질을,<br>유통 전에 등급을</div>
+          <span class="tB-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tB-card" href="../domains-bio.html">
+        <div class="tB-card-img"><img src="../assets/domain-panel-bio.png" alt="Bio & Process"></div>
+        <div class="tB-card-body">
+          <div class="tB-card-tag">Bio &amp; Process</div>
+          <div class="tB-card-title">눈에 보이지 않는<br>공정을 실시간으로</div>
+          <span class="tB-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+      <a class="tB-card" href="../domains-resource.html">
+        <div class="tB-card-img"><img src="../assets/domain-panel-resource.png" alt="Resource Circulation"></div>
+        <div class="tB-card-body">
+          <div class="tB-card-tag">Resource Circulation</div>
+          <div class="tB-card-title">폐자원에서 다시<br>가치를 찾아내는 기술</div>
+          <span class="tB-card-link">자세히 보기 →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script src="../partials/footer.js"></script>
+</body>
+</html>
