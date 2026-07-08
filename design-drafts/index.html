@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사업분야 섹션 템플릿 비교</title>
+<style>
+  body { font-family: -apple-system, 'Apple SD Gothic Neo', sans-serif; background: #1a1a1a; color: #e8e4dc; padding: 60px 24px; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 24px; margin-bottom: 8px; }
+  p { color: #a8a49c; margin-bottom: 40px; line-height: 1.6; }
+  ul { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+  li a {
+    display: block;
+    padding: 20px 24px;
+    background: #2a2a2a;
+    border-radius: 12px;
+    color: #e8e4dc;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  li a:hover { background: #3a3a3a; }
+  .tag { display: block; font-size: 12px; color: #c8a876; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .desc { display: block; font-size: 13px; color: #a8a49c; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>사업분야 섹션 템플릿 비교 (3안)</h1>
+  <p>룰루랩·엔터테이크 등 국내 뷰티테크 기업 벤치마킹 기반. 클릭해서 실제 사이트 헤더/푸터와 함께 렌더링된 모습을 확인하세요.</p>
+  <ul>
+    <li>
+      <a href="template-a-card-grid.html">
+        <span class="tag">Template A — Card Grid</span>
+        4개 카드를 항상 모두 노출 (탭 없음). 룰루랩·엔터테이크의 기본형 패턴.
+        <span class="desc">장점: 한눈에 전체 사업영역 파악, 클릭 한 번으로 상세 이동 / 단점: 설명 텍스트가 짧아짐</span>
+      </a>
+    </li>
+    <li>
+      <a href="template-b-hero-stats.html">
+        <span class="tag">Template B — Trust Stats + Card Grid</span>
+        카드 그리드 위에 신뢰 지표(TRL, 파트너 수 등) 스트립 추가. 룰루랩의 수치 강조 패턴.
+        <span class="desc">장점: B2B 설득력 강화 / 단점: 섹션이 더 길어짐</span>
+      </a>
+    </li>
+    <li>
+      <a href="template-c-compact-tabs.html">
+        <span class="tag">Template C — Compact Pill Tabs (현재 구조 개선안)</span>
+        기존 탭-스위처 유지, 다만 좌측 세로 탭 대신 상단 알약형 탭으로 축소. 4개 탭이 항상 한 줄에 다 보임.
+        <span class="desc">장점: 기존 코드/데이터 구조 재사용 용이, 상세 설명 유지 / 단점: 사업영역 전체를 한눈에 비교하긴 어려움</span>
+      </a>
+    </li>
+  </ul>
+
+  <h1 style="margin-top: 56px;">사업분야 상세 페이지 템플릿 비교 (2안)</h1>
+  <p>domains-beauty.html 실제 콘텐츠를 예시로 사용. 현재 상세 페이지의 표/스탯 카드 구성을 더 시각적으로 바꾼 버전들입니다.</p>
+  <ul>
+    <li>
+      <a href="detail-template-d-visual-roadmap.html">
+        <span class="tag">Template D — Visual Roadmap &amp; Comparison</span>
+        비교 표를 막대형 리스트로, 매출 로드맵을 연결된 성장 막대 타임라인으로 시각화. 투자자·B2B 대상 스캔 가독성에 집중.
+        <span class="desc">장점: 숫자가 한눈에 들어옴, 스토리텔링 강화 / 단점: 정확한 수치 비교엔 표보다 불리할 수 있음</span>
+      </a>
+    </li>
+    <li>
+      <a href="detail-template-e-sticky-nav.html">
+        <span class="tag">Template E — Sticky Side-Nav Long-form</span>
+        데스크톱에서 좌측에 고정 섹션 내비게이션(Technology/Business/Achievements) 추가, 핵심 수치는 풀쿼트 카드로 강조.
+        <span class="desc">장점: 페이지 길어져도 탐색 편리, 에디토리얼한 느낌 / 단점: 모바일에서는 내비게이션 이점이 줄어듦</span>
+      </a>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
