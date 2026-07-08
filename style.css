@@ -797,6 +797,15 @@ nav .nav-logo { margin-bottom: 0; }
   font-size: 12px; padding: 6px 14px; border-radius: 20px;
   background: #ede7db; color: #4a453d; font-weight: 600;
 }
+.domain-panel-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #8a6a4a;
+  text-decoration: none;
+}
+.domain-panel-link:hover { color: #4a453d; }
 
 @media (max-width: 900px) {
   .domains-wrap { flex-direction: column; }
