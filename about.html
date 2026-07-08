@@ -5,129 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About Us — FINSIDE</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Thin.ttf') format('truetype'); font-weight: 100; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-ExtraLight.ttf') format('truetype'); font-weight: 200; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
-  @font-face { font-family: 'SUIT'; src: url('assets/fonts/SUIT-Heavy.ttf') format('truetype'); font-weight: 900; font-display: swap; }
-
-  html {
-    scroll-behavior: smooth;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    overscroll-behavior-y: none;
-    height: 100%;
-  }
-
-  html, body {
-    width: 100%;
-    background: #faf8f4;
-    color: #4a453d;
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-  }
-
-  /* ── nav (matches index.html) ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    transition: backdrop-filter 0.35s, background 0.35s, border-color 0.35s;
-    border-bottom: 1px solid transparent;
-  }
-  nav.scrolled {
-    background: #ffffffcc;
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    border-bottom-color: #1a1a1a10;
-  }
-  nav * { pointer-events: auto; }
-  #nav-inner {
-    max-width: 1800px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 28px clamp(56px, 5vw, 120px);
-  }
-  .nav-logo {
-    font-size: 14px; letter-spacing: 0.22em;
-    color: #17181c;
-    font-weight: 600; text-transform: uppercase;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 40px; list-style: none; }
-  .nav-links a {
-    color: #17181c;
-    text-decoration: none;
-    font-size: 14px; letter-spacing: 0.1em; font-weight: 400;
-    transition: color 0.25s;
-  }
-  .nav-links a.active { color: #8a6a4a; font-weight: 600; }
-
-  @media (max-width: 480px) {
-    #nav-inner { padding: 18px 16px; }
-    .nav-logo { font-size: 12px; letter-spacing: 0.12em; }
-    .nav-links { gap: 12px; }
-    .nav-links a { font-size: 11px; letter-spacing: 0.02em; }
-  }
-
-  /* ── shared reveal-on-scroll (same pattern as index.html #domains) ── */
-  .reveal-fade {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal-fade.revealed { opacity: 1; transform: translateY(0); }
-
-  .section-inner {
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 0 clamp(40px, 8vw, 140px);
-  }
-  @media (max-width: 480px) {
-    .section-inner { padding: 0 20px; }
-  }
-
-  /* ── shared eyebrow/heading triad ── */
-  .eyebrow {
-    font-size: 14px; letter-spacing: 0.28em;
-    color: #a68a6d;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .heading {
-    font-size: clamp(26px, 3vw, 44px);
-    font-weight: 400;
-    line-height: 1.3;
-    color: #4a453d;
-  }
-  .heading b { font-weight: 800; color: #2a2520; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-about">
 
-<nav>
-  <div id="nav-inner">
-    <a href="index.html" class="nav-logo">FinSide</a>
-    <ul class="nav-links">
-      <li><a href="about.html" class="active">About Us</a></li>
-      <li><a href="index.html#domains">Technology</a></li>
-      <li><a href="index.html">Product</a></li>
-      <li><a href="index.html">Company</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- ── Header (shared: partials/header.js) ── -->
+<script>window.NAV_PAGE = 'about';</script>
+<script src="partials/header.js"></script>
 
 <!-- ── About Hero ── -->
 <section id="about-hero">
@@ -148,74 +32,27 @@
   </div>
 </section>
 
-<style>
-  #about-hero {
-    padding: clamp(160px, 22vh, 240px) 0 clamp(80px, 10vh, 120px);
-    background: #ffffff;
-  }
-  .about-hero-layout {
-    display: flex;
-    align-items: center;
-    gap: clamp(32px, 5vw, 80px);
-  }
-  .about-hero-text { flex: 0 1 44%; min-width: 0; }
-  .about-hero-visual {
-    flex: 0 1 56%;
-    min-width: 0;
-    transform: translateX(clamp(0px, 4vw, 40px));
-  }
-  .about-hero-domains-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  .about-hero-eyebrow {
-    font-size: 14px; letter-spacing: 0.28em;
-    color: #a68a6d;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .about-hero-title {
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-    font-size: clamp(32px, 3.9vw, 68px);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: #4a453d;
-  }
-  .about-hero-title b { font-weight: 800; color: #2a2520; }
-  .about-hero-sub {
-    margin-top: 28px;
-    font-size: clamp(14px, 1.1vw, 18px);
-    color: #6b6259;
-    line-height: 1.85;
-    max-width: 640px;
-  }
-  @media (max-width: 900px) {
-    .about-hero-layout { flex-direction: column-reverse; }
-    .about-hero-text, .about-hero-visual { flex: none; width: 100%; }
-  }
-</style>
 
 <!-- ── Vision & Mission ── -->
 <section id="vision">
   <div class="section-inner">
-    <div class="eyebrow reveal-fade">VISION</div>
-    <h2 class="heading reveal-fade" style="margin-bottom: 56px;">FIND — <b>산업의 새로운 기준</b>을 만듭니다</h2>
+    <div class="vision-head reveal-fade">
+      <div class="eyebrow">VISION</div>
+      <h2 class="heading" style="margin-top: 20px;">FIND — <b>산업의 새로운 기준</b>을 만듭니다</h2>
+    </div>
 
-    <div class="sie-grid">
-      <div class="sie-card reveal-fade">
+    <div class="sie-grid reveal-fade">
+      <div class="sie-card">
         <div class="sie-letter">S</div>
         <div class="sie-word">Satisfaction</div>
         <div class="sie-desc">고객 만족 — 정밀한 진단으로 신뢰할 수 있는 결과를 제공합니다</div>
       </div>
-      <div class="sie-card reveal-fade">
+      <div class="sie-card">
         <div class="sie-letter">I</div>
         <div class="sie-word">Intelligence</div>
         <div class="sie-desc">기술 지능화 — AI 기반 분석으로 데이터의 정확도를 높입니다</div>
       </div>
-      <div class="sie-card reveal-fade">
+      <div class="sie-card">
         <div class="sie-letter">E</div>
         <div class="sie-word">Effectiveness</div>
         <div class="sie-desc">제품 효율화 — 비접촉·비파괴 방식으로 측정 편의성을 극대화합니다</div>
@@ -224,524 +61,84 @@
   </div>
 </section>
 
-<style>
-  #vision {
-    padding: clamp(80px, 10vh, 130px) 0;
-    background: #faf8f4;
-  }
-  .sie-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(20px, 2.5vw, 32px);
-  }
-  .sie-card {
-    background: #fffdf9;
-    border: 1px solid #a68a6d33;
-    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f;
-    border-radius: 20px;
-    padding: clamp(28px, 3vw, 40px);
-  }
-  .sie-letter {
-    font-size: 40px;
-    font-weight: 800;
-    color: #a68a6d;
-    margin-bottom: 12px;
-  }
-  .sie-word {
-    font-size: 20px;
-    font-weight: 700;
-    color: #2a2520;
-    margin-bottom: 12px;
-  }
-  .sie-desc {
-    font-size: 14px;
-    color: #6b6259;
-    line-height: 1.7;
-  }
-  @media (max-width: 900px) {
-    .sie-grid { grid-template-columns: 1fr; }
-  }
-</style>
 
-<!-- ── Core Philosophy: OSMU ── -->
-<section id="philosophy">
-  <div class="section-inner osmu-layout">
-    <div class="osmu-text reveal-fade">
-      <div class="eyebrow">PHILOSOPHY</div>
-      <h2 class="heading">하나의 기술, <b>다양한 산업</b><br>OSMU 전략</h2>
-      <p class="osmu-desc">
-        FINSIDE는 하나의 AI 선별·진단 원천기술(One Source Multi-Use)을
-        여러 산업에 적용합니다. LWIR(장파 적외선) 기반 비접촉 분석으로
-        표면 아래 내부 상태를 정량화하고, 이를 각 산업의 문제 해결에
-        맞게 확장합니다.
-      </p>
-    </div>
-    <ul class="osmu-list reveal-fade">
-      <li><span class="osmu-tag">뷰티</span>피부 진단기기 · 스마트 미러</li>
-      <li><span class="osmu-tag">농산물</span>품질 · 성분 비파괴 선별</li>
-      <li><span class="osmu-tag">바이오</span>바이오차 품질 분석</li>
-      <li><span class="osmu-tag">자원순환</span>폐플라스틱 소재 선별</li>
-      <li><span class="osmu-tag">축산</span>축분 측정 · 정화 모니터링</li>
-    </ul>
+<!-- ── Leadership: centered, stats as running text ── -->
+<section id="leadership">
+  <div class="section-inner reveal-fade">
+    <div class="eyebrow">LEADER</div>
+    <img class="ceo-photo-sparse" src="assets/ceo-portrait.png" alt="이동훈 CEO">
+    <div class="ceo-name-sparse">이동훈 <span>CEO</span></div>
+    <p class="ceo-bio-sparse">
+      충북대학교 바이오시스템공학과 교수(2013~현재)로,
+      바이오시스템 정보기술 융합과 농업특화 인공지능 시스템 설계·자동화를
+      연구해 왔습니다.
+      <br><br>
+      보유 특허 <b>30건</b>(국내 8건, PCT 2건), 최근 3년
+      기술이전 <b>18건(2.5억원)</b>, 게재 논문 <b>6편</b>의 실적을 바탕으로
+      FINSIDE의 핵심 기술을 이끌고 있습니다.
+    </p>
   </div>
 </section>
 
-<style>
-  #philosophy {
-    padding: clamp(80px, 10vh, 130px) 0;
-    background: #ffffff;
-  }
-  .osmu-layout {
-    display: flex;
-    gap: clamp(40px, 6vw, 100px);
-    align-items: flex-start;
-  }
-  .osmu-text { flex: 0 1 44%; min-width: 0; }
-  .osmu-text .heading { margin-bottom: 24px; }
-  .osmu-desc {
-    font-size: clamp(14px, 1vw, 16px);
-    color: #6b6259;
-    line-height: 1.85;
-  }
-  .osmu-list {
-    flex: 0 1 56%;
-    min-width: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .osmu-list li {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: #faf8f4;
-    border: 1px solid #ede7db;
-    border-radius: 12px;
-    padding: 18px 24px;
-    font-size: 15px;
-    color: #4a453d;
-  }
-  .osmu-tag {
-    flex: 0 0 auto;
-    background: #ede7db;
-    color: #4a453d;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 6px 14px;
-    border-radius: 20px;
-  }
-  @media (max-width: 900px) {
-    .osmu-layout { flex-direction: column; }
-    .osmu-text, .osmu-list { flex: none; width: 100%; }
-  }
-</style>
 
 <!-- ── History Timeline ── -->
 <section id="history">
   <div class="section-inner">
-    <div class="eyebrow reveal-fade">HISTORY</div>
-    <h2 class="heading reveal-fade" style="margin-bottom: 56px;">지금까지의 <b>발자취</b></h2>
-
-    <ol class="timeline">
-      <li class="timeline-item reveal-fade">
-        <div class="timeline-date">2024.04</div>
-        <div class="timeline-body">IP스타과학자 지원형 선정</div>
-      </li>
-      <li class="timeline-item reveal-fade">
-        <div class="timeline-date">2024.06</div>
-        <div class="timeline-body">범부처 고가장비 구축사업 선정 — 10WAY GPU Tesla 서버 도입, AI 플랫폼 구축</div>
-      </li>
-      <li class="timeline-item reveal-fade">
-        <div class="timeline-date">2025.07</div>
-        <div class="timeline-body">딥테크 예비창업패키지(충북창조경제혁신센터) 선정 — 시제품 개발 및 주요 부품 고도화</div>
-      </li>
-      <li class="timeline-item reveal-fade">
-        <div class="timeline-date">2025.12</div>
-        <div class="timeline-body">C-LOVE NEXT BRIDGE 선정</div>
-      </li>
-      <li class="timeline-item reveal-fade">
-        <div class="timeline-date">2025.12.18</div>
-        <div class="timeline-body"><b>주식회사 파인사이드 법인 설립</b></div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<style>
-  #history {
-    padding: clamp(80px, 10vh, 130px) 0;
-    background: #faf8f4;
-  }
-  .timeline {
-    list-style: none;
-    position: relative;
-    padding-left: 32px;
-    border-left: 1px solid #a68a6d44;
-  }
-  .timeline-item {
-    position: relative;
-    padding-bottom: 40px;
-  }
-  .timeline-item:last-child { padding-bottom: 0; }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -37px;
-    top: 4px;
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: #a68a6d;
-  }
-  .timeline-date {
-    font-size: 14px;
-    font-weight: 700;
-    color: #a68a6d;
-    letter-spacing: 0.04em;
-    margin-bottom: 8px;
-  }
-  .timeline-body {
-    font-size: 16px;
-    color: #4a453d;
-    line-height: 1.7;
-    max-width: 640px;
-  }
-  .timeline-body b { font-weight: 800; color: #2a2520; }
-</style>
-
-<!-- ── Leadership ── -->
-<section id="leadership">
-  <div class="section-inner leadership-layout">
-    <div class="ceo-block reveal-fade">
-      <div class="eyebrow">LEADERSHIP</div>
-      <div class="ceo-profile">
-        <img class="ceo-photo" src="assets/ceo-portrait.png" alt="이동훈 CEO">
-        <div class="ceo-text">
-          <h2 class="ceo-name">이동훈 <span>CEO</span></h2>
-          <p class="ceo-bio">
-            충북대학교 바이오시스템공학과 교수(2013~현재)로,
-            바이오시스템 정보기술 융합과 농업특화 인공지능 시스템 설계·자동화를
-            연구해 왔습니다. 보유 특허 30건(국내 8건, PCT 2건), 최근 3년
-            기술이전 18건(2.5억원)의 실적을 바탕으로 FINSIDE의 핵심 기술을
-            이끌고 있습니다.
-          </p>
-        </div>
+    <div class="history-head-sparse reveal-fade">
+      <div class="eyebrow">HISTORY</div>
+      <h2 class="heading" style="margin-top: 20px;">주요 <b>연혁</b></h2>
+    </div>
+    <div class="history-sparse-list reveal-fade">
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2024.04</div>
+        <div class="history-sparse-body">IP스타과학자 지원형 선정</div>
       </div>
-      <ul class="ceo-stats">
-        <li><b>30건</b><span>보유 특허</span></li>
-        <li><b>18건</b><span>최근 3년 기술이전</span></li>
-        <li><b>6편</b><span>게재 논문</span></li>
-      </ul>
-    </div>
-
-    <div class="team-block reveal-fade">
-      <div class="team-heading">팀 구성</div>
-      <ul class="team-role-grid">
-        <li><span class="team-role">CTO</span>개발총괄</li>
-        <li><span class="team-role">차장</span>S/W 개발</li>
-        <li><span class="team-role">차장</span>H/W 총괄</li>
-        <li><span class="team-role">차장</span>재무관리 · 회계</li>
-        <li><span class="team-role">차장</span>지재권 · 특허관리</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<style>
-  #leadership {
-    padding: clamp(80px, 10vh, 130px) 0;
-    background: #ffffff;
-  }
-  .leadership-layout {
-    display: flex;
-    gap: clamp(40px, 6vw, 100px);
-    align-items: flex-start;
-  }
-  .ceo-block { flex: 0 1 58%; min-width: 0; }
-  .ceo-profile {
-    display: flex;
-    gap: clamp(24px, 3vw, 40px);
-    align-items: flex-start;
-    margin-top: 20px;
-  }
-  .ceo-photo {
-    flex: 0 0 auto;
-    width: clamp(120px, 12vw, 160px);
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid #a68a6d33;
-    box-shadow: 0 12px 32px -16px rgba(42, 37, 32, 0.25);
-  }
-  .ceo-text { flex: 1; min-width: 0; }
-  .ceo-name {
-    font-size: clamp(24px, 2.6vw, 34px);
-    font-weight: 700;
-    color: #2a2520;
-    margin-bottom: 24px;
-  }
-  .ceo-name span {
-    font-size: 14px;
-    font-weight: 500;
-    color: #a68a6d;
-    margin-left: 10px;
-    letter-spacing: 0.1em;
-  }
-  .ceo-bio {
-    font-size: clamp(14px, 1vw, 16px);
-    color: #6b6259;
-    line-height: 1.85;
-    max-width: 620px;
-  }
-  .ceo-stats {
-    list-style: none;
-    display: flex;
-    gap: clamp(24px, 3vw, 48px);
-    margin-top: 32px;
-  }
-  .ceo-stats li {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .ceo-stats b {
-    font-size: 28px;
-    font-weight: 800;
-    color: #a68a6d;
-  }
-  .ceo-stats span {
-    font-size: 13px;
-    color: #8a8078;
-  }
-  .team-block { flex: 0 1 42%; min-width: 0; }
-  .team-heading {
-    font-size: 16px;
-    font-weight: 700;
-    color: #2a2520;
-    margin-bottom: 20px;
-  }
-  .team-role-grid {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .team-role-grid li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #faf8f4;
-    border: 1px solid #ede7db;
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 14px;
-    color: #6b6259;
-  }
-  .team-role {
-    flex: 0 0 auto;
-    background: #ede7db;
-    color: #4a453d;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 6px;
-  }
-  @media (max-width: 900px) {
-    .leadership-layout { flex-direction: column; }
-    .ceo-block, .team-block { flex: none; width: 100%; }
-  }
-  @media (max-width: 560px) {
-    .ceo-profile { flex-direction: column; align-items: flex-start; }
-    .ceo-photo { width: 96px; }
-  }
-</style>
-
-<!-- ── Partners ── -->
-<section id="partners">
-  <div class="section-inner">
-    <div class="eyebrow reveal-fade">PARTNERS</div>
-    <h2 class="heading reveal-fade" style="margin-bottom: 48px;">함께하는 <b>기관과 기업</b></h2>
-
-    <div class="partner-group reveal-fade">
-      <div class="partner-group-label">학술 · 지원기관</div>
-      <div class="partner-grid">
-        <span class="partner-chip">충북대학교</span>
-        <span class="partner-chip">충북창조경제혁신센터</span>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2024.06</div>
+        <div class="history-sparse-body">범부처 고가장비 구축사업 선정 — 10WAY GPU Tesla 서버 도입, AI 플랫폼 구축(1.45억원)</div>
       </div>
-    </div>
-
-    <div class="partner-group reveal-fade">
-      <div class="partner-group-label">정부지원사업</div>
-      <div class="partner-grid">
-        <span class="partner-chip">IP스타과학자</span>
-        <span class="partner-chip">딥테크 예비창업패키지</span>
-        <span class="partner-chip">C-LOVE NEXT BRIDGE</span>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2024.06</div>
+        <div class="history-sparse-body">원적외선 기반 비접촉 진단 관련 국내 특허 출원 — 이후 PCT 국제출원으로 확대</div>
       </div>
-    </div>
-
-    <div class="partner-group reveal-fade">
-      <div class="partner-group-label">실증협업기업</div>
-      <div class="partner-grid">
-        <span class="partner-chip">진영산업</span>
-        <span class="partner-chip">한성티앤아이</span>
-        <span class="partner-chip">한아</span>
-        <span class="partner-chip">위드위</span>
-        <span class="partner-chip">포네이처스</span>
-        <span class="partner-chip">이듬</span>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.02</div>
+        <div class="history-sparse-body">특허 출원 — 이동하는 대상체에 대한 경도 측정 시스템 및 동작 방법</div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.07</div>
+        <div class="history-sparse-body">딥테크 예비창업패키지(충북창조경제혁신센터) 선정 — 시제품 개발 및 주요 부품 고도화</div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.10</div>
+        <div class="history-sparse-body">위드위(주)에 경도 측정 시스템 기술이전 계약 체결(1,650만원)</div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.12</div>
+        <div class="history-sparse-body">C-LOVE NEXT BRIDGE 선정</div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.12</div>
+        <div class="history-sparse-body">특허 출원 — 원적외선을 이용한 과일 당도 측정 장치</div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">2025.12.18</div>
+        <div class="history-sparse-body"><b>주식회사 파인사이드 법인 설립</b></div>
+      </div>
+      <div class="history-sparse-item">
+        <div class="history-sparse-date">누적 실적</div>
+        <div class="history-sparse-body">보유 특허 <b>30건</b>(국내 8건, PCT 2건 포함) · 최근 3년 기술이전 <b>18건, 2.5억원</b> · 게재 논문 <b>6편</b></div>
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  #partners {
-    padding: clamp(80px, 10vh, 130px) 0;
-    background: #faf8f4;
-  }
-  .partner-group { margin-bottom: 36px; }
-  .partner-group:last-child { margin-bottom: 0; }
-  .partner-group-label {
-    font-size: 13px;
-    color: #8a8078;
-    letter-spacing: 0.06em;
-    margin-bottom: 14px;
-  }
-  .partner-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .partner-chip {
-    background: #ede7db;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #4a453d;
-  }
-</style>
 
-<!-- ── Footer (verbatim from index.html) ── -->
-<footer id="footer">
-  <div id="footer-inner">
-
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-logo">FINSIDE</div>
-        <div class="footer-tagline">Find the Inside Value</div>
-      </div>
-      <div class="footer-contact">
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">대표</span>
-          <span class="footer-contact-val">이동훈</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">연락처</span>
-          <span class="footer-contact-val">010-3181-4636</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">이메일</span>
-          <span class="footer-contact-val">leedh@cbnu.ac.kr</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">주소</span>
-          <span class="footer-contact-val">충북 청주시 서원구 충대로 1, 충북대학교 S21-24동 204호</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 주식회사 파인사이드. All rights reserved.</div>
-      <div class="footer-sub">AI 비접촉 내부 분석 기술 · 설립 2025.12.18</div>
-    </div>
-
-  </div>
-</footer>
-
-<style>
-  #footer {
-    background: #080c0a;
-    border-top: 1px solid #ffffff0d;
-    padding: 64px 0 40px;
-  }
-  #footer-inner {
-    max-width: 1860px;
-    margin: 0 auto;
-    padding: 0 clamp(80px, 12vw, 240px);
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-  }
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 48px;
-  }
-  .footer-logo {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: #e8e4dc;
-  }
-  .footer-tagline {
-    margin-top: 8px;
-    font-size: 13px;
-    letter-spacing: 0.18em;
-    color: #e8e4dcaa;
-    text-transform: uppercase;
-  }
-  .footer-contact {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .footer-contact-row {
-    display: flex;
-    gap: 20px;
-    font-size: 14px;
-  }
-  .footer-contact-label {
-    color: #e8e4dc88;
-    letter-spacing: 0.06em;
-    min-width: 44px;
-  }
-  .footer-contact-val {
-    color: #e8e4dccc;
-  }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    border-top: 1px solid #ffffff18;
-    gap: 16px;
-  }
-  .footer-copy {
-    font-size: 13px;
-    color: #e8e4dc77;
-    letter-spacing: 0.04em;
-  }
-  .footer-sub {
-    font-size: 13px;
-    color: #e8e4dc55;
-    letter-spacing: 0.06em;
-  }
-  @media (max-width: 768px) {
-    .footer-top { flex-direction: column; gap: 32px; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
-    #footer-inner { padding: 0 24px; }
-  }
-</style>
+<!-- ── Footer (shared: partials/footer.js) ── -->
+<script src="partials/footer.js"></script>
 
 <script>
 (function() {
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
-
   const fadeEls = document.querySelectorAll('.reveal-fade');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

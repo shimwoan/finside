@@ -215,7 +215,7 @@ git commit -m "feat: add About Us nav link"
 
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 주식회사 파인사이드. All rights reserved.</div>
-      <div class="footer-sub">AI 비접촉 내부 분석 기술 · 설립 2025.12.18</div>
+      <div class="footer-sub">설립 2025.12.18</div>
     </div>
 
   </div>

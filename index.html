@@ -5,534 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FINSIDE — Find the Inside Value</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --accent: #c8f0e8;   /* soft mint-white — scientific, not neon */
-    --accent2: #7ee8c8;  /* brighter mint — use sparingly */
-    --bg: #0e0e0e;
-    --text: #e8e4dc;
-    --text-dim: #e8e4dc55;
-    --text-mid: #e8e4dc99;
-  }
-
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-ExtraLight.ttf') format('truetype');
-    font-weight: 200;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'SUIT';
-    src: url('assets/fonts/SUIT-Heavy.ttf') format('truetype');
-    font-weight: 900;
-    font-display: swap;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    overscroll-behavior-y: none;
-    height: 100%;
-  }
-
-  html, body {
-    width: 100%; height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-  }
-
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    transition: backdrop-filter 0.35s, background 0.35s, border-color 0.35s;
-    border-bottom: 1px solid transparent;
-  }
-  nav.scrolled {
-    background: #ffffffcc;
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    border-bottom-color: #1a1a1a10;
-  }
-  nav * { pointer-events: auto; }
-  #nav-inner {
-    max-width: 1800px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 28px clamp(56px, 5vw, 120px);
-  }
-  .nav-logo {
-    transition: color 0.35s;
-  }
-  nav .nav-logo { margin-bottom: 0; }
-  .nav-links { display: flex; gap: 40px; list-style: none; }
-  .nav-links a {
-    color: #17181c;
-    text-decoration: none;
-    font-size: 15px; letter-spacing: 0.1em; font-weight: 400;
-    transition: color 0.35s;
-  }
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: clip;
-    padding-top: clamp(80px, 10vh, 140px);
-    padding-bottom: clamp(80px, 10vh, 140px);
-    box-sizing: border-box;
-    height: 100vh;
-    background: #ffffff;
-  }
-
-  #hero-inner {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1800px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: clamp(24px, 4vw, 64px);
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    flex: 0 1 46%;
-    min-width: 0;
-    padding: 0 clamp(40px, 3vw, 64px) 0 clamp(60px, 8vw, 140px);
-  }
-
-  .hero-eyebrow {
-    font-size: 14px; letter-spacing: 0.28em;
-    color: #a68a6d; margin-bottom: 30px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .hero-title {
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-    font-size: clamp(32px, 3.9vw, 68px);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: #4a453d;
-  }
-  .hero-title .accent {
-    font-weight: 800;
-    color: #2a2520;
-  }
-
-  .hero-divider {
-    width: 40px; height: 1px;
-    background: #a68a6d;
-    opacity: 0.5;
-    margin: clamp(20px, 3vh, 36px) 0;
-  }
-
-  .hero-sub {
-    font-size: clamp(14px, 1.1vw, 19px);
-    color: #6b6259;
-    line-height: 1.85;
-    max-width: clamp(320px, 28vw, 480px);
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
-
-  .hero-cta { display: flex; gap: 16px; margin-top: clamp(28px, 4.5vh, 52px); align-items: center; }
-
-  .btn-primary-blue {
-    background: #2a2520;
-    color: #faf8f4;
-    font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
-    padding: 15px 30px;
-    border-radius: 2px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.25s, transform 0.25s;
-  }
-  .btn-primary-blue:hover {
-    background: #8a6a4a;
-  }
-
-  /* ── Hero visual: photo + scan-grid + metrics card ───── */
-  .hero-visual {
-    position: relative;
-    z-index: 2;
-    flex: 0 1 58%;
-    min-width: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    height: 100%;
-    transform: translateX(clamp(-140px, -8vw, -60px));
-  }
-
-  .hero-photo-wrap {
-    position: relative;
-    display: block;
-  }
-
-  .hero-photo {
-    position: relative;
-    z-index: 1;
-    height: clamp(480px, 70vh, 720px);
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-  }
-
-  #scan-grid {
-    position: absolute;
-    z-index: 2;
-    top: -45px;
-    left: 70px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-
-  /* connector lines: scan point → each box */
-  #scan-connectors {
-    position: absolute;
-    z-index: 3;
-    top: -27px;
-    left: 54px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
-  }
-  #scan-connectors path {
-    fill: none;
-    stroke: #c9a876;
-    stroke-width: 1.2;
-    stroke-dasharray: 3 4;
-    opacity: 0.55;
-  }
-  #scan-connectors circle {
-    fill: #c9a876;
-    opacity: 0.85;
-  }
-
-  .hero-box-col {
-    position: absolute;
-    z-index: 3;
-    right: -60px;
-    bottom: clamp(-24px, -2vh, 0px);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: clamp(220px, 16vw, 260px);
-  }
-
-  .hero-box {
-    width: 100%;
-    background: #fffdf9f2;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 1px 0 #2a251f0f, 0 20px 50px -20px #2a251f14;
-    padding: 22px 24px;
-  }
-
-  .hero-box-skin { padding: 16px 16px 12px; }
-
-  .metrics-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #a68a6d;
-    letter-spacing: 0.14em;
-    margin-bottom: 18px;
-    text-transform: uppercase;
-  }
-
-  /* ── Skin layer insight panel (표피/진피/피하층 depth scan) ── */
-  .skin-insight {
-    position: relative;
-    width: 100%;
-    height: 150px;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  .skin-insight svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .skin-insight .layer-labels {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .skin-insight .layer-labels span {
-    position: absolute;
-    left: 10px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-  .layer-label-epi  { top: 14px;  color: #8a6a4a; }
-  .layer-label-derm { top: 63px;  color: #9a5f52; }
-  .layer-label-sub  { top: 116px; color: #4d7a95; }
-
-  .probe-dot {
-    animation: probePulse 2.4s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .probe-dot.d2 { animation-delay: .4s; }
-  .probe-dot.d3 { animation-delay: .8s; }
-  @keyframes probePulse {
-    0%, 100% { opacity: .55; transform: scale(0.85); }
-    50%      { opacity: 1;   transform: scale(1.25); }
-  }
-  .scan-sweep {
-    animation: sweepMove 4s cubic-bezier(0.4,0,0.2,1) infinite;
-  }
-  @keyframes sweepMove {
-    0%   { transform: translateY(-16px); opacity: 0; }
-    8%   { opacity: .8; }
-    92%  { opacity: .8; }
-    100% { transform: translateY(160px); opacity: 0; }
-  }
-
-  .metric-row {
-    display: grid;
-    grid-template-columns: 40px 1fr 28px;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 13px;
-  }
-  .metric-row:last-child { margin-bottom: 0; }
-
-  .metric-label {
-    font-size: 12px;
-    color: #8a8078;
-    font-weight: 500;
-  }
-  .metric-label.metric-alert { color: #c0392b; }
-
-  .metric-bar-track {
-    height: 4px;
-    background: #ede7de;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .metric-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #c9a876, #8a6a4a);
-    border-radius: 3px;
-    transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .metric-bar.metric-alert { background: linear-gradient(90deg, #d9705f, #c0392b); }
-
-  .metric-value {
-    font-size: 13px;
-    font-weight: 600;
-    color: #2a2520;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-  .metric-value.metric-alert { color: #c0392b; }
-
-  .scroll-hint {
-    position: absolute; bottom: 36px; left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    opacity: 0.4;
-  }
-  .scroll-hint span {
-    font-size: 12px; letter-spacing: 0.15em;
-    color: #17181c; text-transform: uppercase;
-  }
-  .scroll-arrow {
-    width: 1px; height: 40px;
-    background: linear-gradient(to bottom, #17181c, transparent);
-    animation: scrollBounce 2.5s ease-in-out infinite;
-  }
-  @keyframes scrollBounce {
-    0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
-    50%       { opacity: 1;   transform: scaleY(1);   transform-origin: top; }
-  }
-
-  /* ── Text reveal animation ── */
-  .reveal-block {
-    overflow: hidden;
-  }
-  .reveal-inner {
-    display: block;
-    transform: translateY(100%);
-    opacity: 0;
-    transition:
-      transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity   1.1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal-block.revealed .reveal-inner {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  /* label acts as logo — fixed to nav row on the left */
-  .hero-label {
-    font-size: 16px; letter-spacing: 0.22em;
-    color: #17181c;
-    font-weight: 600; text-transform: uppercase;
-    transition: color 0.35s;
-    text-decoration: none;
-  }
-  .hero-divider {
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .hero-divider.revealed { transform: scaleX(1); }
-
-  .hero-eyebrow,
-  .hero-sub, .hero-cta {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-      opacity   1.1s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .hero-eyebrow.revealed,
-  .hero-sub.revealed,
-  .hero-cta.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── Hero: mobile responsive ── */
-  @media (max-width: 900px) {
-    #hero {
-      height: auto;
-      min-height: 100vh;
-      padding-top: clamp(120px, 18vh, 160px);
-      padding-bottom: 48px;
-    }
-    #hero-inner {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 48px;
-    }
-    .hero-content {
-      flex: none;
-      width: 100%;
-      padding: 0 24px;
-      text-align: center;
-    }
-    .hero-divider { margin-left: auto; margin-right: auto; }
-    .hero-sub { max-width: none; margin: 0 auto; }
-    .hero-cta { justify-content: center; }
-
-    .hero-visual {
-      flex: none;
-      width: 100%;
-      transform: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: auto;
-    }
-    .hero-photo-wrap {
-      width: 100%;
-      max-width: 360px;
-    }
-    .hero-photo {
-      height: auto;
-      width: 100%;
-    }
-    .hero-box-col {
-      position: static;
-      right: auto;
-      bottom: auto;
-      width: 100%;
-      max-width: 360px;
-      margin: 20px auto 0;
-      gap: 8px;
-    }
-    #scan-connectors { display: none; }
-  }
-
-  @media (max-width: 480px) {
-    #nav-inner { padding: 18px 16px; }
-    .hero-label.nav-logo { font-size: 12px; letter-spacing: 0.12em; }
-    .nav-links { gap: 12px; }
-    .nav-links a { font-size: 11px; letter-spacing: 0.02em; }
-    .hero-content { padding: 0 16px; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-index">
 
-<nav>
-  <div id="nav-inner">
-    <a href="/" class="hero-label nav-logo">FinSide</a>
-    <ul class="nav-links">
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="#domains">Technology</a></li>
-      <li><a href="#">Product</a></li>
-      <li><a href="#">Company</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- ── Header (shared: partials/header.js) ── -->
+<script src="partials/header.js"></script>
 
 <section id="hero">
   <div id="hero-inner">
@@ -561,134 +39,133 @@
 
     <div class="hero-box-col">
       <div class="hero-box hero-box-skin">
-      <div class="skin-insight">
-        <svg viewBox="0 0 290 150" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="lg-epi" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"  stop-color="#fbeee0"/>
-              <stop offset="100%" stop-color="#f3dcc4"/>
-            </linearGradient>
-            <linearGradient id="lg-derm" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"  stop-color="#f3dcc4"/>
-              <stop offset="100%" stop-color="#e8c2b8"/>
-            </linearGradient>
-            <linearGradient id="lg-sub" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%"  stop-color="#e8c2b8"/>
-              <stop offset="100%" stop-color="#cfe0ea"/>
-            </linearGradient>
-            <radialGradient id="skin-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
-              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="bead" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-              <stop offset="45%" stop-color="#bcd9e6" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="#a9c9da" stop-opacity="0.35"/>
-            </radialGradient>
-            <clipPath id="skin-clip">
-              <rect x="0" y="0" width="290" height="150" rx="12"/>
-            </clipPath>
-          </defs>
+        <div class="skin-insight">
+          <svg viewBox="0 0 290 150" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lg-epi" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#fbeee0"/>
+                <stop offset="100%" stop-color="#f3dcc4"/>
+              </linearGradient>
+              <linearGradient id="lg-derm" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#f3dcc4"/>
+                <stop offset="100%" stop-color="#e8c2b8"/>
+              </linearGradient>
+              <linearGradient id="lg-sub" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#e8c2b8"/>
+                <stop offset="100%" stop-color="#cfe0ea"/>
+              </linearGradient>
+              <radialGradient id="skin-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="bead" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                <stop offset="45%" stop-color="#bcd9e6" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#a9c9da" stop-opacity="0.35"/>
+              </radialGradient>
+              <clipPath id="skin-clip">
+                <rect x="0" y="0" width="290" height="150" rx="12"/>
+              </clipPath>
+            </defs>
 
-          <g clip-path="url(#skin-clip)">
-            <!-- 표피층 epidermis -->
-            <path d="M0,0 L290,0 L290,41 C250,46 200,36 145,42 C90,48 40,37 0,43 Z" fill="url(#lg-epi)"/>
-            <g fill="#c9a876" opacity="0.15">
-              <circle cx="35" cy="12" r="1"/><circle cx="80" cy="21" r="1"/><circle cx="130" cy="11" r="1"/>
-              <circle cx="175" cy="23" r="1"/><circle cx="220" cy="13" r="1"/><circle cx="260" cy="25" r="1"/>
-              <circle cx="55" cy="30" r="1"/><circle cx="105" cy="32" r="1"/><circle cx="200" cy="34" r="1"/>
+            <g clip-path="url(#skin-clip)">
+              <!-- 표피층 epidermis -->
+              <path d="M0,0 L290,0 L290,41 C250,46 200,36 145,42 C90,48 40,37 0,43 Z" fill="url(#lg-epi)"/>
+              <g fill="#c9a876" opacity="0.15">
+                <circle cx="35" cy="12" r="1"/><circle cx="80" cy="21" r="1"/><circle cx="130" cy="11" r="1"/>
+                <circle cx="175" cy="23" r="1"/><circle cx="220" cy="13" r="1"/><circle cx="260" cy="25" r="1"/>
+                <circle cx="55" cy="30" r="1"/><circle cx="105" cy="32" r="1"/><circle cx="200" cy="34" r="1"/>
+              </g>
+
+              <!-- 진피층 dermis -->
+              <path d="M0,43 C40,37 90,48 145,42 C200,36 250,46 290,41 L290,96 C250,101 200,91 145,97 C90,103 40,93 0,98 Z" fill="url(#lg-derm)"/>
+              <g fill="#d8a89c" opacity="0.4">
+                <ellipse cx="30"  cy="59" rx="12" ry="8" transform="rotate(-8 30 59)"/>
+                <ellipse cx="70"  cy="73" rx="10" ry="7" transform="rotate(10 70 73)"/>
+                <ellipse cx="112" cy="57" rx="13" ry="8" transform="rotate(-5 112 57)"/>
+                <ellipse cx="150" cy="79" rx="11" ry="7" transform="rotate(6 150 79)"/>
+                <ellipse cx="190" cy="61" rx="12" ry="8" transform="rotate(-10 190 61)"/>
+                <ellipse cx="230" cy="77" rx="11" ry="7" transform="rotate(8 230 77)"/>
+                <ellipse cx="265" cy="57" rx="11" ry="8" transform="rotate(-6 265 57)"/>
+              </g>
+              <g fill="#c98f88" opacity="0.3">
+                <ellipse cx="50"  cy="86" rx="9" ry="6"/>
+                <ellipse cx="95"  cy="89" rx="8" ry="5"/>
+                <ellipse cx="170" cy="88" rx="9" ry="6"/>
+                <ellipse cx="245" cy="89" rx="8" ry="5"/>
+              </g>
+
+              <!-- 피하층 subcutaneous -->
+              <path d="M0,98 C40,93 90,103 145,97 C200,91 250,101 290,96 L290,150 L0,150 Z" fill="url(#lg-sub)"/>
+              <g stroke="#a9c9da" stroke-width="1" opacity="0.5" fill="none">
+                <path d="M-10,114 q40,-7 80,0 t80,-2 t80,3 t70,-1"/>
+                <path d="M-10,132 q40,6 80,0 t80,3 t80,-2 t70,2"/>
+              </g>
+              <circle cx="35"  cy="118" r="8"  fill="url(#bead)"/>
+              <circle cx="80"  cy="134" r="5"  fill="url(#bead)"/>
+              <circle cx="122" cy="115" r="4.5" fill="url(#bead)"/>
+              <circle cx="160" cy="131" r="9"  fill="url(#bead)"/>
+              <circle cx="205" cy="117" r="5"  fill="url(#bead)"/>
+              <circle cx="240" cy="136" r="6"  fill="url(#bead)"/>
+              <circle cx="270" cy="120" r="4.5" fill="url(#bead)"/>
+
+              <!-- 중앙 프로브 라인 -->
+              <line x1="145" y1="0" x2="145" y2="150" stroke="#fff" stroke-width="1.6" opacity="0.9"/>
+              <line x1="145" y1="0" x2="145" y2="150" stroke="#c9a876" stroke-width="0.6" opacity="0.4"/>
+
+              <!-- 층별 측정 포인트 -->
+              <circle class="probe-dot"    cx="145" cy="21"  r="5" fill="#fff" stroke="#d8b98a" stroke-width="2"/>
+              <circle class="probe-dot d2" cx="145" cy="70"  r="5" fill="#fff" stroke="#c9847a" stroke-width="2"/>
+              <circle class="probe-dot d3" cx="145" cy="123" r="5" fill="#fff" stroke="#8fb4c9" stroke-width="2"/>
+
+              <rect class="scan-sweep" x="0" y="0" width="290" height="16" fill="url(#skin-glow)" opacity="0.4"/>
             </g>
-
-            <!-- 진피층 dermis -->
-            <path d="M0,43 C40,37 90,48 145,42 C200,36 250,46 290,41 L290,96 C250,101 200,91 145,97 C90,103 40,93 0,98 Z" fill="url(#lg-derm)"/>
-            <g fill="#d8a89c" opacity="0.4">
-              <ellipse cx="30"  cy="59" rx="12" ry="8" transform="rotate(-8 30 59)"/>
-              <ellipse cx="70"  cy="73" rx="10" ry="7" transform="rotate(10 70 73)"/>
-              <ellipse cx="112" cy="57" rx="13" ry="8" transform="rotate(-5 112 57)"/>
-              <ellipse cx="150" cy="79" rx="11" ry="7" transform="rotate(6 150 79)"/>
-              <ellipse cx="190" cy="61" rx="12" ry="8" transform="rotate(-10 190 61)"/>
-              <ellipse cx="230" cy="77" rx="11" ry="7" transform="rotate(8 230 77)"/>
-              <ellipse cx="265" cy="57" rx="11" ry="8" transform="rotate(-6 265 57)"/>
-            </g>
-            <g fill="#c98f88" opacity="0.3">
-              <ellipse cx="50"  cy="86" rx="9" ry="6"/>
-              <ellipse cx="95"  cy="89" rx="8" ry="5"/>
-              <ellipse cx="170" cy="88" rx="9" ry="6"/>
-              <ellipse cx="245" cy="89" rx="8" ry="5"/>
-            </g>
-
-            <!-- 피하층 subcutaneous -->
-            <path d="M0,98 C40,93 90,103 145,97 C200,91 250,101 290,96 L290,150 L0,150 Z" fill="url(#lg-sub)"/>
-            <g stroke="#a9c9da" stroke-width="1" opacity="0.5" fill="none">
-              <path d="M-10,114 q40,-7 80,0 t80,-2 t80,3 t70,-1"/>
-              <path d="M-10,132 q40,6 80,0 t80,3 t80,-2 t70,2"/>
-            </g>
-            <circle cx="35"  cy="118" r="8"  fill="url(#bead)"/>
-            <circle cx="80"  cy="134" r="5"  fill="url(#bead)"/>
-            <circle cx="122" cy="115" r="4.5" fill="url(#bead)"/>
-            <circle cx="160" cy="131" r="9"  fill="url(#bead)"/>
-            <circle cx="205" cy="117" r="5"  fill="url(#bead)"/>
-            <circle cx="240" cy="136" r="6"  fill="url(#bead)"/>
-            <circle cx="270" cy="120" r="4.5" fill="url(#bead)"/>
-
-            <!-- 중앙 프로브 라인 -->
-            <line x1="145" y1="0" x2="145" y2="150" stroke="#fff" stroke-width="1.6" opacity="0.9"/>
-            <line x1="145" y1="0" x2="145" y2="150" stroke="#c9a876" stroke-width="0.6" opacity="0.4"/>
-
-            <!-- 층별 측정 포인트 -->
-            <circle class="probe-dot"    cx="145" cy="21"  r="5" fill="#fff" stroke="#d8b98a" stroke-width="2"/>
-            <circle class="probe-dot d2" cx="145" cy="70"  r="5" fill="#fff" stroke="#c9847a" stroke-width="2"/>
-            <circle class="probe-dot d3" cx="145" cy="123" r="5" fill="#fff" stroke="#8fb4c9" stroke-width="2"/>
-
-            <rect class="scan-sweep" x="0" y="0" width="290" height="16" fill="url(#skin-glow)" opacity="0.4"/>
-          </g>
-        </svg>
-        <div class="layer-labels">
-          <span class="layer-label-epi">표피층</span>
-          <span class="layer-label-derm">진피층</span>
-          <span class="layer-label-sub">피하층</span>
+          </svg>
+          <div class="layer-labels">
+            <span class="layer-label-epi">표피층</span>
+            <span class="layer-label-derm">진피층</span>
+            <span class="layer-label-sub">피하층</span>
+          </div>
         </div>
-      </div>
       </div>
 
       <div class="hero-box hero-box-metrics">
-      <div class="metrics-title">주요 지표</div>
-      <div class="metric-row">
-        <span class="metric-label metric-alert">수분</span>
-        <div class="metric-bar-track"><div class="metric-bar metric-alert" data-target="54"></div></div>
-        <span class="metric-value metric-alert" data-target="54">0</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">유분</span>
-        <div class="metric-bar-track"><div class="metric-bar" data-target="65"></div></div>
-        <span class="metric-value" data-target="65">0</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">모공</span>
-        <div class="metric-bar-track"><div class="metric-bar" data-target="72"></div></div>
-        <span class="metric-value" data-target="72">0</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">탄력</span>
-        <div class="metric-bar-track"><div class="metric-bar" data-target="68"></div></div>
-        <span class="metric-value" data-target="68">0</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">멜라닌</span>
-        <div class="metric-bar-track"><div class="metric-bar" data-target="58"></div></div>
-        <span class="metric-value" data-target="58">0</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">피부결</span>
-        <div class="metric-bar-track"><div class="metric-bar" data-target="81"></div></div>
-        <span class="metric-value" data-target="81">0</span>
-      </div>
+        <div class="metrics-title">주요 지표</div>
+        <div class="metric-row">
+          <span class="metric-label metric-alert">수분</span>
+          <div class="metric-bar-track"><div class="metric-bar metric-alert" data-target="54"></div></div>
+          <span class="metric-value metric-alert" data-target="54">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">유분</span>
+          <div class="metric-bar-track"><div class="metric-bar" data-target="65"></div></div>
+          <span class="metric-value" data-target="65">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">모공</span>
+          <div class="metric-bar-track"><div class="metric-bar" data-target="72"></div></div>
+          <span class="metric-value" data-target="72">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">탄력</span>
+          <div class="metric-bar-track"><div class="metric-bar" data-target="68"></div></div>
+          <span class="metric-value" data-target="68">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">멜라닌</span>
+          <div class="metric-bar-track"><div class="metric-bar" data-target="58"></div></div>
+          <span class="metric-value" data-target="58">0</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">피부결</span>
+          <div class="metric-bar-track"><div class="metric-bar" data-target="81"></div></div>
+          <span class="metric-value" data-target="81">0</span>
+        </div>
       </div>
     </div>
   </div>
   </div>
 </section>
-
 
 <script>
 // ─────────────────────────────────────────────────────────
@@ -872,20 +349,6 @@ setTimeout(revealText, 80);
 })();
 </script>
 
-<script>
-// nav: 스크롤 시 배경 블러만 적용, 텍스트는 항상 다크 (전 섹션 라이트 테마)
-(function() {
-  const nav = document.querySelector('nav');
-
-  function updateNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  }
-
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
-})();
-</script>
-
 <!-- ── Partner Logos Marquee ── -->
 <section id="partners">
   <div id="partners-inner">
@@ -914,71 +377,6 @@ setTimeout(revealText, 80);
     </div>
   </div>
 </section>
-
-<style>
-  #partners {
-    background: #ffffff;
-    padding: clamp(40px, 6vh, 64px) 0;
-    border-top: 1px solid #17181c0d;
-    border-bottom: 1px solid #17181c0d;
-  }
-  #partners-inner {
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 0 clamp(40px, 8vw, 140px);
-  }
-  .partners-eyebrow {
-    font-size: 12px; letter-spacing: 0.24em;
-    color: #a68a6d; margin-bottom: 28px;
-    font-weight: 600; text-transform: uppercase;
-    text-align: center;
-  }
-  .partners-track-wrap {
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
-  }
-  .partners-track {
-    display: flex;
-    width: max-content;
-    animation: partnersScroll 32s linear infinite;
-  }
-  .partners-track:hover { animation-play-state: paused; }
-  .partners-set {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .partner-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 64px;
-    padding: 0 clamp(32px, 4vw, 56px);
-  }
-  .partner-logo img {
-    max-height: 40px;
-    max-width: 160px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    transition: filter 0.3s;
-  }
-  .partner-logo img:hover {
-    filter: grayscale(0) opacity(1);
-  }
-  @keyframes partnersScroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .partners-track { animation: none; }
-  }
-  @media (max-width: 600px) {
-    .partner-logo { height: 48px; padding: 0 24px; }
-    .partner-logo img { max-height: 28px; max-width: 110px; }
-  }
-</style>
 
 <!-- ── Application Domains ── -->
 <section id="domains">
@@ -1031,41 +429,13 @@ setTimeout(revealText, 80);
           <img src="assets/domain-panel-beauty.png" alt="" class="domain-illust" style="object-fit: cover;">
         </div>
         <div class="domain-panel-img domain-panel-img-agriculture" data-domain-img="agriculture" hidden>
-          <svg viewBox="0 0 200 150" class="domain-illust">
-            <defs>
-              <linearGradient id="gradAgri" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#e8ecd8"/><stop offset="1" stop-color="#c3d3a3"/>
-              </linearGradient>
-            </defs>
-            <rect width="200" height="150" fill="url(#gradAgri)"/>
-            <path d="M100 115V55M100 55c0 20 18 20 18 20M100 55c0 20-18 20-18 20M100 40c0 10 10 10 10 10M100 40c0 10-10 10-10 10" fill="none" stroke="#5f7a3f" stroke-width="1.4" opacity="0.7"/>
-            <ellipse cx="100" cy="118" rx="26" ry="4" fill="#5f7a3f" opacity="0.2"/>
-          </svg>
+          <img src="assets/domain-panel-agriculture.png" alt="" class="domain-illust" style="object-fit: cover;">
         </div>
         <div class="domain-panel-img domain-panel-img-bio" data-domain-img="bio" hidden>
-          <svg viewBox="0 0 200 150" class="domain-illust">
-            <defs>
-              <linearGradient id="gradBio" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#dce8ea"/><stop offset="1" stop-color="#a9c9cf"/>
-              </linearGradient>
-            </defs>
-            <rect width="200" height="150" fill="url(#gradBio)"/>
-            <rect x="70" y="45" width="60" height="70" rx="8" fill="none" stroke="#4d7a95" stroke-width="1.4" opacity="0.7"/>
-            <path d="M78 95c6-10 12 10 18 0s12 10 18 0s12 10 18 0" fill="none" stroke="#4d7a95" stroke-width="1.2" opacity="0.6"/>
-            <circle cx="100" cy="60" r="4" fill="#4d7a95" opacity="0.7"/>
-          </svg>
+          <img src="assets/domain-panel-bio.png" alt="" class="domain-illust" style="object-fit: cover;">
         </div>
         <div class="domain-panel-img domain-panel-img-resource" data-domain-img="resource" hidden>
-          <svg viewBox="0 0 200 150" class="domain-illust">
-            <defs>
-              <linearGradient id="gradRes" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ece3d3"/><stop offset="1" stop-color="#cbb488"/>
-              </linearGradient>
-            </defs>
-            <rect width="200" height="150" fill="url(#gradRes)"/>
-            <path d="M70 60l30-20 30 20v40l-30 20-30-20z" fill="none" stroke="#8a6a4a" stroke-width="1.4" opacity="0.7"/>
-            <path d="M70 60l30 20 30-20M100 80v40" stroke="#8a6a4a" stroke-width="1.2" opacity="0.5"/>
-          </svg>
+          <img src="assets/domain-panel-resource.png" alt="" class="domain-illust" style="object-fit: cover;">
         </div>
 
         <div class="domain-panel-text">
@@ -1086,151 +456,6 @@ setTimeout(revealText, 80);
     </div>
   </div>
 </section>
-
-<style>
-  #domains {
-    background: #faf8f4;
-    padding: clamp(80px, 10vh, 130px) 0;
-  }
-  #domains-inner {
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 0 clamp(40px, 8vw, 140px);
-  }
-  .domains-eyebrow {
-    font-size: 14px; letter-spacing: 0.28em;
-    color: #a68a6d; margin-bottom: 20px;
-    font-weight: 600; text-transform: uppercase;
-    text-align: center;
-  }
-  .domains-heading {
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-    font-size: clamp(26px, 3vw, 44px);
-    font-weight: 400;
-    color: #4a453d;
-    line-height: 1.3;
-    margin-bottom: clamp(48px, 6vh, 72px);
-    text-align: center;
-  }
-  .domains-heading b { font-weight: 800; color: #2a2520; }
-
-  .domains-fade-in {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
-  }
-  .domains-fade-in.revealed { opacity: 1; transform: translateY(0); }
-
-  /* simple fade-up reveal, reused for this section */
-  .reveal-fade {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal-fade.revealed { opacity: 1; transform: translateY(0); }
-
-  .domains-wrap {
-    display: flex;
-    gap: clamp(24px, 3vw, 56px);
-    align-items: stretch;
-  }
-
-  .domains-tabs {
-    flex: 0 0 clamp(240px, 22vw, 320px);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .domain-tab {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 8px;
-    border-radius: 14px;
-    border: 2px solid transparent;
-    background: #fffdf9;
-    cursor: pointer;
-    text-align: left;
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-    box-shadow: 0 1px 0 #2a251f0f, 0 12px 30px -22px #2a251f1f;
-    opacity: 0.55;
-    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, opacity 0.25s;
-  }
-  .domain-tab:hover { background: #fffdf980; opacity: 0.8; }
-  .domain-tab.active {
-    background: #fffdf9;
-    opacity: 1;
-    box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f;
-    border-color: #c9a876;
-  }
-  .domain-tab-icon {
-    width: 120px; height: 92px;
-    border-radius: 10px;
-    background: #ede7db;
-    display: block;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-  .domain-tab-icon img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .domain-tab-name { display: block; font-size: 16px; font-weight: 700; color: #4a453d; }
-  .domain-tab.active .domain-tab-name { color: #2a2520; }
-  .domain-tab-sub { display: block; font-size: 12px; color: #6b6259; margin-top: 3px; }
-
-  .domain-panel {
-    flex: 1;
-    min-width: 0;
-    background: #fffdf9;
-    border-radius: 20px;
-    box-shadow: 0 1px 0 #2a251f0f, 0 30px 60px -30px #2a251f1f;
-    padding: clamp(28px, 3vw, 48px);
-    display: flex;
-    gap: clamp(24px, 3vw, 40px);
-    align-items: center;
-  }
-  .domain-panel-img {
-    flex: 0 0 42%;
-    min-width: 0;
-    aspect-ratio: 4/3;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  .domain-illust { width: 100%; height: 100%; display: block; }
-  .domain-panel-text { flex: 1; min-width: 0; }
-  .domain-panel-tag {
-    font-size: 12px; font-weight: 700; color: #a68a6d;
-    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
-  }
-  .domain-panel-title {
-    font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-    font-size: clamp(20px, 2vw, 28px);
-    font-weight: 800; color: #2a2520;
-    line-height: 1.4;
-    margin-bottom: 16px;
-  }
-  .domain-panel-desc {
-    font-size: 15px; color: #6b6259; line-height: 1.8;
-    margin-bottom: 20px;
-  }
-  .domain-panel-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .domain-chip {
-    font-size: 12px; padding: 6px 14px; border-radius: 20px;
-    background: #ede7db; color: #4a453d; font-weight: 600;
-  }
-
-  @media (max-width: 900px) {
-    .domains-wrap { flex-direction: column; }
-    .domains-tabs { flex-direction: row; overflow-x: auto; gap: 8px; flex: none; }
-    .domain-tab { flex-direction: column; text-align: center; gap: 8px; flex: 0 0 auto; min-width: 120px; }
-    .domain-tab-sub { display: none; }
-    .domain-panel { flex-direction: column; }
-    .domain-panel-img { flex: none; width: 100%; }
-  }
-</style>
 
 <script>
 (function() {
@@ -1317,118 +542,8 @@ setTimeout(revealText, 80);
 })();
 </script>
 
-<!-- ── Footer ── -->
-<footer id="footer">
-  <div id="footer-inner">
-
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-logo">FINSIDE</div>
-        <div class="footer-tagline">Find the Inside Value</div>
-      </div>
-      <div class="footer-contact">
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">대표</span>
-          <span class="footer-contact-val">이동훈</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">연락처</span>
-          <span class="footer-contact-val">010-3181-4636</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">이메일</span>
-          <span class="footer-contact-val">leedh@cbnu.ac.kr</span>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-label">주소</span>
-          <span class="footer-contact-val">충북 청주시 서원구 충대로 1, 충북대학교 S21-24동 204호</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 주식회사 파인사이드. All rights reserved.</div>
-      <div class="footer-sub">AI 비접촉 내부 분석 기술 · 설립 2025.12.18</div>
-    </div>
-
-  </div>
-</footer>
-
-<style>
-  #footer {
-    background: #080c0a;
-    border-top: 1px solid #ffffff0d;
-    padding: 64px 0 40px;
-  }
-  #footer-inner {
-    max-width: 1860px;
-    margin: 0 auto;
-    padding: 0 clamp(80px, 12vw, 240px);
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-  }
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 48px;
-  }
-  .footer-logo {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: #e8e4dc;
-  }
-  .footer-tagline {
-    margin-top: 8px;
-    font-size: 13px;
-    letter-spacing: 0.18em;
-    color: #e8e4dcaa;
-    text-transform: uppercase;
-  }
-  .footer-contact {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .footer-contact-row {
-    display: flex;
-    gap: 20px;
-    font-size: 14px;
-  }
-  .footer-contact-label {
-    color: #e8e4dc88;
-    letter-spacing: 0.06em;
-    min-width: 44px;
-  }
-  .footer-contact-val {
-    color: #e8e4dccc;
-  }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    border-top: 1px solid #ffffff18;
-    gap: 16px;
-  }
-  .footer-copy {
-    font-size: 13px;
-    color: #e8e4dc77;
-    letter-spacing: 0.04em;
-  }
-  .footer-sub {
-    font-size: 13px;
-    color: #e8e4dc55;
-    letter-spacing: 0.06em;
-  }
-  @media (max-width: 768px) {
-    .footer-top { flex-direction: column; gap: 32px; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
-    #footer-inner { padding: 0 24px; }
-  }
-</style>
+<!-- ── Footer (shared: partials/footer.js) ── -->
+<script src="partials/footer.js"></script>
 
 </body>
 </html>
