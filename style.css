@@ -135,6 +135,43 @@ nav .nav-logo { margin-bottom: 0; }
 }
 .nav-links a.active { color: #8a6a4a; font-weight: 600; }
 
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  list-style: none;
+  background: #fffdf9;
+  border-radius: 12px;
+  box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -20px #2a251f2e;
+  padding: 10px;
+  min-width: 140px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-menu li { padding: 0; }
+.nav-dropdown-menu a {
+  display: block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+  color: #4a453d;
+  font-size: 14px;
+}
+.nav-dropdown-menu a:hover { background: #ede7db; }
+.nav-dropdown-menu a.active { color: #8a6a4a; font-weight: 600; }
+
+@media (max-width: 480px) {
+  .nav-dropdown-menu { display: none; }
+}
+
 @media (max-width: 480px) {
   #nav-inner { padding: 18px 16px; }
   .nav-logo { font-size: 12px; letter-spacing: 0.12em; }
