@@ -721,8 +721,6 @@ body.modal-open { overflow: hidden; }
 #partners {
   background: #ffffff;
   padding: clamp(40px, 6vh, 64px) 0;
-  border-top: 1px solid #17181c0d;
-  border-bottom: 1px solid #17181c0d;
 }
 #partners-inner {
   max-width: 1800px;
@@ -1229,6 +1227,60 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 900px) {
   .domain-detail-hero-layout { flex-direction: column-reverse; }
   .domain-detail-hero-text, .domain-detail-hero-visual { flex: none; width: 100%; }
+}
+
+.domain-tech-split {
+  padding: clamp(100px, 13vh, 160px) 0;
+}
+.domain-tech-split-layout {
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 7vw, 110px);
+}
+.domain-tech-split-text { flex: 0 1 42%; min-width: 0; }
+.domain-tech-split-visual { flex: 0 1 58%; min-width: 0; }
+.domain-tech-split-heading {
+  font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
+  font-size: clamp(28px, 3.2vw, 46px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #4a453d;
+  margin-top: 16px;
+}
+.domain-tech-split-heading b { font-weight: 800; color: #2a2520; }
+.domain-tech-split-cta { display: flex; gap: 14px; margin-top: clamp(28px, 4vh, 40px); flex-wrap: wrap; }
+.domain-tech-split-cta .btn-primary-blue { text-decoration: none; display: inline-block; }
+.btn-outline-blue {
+  background: transparent;
+  color: #4a453d;
+  font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
+  padding: 14px 29px;
+  border-radius: 2px;
+  border: 1px solid #d8d2c6;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.25s, color 0.25s;
+}
+.btn-outline-blue:hover {
+  border-color: #8a6a4a;
+  color: #8a6a4a;
+}
+.domain-tech-split-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 0 #2a251f0f, 0 40px 70px -30px #2a251f26;
+}
+.domain-tech-split-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.domain-tech-split-img.skini-3d-wrap { position: relative; }
+.domain-tech-split-img.skini-3d-wrap canvas { width: 100%; height: 100%; display: block; }
+@media (max-width: 900px) {
+  .domain-tech-split-layout { flex-direction: column-reverse; }
+  .domain-tech-split-text, .domain-tech-split-visual { flex: none; width: 100%; }
 }
 
 .domain-detail-section { padding: clamp(60px, 8vh, 100px) 0; }
