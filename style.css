@@ -1231,7 +1231,7 @@ body.modal-open { overflow: hidden; }
   .domain-detail-hero-text, .domain-detail-hero-visual { flex: none; width: 100%; }
 }
 
-.domain-detail-section { padding: clamp(60px, 8vh, 100px) 0; }
+.domain-detail-section { padding: clamp(60px, 8vh, 100px) 0; background: #ffffff; }
 .domain-detail-section-title { margin-bottom: 32px; }
 .domain-detail-body {
   font-size: 15px;
