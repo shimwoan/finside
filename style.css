@@ -197,7 +197,12 @@ nav .nav-logo { margin-bottom: 0; }
   opacity: 1;
   visibility: visible;
 }
-body.modal-open { overflow: hidden; }
+html.modal-open,
+body.modal-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
 
 #contact-modal {
   position: relative;
@@ -358,7 +363,7 @@ body.modal-open { overflow: hidden; }
   z-index: 2;
   flex: 0 1 46%;
   min-width: 0;
-  padding: 0 clamp(40px, 3vw, 64px) 0 clamp(60px, 8vw, 140px);
+  padding: 0 clamp(40px, 3vw, 64px) 0 clamp(40px, 5vw, 100px);
 }
 
 .hero-eyebrow {
@@ -370,7 +375,7 @@ body.modal-open { overflow: hidden; }
 
 .hero-title {
   font-family: 'SUIT', 'Apple SD Gothic Neo', sans-serif;
-  font-size: clamp(32px, 3.9vw, 68px);
+  font-size: clamp(30px, 3.6vw, 60px);
   font-weight: 400;
   line-height: 1.3;
   letter-spacing: -0.01em;
@@ -1292,6 +1297,61 @@ body.modal-open { overflow: hidden; }
   max-width: 860px;
 }
 .domain-detail-body + .domain-detail-body { margin-top: 20px; }
+
+.domain-product-layout {
+  display: flex;
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+}
+.domain-product-text { flex: 0 1 56%; min-width: 0; }
+.domain-product-visual { flex: 0 1 44%; min-width: 0; }
+.domain-product-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 0 #2a251f0f, 0 30px 60px -30px #2a251f1f;
+}
+.domain-product-img img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.domain-product-lead {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #6b6259;
+  line-height: 1.9;
+  max-width: 560px;
+}
+@media (max-width: 900px) {
+  .domain-product-layout { flex-direction: column-reverse; }
+  .domain-product-text, .domain-product-visual { flex: none; width: 100%; }
+}
+
+.domain-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+.domain-feature-card {
+  background: #fffdf9;
+  border-radius: 16px;
+  padding: 22px 20px;
+  box-shadow: 0 1px 0 #2a251f0f, 0 20px 40px -24px #2a251f1f;
+}
+.domain-feature-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #ede7db;
+  display: flex; align-items: center; justify-content: center;
+  color: #8a6a4a;
+  margin-bottom: 14px;
+}
+.domain-feature-icon svg { width: 20px; height: 20px; }
+.domain-feature-title { font-size: 15px; font-weight: 700; color: #2a2520; margin-bottom: 6px; }
+.domain-feature-desc { font-size: 13px; color: #6b6259; line-height: 1.6; }
+@media (max-width: 640px) {
+  .domain-feature-grid { grid-template-columns: 1fr; }
+}
 
 .domain-compare-table {
   width: 100%;

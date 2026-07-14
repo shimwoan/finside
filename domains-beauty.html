@@ -38,18 +38,145 @@
   </div>
 </section>
 
-<section class="domain-detail-section" style="background: #faf8f4;">
-  <div class="section-inner">
-    <div class="domain-detail-section-title reveal-fade">
-      <div class="eyebrow">TECHNOLOGY</div>
-      <h2 class="heading" style="margin-top: 20px;">LWIR 기반 <b>비접촉 피부 진단</b></h2>
+<section class="domain-tech-split" style="background: #faf8f4;">
+  <div class="section-inner domain-tech-split-layout">
+    <div class="domain-tech-split-text">
+      <div class="eyebrow reveal-fade">TECHNOLOGY</div>
+      <h2 class="domain-tech-split-heading reveal-fade">LWIR 기반 <b>비접촉 피부 진단</b></h2>
+      <p class="domain-detail-body reveal-fade" style="margin-top: 24px;">
+        원적외선(LWIR, Long-Wave Infrared) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용한 제품입니다.
+        생물·바이오소재의 내부 상태(수분, 경도, 물성 등)를 예측하는 FINSIDE의 공용 원천기술을 뷰티 영역에 적용한
+        OSMU(One Source Multi-Use) 스핀오프로, 접촉 없이 피부의 수분·유분·탄력 상태를 정량 데이터로 측정하고
+        AI 기반 모바일 연동 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
+      </p>
     </div>
-    <p class="domain-detail-body reveal-fade">
-      원적외선(LWIR, Long-Wave Infrared) 특성 기반 비접촉 내부 상태 진단 및 품질 예측 기술을 피부에 적용한 제품입니다.
-      생물·바이오소재의 내부 상태(수분, 경도, 물성 등)를 예측하는 FINSIDE의 공용 원천기술을 뷰티 영역에 적용한
-      OSMU(One Source Multi-Use) 스핀오프로, 접촉 없이 피부의 수분·유분·탄력 상태를 정량 데이터로 측정하고
-      AI 기반 모바일 연동 앱으로 결과를 제공하는 프로토타입까지 개발되어 있습니다.
-    </p>
+    <div class="domain-tech-split-visual reveal-fade">
+      <div class="domain-tech-split-img" style="background:#0a1a2e;">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LWIR 비접촉 피부 진단 열화상 일러스트레이션" style="width:100%; height:100%; display:block;">
+          <defs>
+            <radialGradient id="thermalCore" cx="50%" cy="42%" r="55%">
+              <stop offset="0%" stop-color="#fff3d6"/>
+              <stop offset="18%" stop-color="#ffd23f"/>
+              <stop offset="38%" stop-color="#ff8a3d"/>
+              <stop offset="58%" stop-color="#e8432f"/>
+              <stop offset="76%" stop-color="#9c2b6b"/>
+              <stop offset="90%" stop-color="#3d2b7d"/>
+              <stop offset="100%" stop-color="#0a1a4d"/>
+            </radialGradient>
+            <radialGradient id="thermalCheekL" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#ffd23f" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="thermalCheekR" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffe27a" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#ffe27a" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="scanBeam" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#7ef9ff" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#7ef9ff" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#7ef9ff" stop-opacity="0"/>
+            </linearGradient>
+            <clipPath id="faceClip">
+              <ellipse cx="200" cy="158" rx="98" ry="124"/>
+            </clipPath>
+          </defs>
+
+          <rect x="0" y="0" width="400" height="300" fill="#0a1a2e"/>
+
+          <g clip-path="url(#faceClip)">
+            <ellipse cx="200" cy="158" rx="98" ry="124" fill="url(#thermalCore)"/>
+            <ellipse cx="150" cy="175" rx="34" ry="30" fill="url(#thermalCheekL)"/>
+            <ellipse cx="252" cy="172" rx="30" ry="27" fill="url(#thermalCheekR)"/>
+            <ellipse cx="200" cy="70" rx="46" ry="20" fill="#3d2b7d" opacity="0.55"/>
+            <ellipse cx="200" cy="255" rx="70" ry="26" fill="#1a1350" opacity="0.6"/>
+            <rect x="70" y="0" width="260" height="300" fill="url(#scanBeam)" opacity="0.5">
+              <animate attributeName="y" values="-60;300" dur="3.2s" repeatCount="indefinite"/>
+            </rect>
+          </g>
+
+          <ellipse cx="200" cy="158" rx="98" ry="124" fill="none" stroke="#7ef9ff" stroke-width="1.4" opacity="0.55"/>
+
+          <g stroke="#e8f6ff" stroke-width="1" opacity="0.85" font-family="'SUIT','Apple SD Gothic Neo',sans-serif">
+            <line x1="150" y1="175" x2="90" y2="150"/>
+            <circle cx="150" cy="175" r="2.5" fill="#e8f6ff" stroke="none"/>
+            <text x="60" y="145" fill="#e8f6ff" font-size="11" letter-spacing="0.02em" stroke="none">볼 34.9°C</text>
+
+            <line x1="200" y1="235" x2="200" y2="272"/>
+            <circle cx="200" cy="235" r="2.5" fill="#e8f6ff" stroke="none"/>
+            <text x="163" y="288" fill="#e8f6ff" font-size="11" letter-spacing="0.02em" stroke="none">목 33.6°C</text>
+
+            <line x1="252" y1="172" x2="316" y2="145"/>
+            <circle cx="252" cy="172" r="2.5" fill="#e8f6ff" stroke="none"/>
+            <text x="300" y="140" fill="#e8f6ff" font-size="11" letter-spacing="0.02em" stroke="none">32.1°C</text>
+          </g>
+
+          <text x="20" y="26" fill="#7ef9ff" font-family="'SUIT','Apple SD Gothic Neo',sans-serif" font-size="12" letter-spacing="0.08em" opacity="0.9">LWIR SCAN · 9s</text>
+          <text x="20" y="284" fill="#9fd8ea" font-family="'SUIT','Apple SD Gothic Neo',sans-serif" font-size="10" letter-spacing="0.04em" opacity="0.75">NON-CONTACT THERMAL DIAGNOSIS</text>
+
+          <g opacity="0.9">
+            <rect x="352" y="40" width="10" height="180" rx="5" fill="url(#thermalCore)" stroke="#e8f6ff" stroke-width="0.6"/>
+            <text x="367" y="46" fill="#e8f6ff" font-size="9" font-family="'SUIT','Apple SD Gothic Neo',sans-serif">高</text>
+            <text x="367" y="224" fill="#e8f6ff" font-size="9" font-family="'SUIT','Apple SD Gothic Neo',sans-serif">低</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="domain-detail-section">
+  <div class="section-inner domain-product-layout">
+    <div class="domain-product-text">
+      <div class="domain-detail-section-title reveal-fade">
+        <div class="eyebrow">PRODUCT SPEC</div>
+        <h2 class="heading" style="margin-top: 20px;">소형 휴대용 <b>피부 측정기</b></h2>
+      </div>
+      <p class="domain-product-lead reveal-fade">
+        비접촉 측정으로 빠르고 정확하게, 누구나 쉽게 피부 데이터를 확인합니다.
+      </p>
+      <div class="domain-feature-grid">
+        <div class="domain-feature-card reveal-fade">
+          <div class="domain-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12V6a2 2 0 1 1 4 0"/><path d="M12 12V5a2 2 0 1 1 4 0v7"/><path d="M16 12V6a2 2 0 1 1 4 0v6a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4l-2.2-3.6a1.6 1.6 0 0 1 2.6-1.8L8 12"/></svg>
+          </div>
+          <div class="domain-feature-title">비접촉 측정</div>
+          <div class="domain-feature-desc">피부에 닿지 않아 위생적이고 편리합니다.</div>
+        </div>
+        <div class="domain-feature-card reveal-fade">
+          <div class="domain-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M9 2h6"/></svg>
+          </div>
+          <div class="domain-feature-title">30초 이내 측정</div>
+          <div class="domain-feature-desc">짧은 측정 시간으로 매장·가정 어디서나 빠르게 사용합니다.</div>
+        </div>
+        <div class="domain-feature-card reveal-fade">
+          <div class="domain-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><path d="M9 6h6"/><path d="M9 18h.01"/></svg>
+          </div>
+          <div class="domain-feature-title">휴대용 소형 기기</div>
+          <div class="domain-feature-desc">가볍고 컴팩트한 디자인으로 이동과 설치가 쉽습니다.</div>
+        </div>
+        <div class="domain-feature-card reveal-fade">
+          <div class="domain-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 12l10 10 10-10z"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div class="domain-feature-title">약 30만원 가격 경쟁력</div>
+          <div class="domain-feature-desc">도입 부담을 낮춘 합리적인 가격대입니다.</div>
+        </div>
+        <div class="domain-feature-card reveal-fade" style="grid-column: 1 / -1;">
+          <div class="domain-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+          </div>
+          <div class="domain-feature-title">높은 정확도</div>
+          <div class="domain-feature-desc">정량 데이터 기반으로 신뢰도 높은 측정 결과를 제공합니다.</div>
+        </div>
+      </div>
+    </div>
+    <div class="domain-product-visual reveal-fade">
+      <div class="domain-product-img">
+        <img src="assets/domain-beauty-device.png" alt="소형 휴대용 피부 측정기">
+      </div>
+    </div>
   </div>
 </section>
 
