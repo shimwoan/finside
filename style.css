@@ -1723,6 +1723,25 @@ body.modal-open {
   .partner-companies-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+.partner-companies-grid--pair {
+  grid-template-columns: repeat(2, minmax(220px, 280px));
+  justify-content: center;
+}
+@media (max-width: 640px) {
+  .partner-companies-grid--pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (max-width: 480px) {
+  .partner-companies-grid--pair {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
 .domain-product-layout {
   display: flex;
   align-items: center;
