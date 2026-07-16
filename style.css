@@ -1442,7 +1442,7 @@ body.modal-open {
 .biz-flow-visual-item { display: flex; flex-direction: column; align-items: center; }
 .biz-flow-visual-label {
   font-size: 12px; font-weight: 600; color: #2a2520; text-align: center;
-  white-space: nowrap; margin-bottom: 16px;
+  white-space: normal; margin-bottom: 16px; max-width: 120px;
 }
 .biz-flow-plus { font-size: 22px; font-weight: 700; color: #a68a6d; flex: none; }
 .biz-flow-device, .biz-flow-phone {
@@ -1467,6 +1467,20 @@ body.modal-open {
   .biz-flow-connector-line::before { top: -3px; }
   .biz-flow-connector-line::after { bottom: -3px; }
   .biz-flow-visual { flex-direction: row; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .biz-flow-visual-circle {
+    flex-direction: column;
+    gap: 16px;
+    max-width: 220px;
+    aspect-ratio: auto;
+    border-radius: 24px;
+    padding: 24px 0;
+  }
+  .biz-flow-device img { width: 100px; }
+  .biz-flow-phone img { width: 118px; }
+  .biz-flow-device, .biz-flow-phone { height: 130px; }
 }
 
 /* ── domains-bio.html — 바이오차 생산 병목 해결 (business model) ── */
