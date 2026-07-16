@@ -171,13 +171,6 @@ nav .nav-logo { margin-bottom: 0; }
   }
 }
 
-@media (max-width: 480px) {
-  #nav-inner { padding: 18px 16px; }
-  .nav-logo { font-size: 12px; letter-spacing: 0.12em; }
-  .nav-links { gap: 12px; }
-  .nav-links a { font-size: 11px; letter-spacing: 0.02em; }
-}
-
 #nav-toggle {
   display: none;
   flex-direction: column;
@@ -246,6 +239,13 @@ nav.nav-open #nav-scrim { display: block; opacity: 1; }
   }
   .nav-dropdown.open .nav-dropdown-menu { display: block; }
   .nav-dropdown-menu a { padding: 10px 0; }
+}
+
+@media (max-width: 480px) {
+  #nav-inner { padding: 18px 16px; }
+  .nav-logo { font-size: 12px; letter-spacing: 0.12em; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 11px; letter-spacing: 0.02em; }
 }
 
 /* ── shared: contact modal (partials/header.js) ── */
