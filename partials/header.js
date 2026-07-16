@@ -37,12 +37,16 @@
     '<nav>\n' +
     '  <div id="nav-inner">\n' +
     '    <a href="' + logoHref + '" class="nav-logo">FinSide</a>\n' +
+    '    <button type="button" id="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">\n' +
+    '      <span></span><span></span><span></span>\n' +
+    '    </button>\n' +
     '    <ul class="nav-links">\n' +
     '      ' + aboutLi + '\n' +
     '      ' + dropdownLi + '\n' +
     '      ' + contactLi + '\n' +
     '    </ul>\n' +
     '  </div>\n' +
+    '  <div id="nav-scrim"></div>\n' +
     '</nav>'
   );
 
@@ -82,6 +86,51 @@
   }
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
+
+  var navToggle = document.getElementById('nav-toggle');
+  var navScrim = document.getElementById('nav-scrim');
+  var navDropdown = document.querySelector('.nav-dropdown');
+  var navDropdownTrigger = navDropdown.querySelector('a');
+
+  function openDrawer() {
+    nav.classList.add('nav-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeDrawer() {
+    nav.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navDropdown.classList.remove('open');
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+  }
+
+  navToggle.addEventListener('click', function() {
+    if (nav.classList.contains('nav-open')) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  });
+
+  navScrim.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && nav.classList.contains('nav-open')) closeDrawer();
+  });
+
+  navDropdownTrigger.addEventListener('click', function(e) {
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      e.preventDefault();
+      navDropdown.classList.toggle('open');
+    }
+  });
+
+  document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(function(link) {
+    link.addEventListener('click', closeDrawer);
+  });
 
   var contactTrigger = document.getElementById('nav-contact-trigger');
   var overlay = document.getElementById('contact-modal-overlay');
