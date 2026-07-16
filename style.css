@@ -1549,6 +1549,8 @@ body.modal-open {
   .bottleneck-top { flex-direction: column; }
   .bottleneck-top-visual { width: 100%; min-height: 220px; }
   .bottleneck-stats { flex-direction: column; gap: 20px; }
+  .bottleneck-stat { padding: 0; }
+  .bottleneck-stat + .bottleneck-stat { border-left: none; }
   .bottleneck-bottom { grid-template-columns: 1fr; }
 }
 
@@ -1868,6 +1870,7 @@ body.modal-open {
   .domain-highlight-row { flex-wrap: wrap; gap: 24px; }
   .domain-highlight { flex: 1 1 40%; padding: 0; }
   .domain-highlight + .domain-highlight { border-left: none; }
+  .domain-highlight:nth-child(2) { border-left: 1px solid #e5ddd0; padding-left: 24px; }
 }
 @media (max-width: 640px) {
   .domain-highlight-row { flex-direction: column; flex-wrap: nowrap; gap: 24px; }
