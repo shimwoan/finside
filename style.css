@@ -1742,6 +1742,16 @@ body.modal-open {
   }
 }
 
+.partner-companies-grid--single {
+  grid-template-columns: minmax(220px, 280px);
+  justify-content: center;
+}
+@media (max-width: 480px) {
+  .partner-companies-grid--single {
+    grid-template-columns: minmax(0, 280px);
+  }
+}
+
 .domain-product-layout {
   display: flex;
   align-items: center;
