@@ -36,7 +36,7 @@
   document.write(
     '<nav>\n' +
     '  <div id="nav-inner">\n' +
-    '    <a href="' + logoHref + '" class="nav-logo">FinSide</a>\n' +
+    '    <a href="' + logoHref + '" class="nav-logo"><img src="assets/finside-logo.png" alt="FINSIDE" class="nav-logo-img"></a>\n' +
     '    <button type="button" id="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">\n' +
     '      <span></span><span></span><span></span>\n' +
     '    </button>\n' +
@@ -46,8 +46,8 @@
     '      ' + contactLi + '\n' +
     '    </ul>\n' +
     '  </div>\n' +
-    '  <div id="nav-scrim"></div>\n' +
-    '</nav>'
+    '</nav>\n' +
+    '<div id="nav-scrim"></div>'
   );
 
   document.write(
@@ -87,24 +87,44 @@
   window.addEventListener('scroll', updateNav, { passive: true });
   updateNav();
 
+  var lockCount = 0;
+  var lockedScrollY = 0;
+
+  function lockScroll() {
+    if (lockCount === 0) {
+      lockedScrollY = window.scrollY;
+      document.body.style.top = -lockedScrollY + 'px';
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+    }
+    lockCount++;
+  }
+
+  function unlockScroll() {
+    lockCount = Math.max(0, lockCount - 1);
+    if (lockCount === 0) {
+      document.documentElement.classList.remove('modal-open');
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo({ top: lockedScrollY, left: 0, behavior: 'instant' });
+    }
+  }
+
   var navToggle = document.getElementById('nav-toggle');
   var navScrim = document.getElementById('nav-scrim');
-  var navDropdown = document.querySelector('.nav-dropdown');
-  var navDropdownTrigger = navDropdown.querySelector('a');
 
   function openDrawer() {
     nav.classList.add('nav-open');
+    navScrim.classList.add('nav-open');
     navToggle.setAttribute('aria-expanded', 'true');
-    document.documentElement.classList.add('modal-open');
-    document.body.classList.add('modal-open');
+    lockScroll();
   }
 
   function closeDrawer() {
     nav.classList.remove('nav-open');
+    navScrim.classList.remove('nav-open');
     navToggle.setAttribute('aria-expanded', 'false');
-    navDropdown.classList.remove('open');
-    document.documentElement.classList.remove('modal-open');
-    document.body.classList.remove('modal-open');
+    unlockScroll();
   }
 
   navToggle.addEventListener('click', function() {
@@ -121,14 +141,7 @@
     if (e.key === 'Escape' && nav.classList.contains('nav-open')) closeDrawer();
   });
 
-  navDropdownTrigger.addEventListener('click', function(e) {
-    if (window.matchMedia('(max-width: 900px)').matches) {
-      e.preventDefault();
-      navDropdown.classList.toggle('open');
-    }
-  });
-
-  document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(function(link) {
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
     link.addEventListener('click', closeDrawer);
   });
 
@@ -142,14 +155,14 @@
   function openModal(e) {
     if (e) e.preventDefault();
     overlay.classList.add('open');
-    document.body.classList.add('modal-open');
+    lockScroll();
     var nameInput = document.getElementById('contact-name');
     if (nameInput) nameInput.focus();
   }
 
   function closeModal() {
     overlay.classList.remove('open');
-    document.body.classList.remove('modal-open');
+    unlockScroll();
   }
 
   contactTrigger.addEventListener('click', openModal);
