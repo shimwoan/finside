@@ -1811,6 +1811,9 @@ body.modal-open {
 }
 
 .domain-feature-grid--tri { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) {
+  .domain-feature-grid--tri { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 640px) {
   .domain-feature-grid--tri { grid-template-columns: 1fr; }
 }
@@ -1861,9 +1864,14 @@ body.modal-open {
 }
 .domain-highlight-value span { font-size: 18px; font-weight: 700; margin-left: 2px; }
 .domain-highlight-label { font-size: 13px; color: #6b6259; line-height: 1.6; }
+@media (max-width: 900px) {
+  .domain-highlight-row { flex-wrap: wrap; gap: 24px; }
+  .domain-highlight { flex: 1 1 40%; padding: 0; }
+  .domain-highlight + .domain-highlight { border-left: none; }
+}
 @media (max-width: 640px) {
-  .domain-highlight-row { flex-direction: column; gap: 24px; }
-  .domain-highlight { padding: 0; }
+  .domain-highlight-row { flex-direction: column; flex-wrap: nowrap; gap: 24px; }
+  .domain-highlight { flex: 1 1 auto; padding: 0; }
   .domain-highlight + .domain-highlight { border-left: none; padding-top: 24px; border-top: 1px solid #e5ddd0; }
 }
 
